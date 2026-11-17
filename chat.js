@@ -102,9 +102,10 @@
   var root = el("div", "vc-root");
   var fab = el("button", "vc-fab");
   fab.type = "button";
-  var fabDot = el("span", "vc-dot");
-  var fabTxt = el("span", "vc-fabtxt");
-  fab.appendChild(fabDot); fab.appendChild(fabTxt);
+  var orb = el("span", "vc-orb"); orb.setAttribute("aria-hidden", "true");
+  ["vc-swirl", "vc-blob vc-b1", "vc-blob vc-b2", "vc-blob vc-b3", "vc-glass"].forEach(function (c) { orb.appendChild(el("span", c)); });
+  var fabTxt = el("span", "vc-tip");
+  fab.appendChild(orb); fab.appendChild(fabTxt);
   var panel = el("section", "vc-panel");
   panel.setAttribute("role", "dialog");
   panel.setAttribute("aria-modal", "false");
@@ -276,6 +277,24 @@
   form.addEventListener("submit", function (e) { e.preventDefault(); var v = input.value; input.value = ""; handle(v); });
 
   window.addEventListener("vysor:lang", function (e) { lang = e.detail === "es" ? "es" : "en"; labels(); });
+
+  // Colores del orbe: toma los del modelo que se está mostrando en la web.
+  function hexes(g) { return (String(g || "").match(/#[0-9a-fA-F]{6}/g) || []); }
+  function _mixWhite(h, k) { var n = parseInt(h.slice(1), 16), r = n >> 16, g = (n >> 8) & 255, b = n & 255; var f = function (v) { return Math.round(v + (255 - v) * k); }; return "#" + [f(r), f(g), f(b)].map(function (v) { return v.toString(16).padStart(2, "0"); }).join(""); }
+  function lum(h) { var n = parseInt(h.slice(1), 16); return 0.2126 * (n >> 16) + 0.7152 * ((n >> 8) & 255) + 0.0722 * (n & 255); }
+  function toHsl(h) { var n = parseInt(h.slice(1), 16), r = (n >> 16) / 255, g = ((n >> 8) & 255) / 255, b = (n & 255) / 255; var mx = Math.max(r, g, b), mn = Math.min(r, g, b), l = (mx + mn) / 2, d = mx - mn, s = 0, hh = 0; if (d) { s = d / (1 - Math.abs(2 * l - 1)); hh = mx === r ? ((g - b) / d) % 6 : mx === g ? (b - r) / d + 2 : (r - g) / d + 4; hh *= 60; if (hh < 0) hh += 360; } return [hh, s, l]; }
+  function hsl(h, s, l) { return "hsl(" + Math.round((h + 360) % 360) + " " + Math.round(s * 100) + "% " + Math.round(l * 100) + "%)"; }
+  function theme(g) {
+    var hs = hexes(g); if (!hs.length) return;
+    // El color más saturado del modelo es la base; los otros dos son vecinos de tono, como los colores de Siri.
+    var best = hs.map(toHsl).sort(function (a, b) { return (b[1] * (1 - Math.abs(b[2] - 0.55))) - (a[1] * (1 - Math.abs(a[2] - 0.55))); })[0];
+    var h = best[0], s = Math.max(0.65, best[1]);
+    root.style.setProperty("--vc-1", hsl(h, s, 0.58));
+    root.style.setProperty("--vc-2", hsl(h + 55, s, 0.62));
+    root.style.setProperty("--vc-3", hsl(h - 45, s, 0.7));
+  }
+  window.addEventListener("vysor:theme", function (e) { theme(e.detail); });
+  if (window.__vysorG) theme(window.__vysorG);
 
   fetch("/catalog.json").then(function (r) { return r.json(); }).then(function (c) {
     c.forEach(function (x, i) { if (typeof x.price === "number") prices[i] = x.price; });

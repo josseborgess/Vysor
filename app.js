@@ -124,7 +124,7 @@ class App extends Component {
     var deckNames = { smart: T.deckNames[0], run: T.deckNames[1], sport: T.deckNames[2] };
     var animByDeck = { smart: "deal0", run: "deal1", sport: "deal2" };
     var deckIds = { smart: [], run: [], sport: [] };
-    try { window.VYSOR_PRODUCTS = P.map(function (p) { return { i: p.i, k: p.k, name: p.name, short: p.short, desc: p.desc, feats: p.feats, specs: p.specs, date: p.date, img: p.img }; }); window.VYSOR_LANG = L; } catch (e) {}
+    try { window.VYSOR_PRODUCTS = P.map(function (p) { return { i: p.i, k: p.k, name: p.name, short: p.short, desc: p.desc, feats: p.feats, specs: p.specs, date: p.date, img: p.img }; }); window.VYSOR_LANG = L; var tg = (P[s.sel] || P[0]).g; if (tg !== window.__vysorG) { window.__vysorG = tg; window.dispatchEvent(new CustomEvent("vysor:theme", { detail: tg })); } } catch (e) {}
     P.forEach(function (p) { deckIds[p.k].push(p.i); });
     this._deckIds = deckIds;
     var top = function () { try { window.scrollTo({ top: 0, behavior: "smooth" }); } catch (e) {} };
