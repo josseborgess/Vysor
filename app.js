@@ -226,7 +226,7 @@ ${v.isHome ? html`
 
 <section style="position:relative;max-width:1320px;margin:0 auto;padding:24px 24px 0;text-align:center">
 <p style="margin:12px 0 0;font:500 12px Inter,sans-serif;letter-spacing:.42em;color:#9AA3B2;animation:rise .8s both">${v.t.kicker}</p>
-<h1 class="hero-title" style="margin:14px auto 0;max-width:980px;font:600 76px/1 'Space Grotesk',sans-serif;letter-spacing:-.03em;animation:rise .9s .1s both">${v.t.h1a}<br>${v.t.h1b}</h1>
+<h1 class="hero-title" style="margin:14px auto 0;max-width:980px;font:600 76px/1 'Space Grotesk',sans-serif;letter-spacing:-.03em;animation:rise .9s .1s both">${v.t.h1a}<br />${v.t.h1b}</h1>
 <div style="margin-top:34px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap" role="group" aria-label="Elegir línea">
 ${(v.decks || []).map((dk, $index) => html`
 <button class=${dk.cls} onClick=${dk.pick}>${dk.label}</button>
@@ -251,7 +251,7 @@ ${(v.cards || []).map((c, $index) => html`
 <div class="scanline"></div>
 <div class="sheen"></div>
 <div style="position:absolute;top:16px;left:16px;right:16px;display:flex;justify-content:space-between;font:500 10px Inter,sans-serif;letter-spacing:.24em;color:rgba(255,255,255,.75)"><span>${c.num}</span><span>${c.ref}</span></div>
-<div class="glass"><img src=${c.img} alt=""></div>
+<div class="glass"><img src=${c.img} alt="" /></div>
 <div style="position:absolute;left:18px;right:18px;bottom:18px;text-align:left">
 <div style="font:600 19px/1.15 'Space Grotesk',sans-serif;color:#fff">${c.name}</div>
 <div style="margin-top:6px;font:400 11px/1.4 Inter,sans-serif;color:rgba(255,255,255,.78)">${c.short}</div>
@@ -312,7 +312,7 @@ ${(v.cats || []).map((k, $index) => html`
 ${(v.featured || []).map((g, $index) => html`
 <a class="pcard" href="#inicio" onClick=${g.pick} style=${g.delay}>
 <div class="pimg" style=${g.bg}>
-<img src=${g.img} alt="" style="height:190px;width:auto;display:block">
+<img src=${g.img} alt="" style="height:190px;width:auto;display:block" />
 </div>
 <div style="padding:18px 20px 20px;display:flex;flex-direction:column;gap:6px">
 <span style="font:500 11px Inter,sans-serif;letter-spacing:.24em;color:#8C95A4">${g.cat}</span>
@@ -344,7 +344,7 @@ ${v.isLine ? html`
 <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:6px">
 ${(v.thumbs || []).map((t, $index) => html`
 <button class=${t.cls} onClick=${t.pick} aria-label=${t.name}>
-<img src=${t.img} alt="" style="height:52px;width:auto;display:block">
+<img src=${t.img} alt="" style="height:52px;width:auto;display:block" />
 </button>
 `)}
 </div>
@@ -352,7 +352,7 @@ ${(v.thumbs || []).map((t, $index) => html`
 
 <div class="zoom" style="flex:2 1 420px;min-height:420px;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative">
 <div style="width:100%;max-width:560px;animation:floaty 6s ease-in-out infinite">
-<img src=${v.d.img} alt=${v.d.name} style="width:100%;height:auto;display:block;filter:drop-shadow(0 40px 40px rgba(0,0,0,.55))">
+<img src=${v.d.img} alt=${v.d.name} style="width:100%;height:auto;display:block;filter:drop-shadow(0 40px 40px rgba(0,0,0,.55))" />
 </div>
 <div aria-hidden="true" style="width:60%;height:26px;margin-top:30px;border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.6),transparent)"></div>
 <span style="margin-top:14px;font:500 11px Inter,sans-serif;letter-spacing:.3em;color:#8C95A4">${v.t.renderNote}</span>
@@ -400,7 +400,7 @@ ${(v.d.specs || []).map((sp, $index) => html`
 ${(v.grid || []).map((g, $index) => html`
 <a class="pcard" href="#detalle" onClick=${g.pick} style=${g.delay}>
 <div class="pimg" style=${g.bg}>
-<img src=${g.img} alt="" style="height:190px;width:auto;display:block">
+<img src=${g.img} alt="" style="height:190px;width:auto;display:block" />
 </div>
 <div style="padding:18px 20px 20px;display:flex;flex-direction:column;gap:6px">
 <span style="font:500 11px Inter,sans-serif;letter-spacing:.24em;color:#8C95A4">${g.cat}</span>
@@ -425,7 +425,7 @@ ${v.cartEmpty ? html`<p style="color:#9AA3B2">${v.t.cartEmpty}</p>` : null}
 <div style="display:flex;flex-direction:column;gap:14px;overflow-y:auto;flex:1">
 ${(v.cartItems || []).map((ci, $index) => html`
 <div style="display:flex;gap:12px;align-items:center;border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:10px">
-<img src=${ci.img} alt="" style="width:64px;height:64px;object-fit:contain;border-radius:10px;background:#11141B">
+<img src=${ci.img} alt="" style="width:64px;height:64px;object-fit:contain;border-radius:10px;background:#11141B" />
 <div style="flex:1;min-width:0">
 <div style="font:600 14px 'Space Grotesk',sans-serif">${ci.name}</div>
 <div style="font-size:13px;color:#AEB6C4">${ci.priceLabel}</div>
