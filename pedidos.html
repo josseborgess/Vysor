@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>VYSOR · Pedidos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#07090D;--card:#0F131A;--line:rgba(255,255,255,.08);--tx:#F2F4F8;--mut:#8D96A6;--cy:#5EE7FF;--ok:#3DDC97;--warn:#FFC857;--bad:#FF5C7A}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--tx);font:400 14px/1.5 Inter,sans-serif}
+  h1,h2,.num{font-family:'Space Grotesk',sans-serif}
+  button,input,select,textarea{font:inherit;color:inherit}
+  .wrap{max-width:1100px;margin:0 auto;padding:24px 18px 80px}
+  header{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:20px}
+  .logo{font:700 20px 'Space Grotesk';letter-spacing:.35em}
+  .logo small{display:block;font:500 11px Inter;letter-spacing:.25em;color:var(--cy);margin-top:2px}
+  .btn{background:var(--tx);color:#000;border:0;border-radius:999px;padding:9px 18px;font-weight:600;cursor:pointer}
+  .btn.g{background:transparent;color:var(--tx);border:1px solid var(--line)}
+  .btn:disabled{opacity:.5;cursor:default}
+  .mode{font-size:12px;padding:4px 10px;border-radius:999px;border:1px solid var(--line)}
+  .mode.test{color:var(--warn);border-color:rgba(255,200,87,.4)}
+  .mode.live{color:var(--ok);border-color:rgba(61,220,151,.4)}
+  .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-bottom:18px}
+  .kpi{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px}
+  .kpi .num{font-size:28px;font-weight:600}
+  .kpi span{color:var(--mut);font-size:12px}
+  .bar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+  .bar input,.bar select{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:9px 12px;min-width:0}
+  .bar input{flex:1 1 220px}
+  .order{background:var(--card);border:1px solid var(--line);border-radius:16px;margin-bottom:10px;overflow:hidden}
+  .head{display:grid;grid-template-columns:1fr auto;gap:8px;padding:14px 16px;cursor:pointer}
+  .head .who{font-weight:600}
+  .head .sub{color:var(--mut);font-size:12px}
+  .right{text-align:right}
+  .amt{font:600 18px 'Space Grotesk'}
+  .chip{display:inline-block;font-size:11px;font-weight:600;padding:3px 9px;border-radius:999px;margin-left:6px;vertical-align:middle}
+  .ok{background:rgba(61,220,151,.12);color:var(--ok)}
+  .bad{background:rgba(255,92,122,.12);color:var(--bad)}
+  .warn{background:rgba(255,200,87,.12);color:var(--warn)}
+  .st{background:rgba(94,231,255,.1);color:var(--cy)}
+  .body{display:none;border-top:1px solid var(--line);padding:16px;gap:16px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+  .order.open .body{display:grid}
+  .box h3{margin:0 0 8px;font:600 12px Inter;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+  .box p{margin:2px 0}
+  .box a{color:var(--cy)}
+  .row{display:flex;justify-content:space-between;gap:10px}
+  .check{font-size:12px}
+  .edit{grid-column:1/-1;display:flex;gap:10px;flex-wrap:wrap;align-items:center;border-top:1px dashed var(--line);padding-top:14px}
+  .edit select,.edit input{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:8px 10px}
+  .edit input{flex:1 1 180px}
+  .empty{color:var(--mut);text-align:center;padding:50px 0}
+  .login{max-width:360px;margin:12vh auto;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:28px}
+  .login input{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:11px 12px;margin:14px 0}
+  .err{color:var(--bad);font-size:13px;min-height:18px}
+  .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--tx);color:#000;padding:10px 18px;border-radius:999px;font-weight:600;display:none}
+</style>
+</head>
+<body>
+<div id="login" class="login" hidden>
+  <div class="logo">VYSOR<small>PANEL DE PEDIDOS</small></div>
+  <form id="lf">
+    <input id="pw" type="password" placeholder="Contraseña" autocomplete="current-password" required>
+    <div class="err" id="lerr"></div>
+    <button class="btn" style="width:100%">Entrar</button>
+  </form>
+</div>
+
+<div id="app" class="wrap" hidden>
+  <header>
+    <div class="logo">VYSOR<small>PANEL DE PEDIDOS</small></div>
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+      <span id="mode" class="mode"></span>
+      <button class="btn g" id="csv">Exportar CSV</button>
+      <button class="btn g" id="refresh">Actualizar</button>
+      <button class="btn g" id="out">Salir</button>
+    </div>
+  </header>
+
+  <div class="kpis">
+    <div class="kpi"><div class="num" id="k1">0</div><span>Pedidos verificados</span></div>
+    <div class="kpi"><div class="num" id="k2">$0</div><span>Vendido (verificado)</span></div>
+    <div class="kpi"><div class="num" id="k3">0</div><span>Por enviar</span></div>
+    <div class="kpi"><div class="num" id="k4">0</div><span>Con alerta</span></div>
+  </div>
+
+  <div class="bar">
+    <input id="q" placeholder="Buscar por nombre, correo, teléfono, producto o ID">
+    <select id="f">
+      <option value="">Todos los estados</option>
+      <option value="nuevo">Nuevo</option>
+      <option value="preparando">Preparando</option>
+      <option value="enviado">Enviado</option>
+      <option value="entregado">Entregado</option>
+      <option value="cancelado">Cancelado</option>
+      <option value="alerta">Con alerta</option>
+    </select>
+  </div>
+
+  <div id="list"></div>
+  <div style="text-align:center;margin-top:14px"><button class="btn g" id="more" hidden>Cargar más</button></div>
+  <p style="color:var(--mut);font-size:12px;margin-top:24px">Los datos se leen en vivo desde Stripe. "Verificado" significa que Stripe confirmó el cobro y no hay reembolso ni disputa. Se actualiza solo cada minuto.</p>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+  var KEY = "vysor_admin";
+  var orders = [], hasMore = false, open = {};
+  var $ = function(id){ return document.getElementById(id); };
+  var esc = function(s){ return String(s == null ? "" : s).replace(/[&<>"']/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); };
+  var money = function(n){ return "$" + Number(n||0).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2}); };
+  var pw = function(){ try { return sessionStorage.getItem(KEY) || ""; } catch(e){ return ""; } };
+  var COUNTRY = {US:"Estados Unidos", EC:"Ecuador"};
+  var LABEL = {nuevo:"Nuevo", preparando:"Preparando", enviado:"Enviado", entregado:"Entregado", cancelado:"Cancelado"};
+
+  function toast(t){ var el=$("toast"); el.textContent=t; el.style.display="block"; clearTimeout(toast.t); toast.t=setTimeout(function(){ el.style.display="none"; },2200); }
+
+  function api(method, body, qs){
+    return fetch("/api/orders" + (qs||""), {
+      method: method,
+      headers: Object.assign({"x-admin-password": pw()}, body ? {"Content-Type":"application/json"} : {}),
+      body: body ? JSON.stringify(body) : undefined
+    }).then(function(r){ return r.json().then(function(d){ if(!r.ok){ var e=new Error(d.error||"Error"); e.status=r.status; throw e; } return d; }); });
+  }
+
+  function alerts(o){
+    var a = [];
+    if (!o.paid) a.push("Pago no confirmado");
+    if (o.refunded) a.push("Reembolsado " + money(o.refunded));
+    if (o.disputed) a.push("Cliente abrió disputa");
+    if (o.risk && (o.risk.level === "elevated" || o.risk.level === "highest")) a.push("Riesgo " + (o.risk.level === "highest" ? "muy alto" : "elevado"));
+    if (o.card && o.card.cvc_check === "fail") a.push("CVC no coincide");
+    if (o.card && o.card.postal_check === "fail") a.push("Código postal no coincide");
+    if (!o.shipping) a.push("Sin dirección de envío");
+    if (!o.customer.phone) a.push("Sin teléfono");
+    return a;
+  }
+  function ck(v){ return v === "pass" ? '<span class="chip ok">OK</span>' : v === "fail" ? '<span class="chip bad">Falló</span>' : '<span class="chip warn">No verificado</span>'; }
+  function adr(a){ if(!a) return "—"; return esc([a.line1,a.line2].filter(Boolean).join(", ")) + "<br>" + esc([a.city,a.state,a.postal_code].filter(Boolean).join(", ")) + "<br>" + esc(COUNTRY[a.country]||a.country); }
+
+  function render(){
+    var q = $("q").value.trim().toLowerCase(), f = $("f").value;
+    var ver = orders.filter(function(o){ return o.verified; });
+    $("k1").textContent = ver.length;
+    $("k2").textContent = money(ver.reduce(function(s,o){ return s + o.total; },0));
+    $("k3").textContent = ver.filter(function(o){ return o.status === "nuevo" || o.status === "preparando"; }).length;
+    $("k4").textContent = orders.filter(function(o){ return alerts(o).length; }).length;
+
+    var list = orders.filter(function(o){
+      if (f === "alerta" ? !alerts(o).length : (f && o.status !== f)) return false;
+      if (!q) return true;
+      var hay = [o.id,o.payment_intent,o.customer.name,o.customer.email,o.customer.phone,o.shipping&&o.shipping.name].concat(o.items.map(function(i){return i.name;})).join(" ").toLowerCase();
+      return hay.indexOf(q) >= 0;
+    });
+    if (!list.length){ $("list").innerHTML = '<div class="empty">' + (orders.length ? "No hay pedidos con ese filtro." : "Todavía no hay pedidos.") + "</div>"; return; }
+
+    $("list").innerHTML = list.map(function(o){
+      var al = alerts(o), d = new Date(o.created*1000);
+      var wa = (o.customer.phone||"").replace(/[^0-9]/g,"");
+      var badge = o.verified ? '<span class="chip ok">✓ Verificado por Stripe</span>' : '<span class="chip bad">No verificado</span>';
+      return '<div class="order' + (open[o.id] ? " open" : "") + '" data-id="' + esc(o.id) + '">' +
+        '<div class="head" data-toggle="' + esc(o.id) + '">' +
+          '<div><div class="who">' + esc(o.customer.name || "Sin nombre") + badge + '<span class="chip st">' + LABEL[o.status] + '</span>' + (al.length ? '<span class="chip warn">⚠ ' + al.length + '</span>' : "") + '</div>' +
+          '<div class="sub">' + esc(o.items.map(function(i){ return i.qty + "× " + i.name; }).join(" · ")) + '</div>' +
+          '<div class="sub">' + d.toLocaleString("es-EC",{dateStyle:"medium",timeStyle:"short"}) + '</div></div>' +
+          '<div class="right"><div class="amt">' + money(o.total) + '</div><div class="sub">' + esc(o.currency) + '</div></div>' +
+        '</div>' +
+        '<div class="body">' +
+          '<div class="box"><h3>Cliente</h3><p><b>' + esc(o.customer.name) + '</b></p>' +
+            '<p><a href="mailto:' + esc(o.customer.email) + '">' + esc(o.customer.email || "—") + '</a></p>' +
+            '<p>' + (o.customer.phone ? esc(o.customer.phone) + ' · <a target="_blank" rel="noopener" href="https://wa.me/' + wa + '">WhatsApp</a>' : "Sin teléfono") + '</p>' +
+            '<p style="margin-top:8px;color:var(--mut);font-size:12px">Dirección de la tarjeta</p><p>' + adr(o.customer.address) + '</p></div>' +
+          '<div class="box"><h3>Envío</h3>' + (o.shipping ? '<p><b>' + esc(o.shipping.name) + '</b></p><p>' + adr(o.shipping.address) + '</p>' : "<p>—</p>") +
+            (o.tracking ? '<p style="margin-top:8px">Guía: <b>' + esc(o.tracking) + '</b></p>' : "") + '</div>' +
+          '<div class="box"><h3>Productos</h3>' + o.items.map(function(i){ return '<div class="row"><span>' + i.qty + '× ' + esc(i.name) + '</span><span>' + money(i.total) + '</span></div>'; }).join("") +
+            '<div class="row" style="border-top:1px solid var(--line);margin-top:6px;padding-top:6px"><b>Total</b><b>' + money(o.total) + '</b></div></div>' +
+          '<div class="box"><h3>Verificación del pago</h3>' +
+            '<p class="check">Cobro confirmado por Stripe ' + (o.paid ? '<span class="chip ok">Sí</span>' : '<span class="chip bad">No</span>') + '</p>' +
+            (o.card ? '<p class="check">Tarjeta: ' + esc((o.card.brand||"").toUpperCase()) + ' •••• ' + esc(o.card.last4) + (o.card.wallet ? " (" + esc(o.card.wallet.replace("_"," ")) + ")" : "") + (o.card.country ? " · " + esc(o.card.country) : "") + '</p>' +
+              '<p class="check">Código CVC ' + ck(o.card.cvc_check) + '</p><p class="check">Código postal ' + ck(o.card.postal_check) + '</p>' : "") +
+            (o.risk ? '<p class="check">Riesgo de fraude: ' + (o.risk.level === "normal" ? '<span class="chip ok">Normal</span>' : '<span class="chip bad">' + esc(o.risk.level) + '</span>') + (o.risk.score != null ? " (" + o.risk.score + "/100)" : "") + '</p>' : "") +
+            (al.length ? '<p class="check" style="color:var(--warn)">⚠ ' + esc(al.join(" · ")) + '</p>' : '<p class="check" style="color:var(--ok)">Sin alertas</p>') +
+            (o.receipt_url ? '<p class="check"><a target="_blank" rel="noopener" href="' + esc(o.receipt_url) + '">Ver recibo de Stripe</a></p>' : "") +
+            '<p class="check" style="color:var(--mut)">ID: ' + esc(o.payment_intent || o.id) + '</p></div>' +
+          '<div class="edit">' +
+            '<select data-f="status">' + Object.keys(LABEL).map(function(k){ return '<option value="' + k + '"' + (k===o.status?" selected":"") + '>' + LABEL[k] + '</option>'; }).join("") + '</select>' +
+            '<input data-f="tracking" placeholder="Número de guía" value="' + esc(o.tracking) + '">' +
+            '<input data-f="note" placeholder="Nota interna" value="' + esc(o.note) + '">' +
+            '<button class="btn" data-save="' + esc(o.id) + '"' + (o.payment_intent ? "" : " disabled") + '>Guardar</button>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+    }).join("");
+  }
+
+  function load(append){
+    var last = append && orders.length ? "?starting_after=" + encodeURIComponent(orders[orders.length-1].id) : "";
+    return api("GET", null, last).then(function(d){
+      orders = append ? orders.concat(d.orders) : d.orders;
+      hasMore = d.has_more;
+      $("more").hidden = !hasMore;
+      var m = $("mode"); m.textContent = d.livemode ? "MODO REAL" : "MODO PRUEBA"; m.className = "mode " + (d.livemode ? "live" : "test");
+      render();
+    });
+  }
+
+  function start(){
+    $("login").hidden = true; $("app").hidden = false;
+    load().catch(function(e){ if (e.status === 401) logout("Contraseña incorrecta."); else toast(e.message); });
+    clearInterval(start.t); start.t = setInterval(function(){ if (!document.hidden && !document.activeElement.matches("input,select")) load().catch(function(){}); }, 60000);
+  }
+  function logout(msg){
+    try { sessionStorage.removeItem(KEY); } catch(e){}
+    clearInterval(start.t); $("app").hidden = true; $("login").hidden = false; $("lerr").textContent = msg || ""; $("pw").value = ""; $("pw").focus();
+  }
+
+  $("lf").addEventListener("submit", function(e){
+    e.preventDefault();
+    try { sessionStorage.setItem(KEY, $("pw").value); } catch(err){}
+    $("lerr").textContent = "";
+    api("GET").then(function(){ start(); }).catch(function(err){ logout(err.status === 401 ? "Contraseña incorrecta." : err.message); });
+  });
+  $("out").onclick = function(){ logout(); };
+  $("refresh").onclick = function(){ load().then(function(){ toast("Actualizado"); }).catch(function(e){ toast(e.message); }); };
+  $("more").onclick = function(){ load(true).catch(function(e){ toast(e.message); }); };
+  $("q").oninput = render; $("f").onchange = render;
+
+  $("list").addEventListener("click", function(e){
+    var t = e.target.closest("[data-toggle]");
+    if (t){ var id = t.getAttribute("data-toggle"); open[id] = !open[id]; render(); return; }
+    var s = e.target.closest("[data-save]");
+    if (s){
+      var id2 = s.getAttribute("data-save"), card = s.closest(".order"), o = orders.filter(function(x){ return x.id === id2; })[0];
+      var val = function(f){ return card.querySelector('[data-f="' + f + '"]').value; };
+      var body = { payment_intent: o.payment_intent, status: val("status"), tracking: val("tracking"), note: val("note") };
+      s.disabled = true;
+      api("POST", body).then(function(){ o.status = body.status; o.tracking = body.tracking; o.note = body.note; render(); toast("Pedido guardado"); })
+        .catch(function(err){ s.disabled = false; toast(err.message); });
+    }
+  });
+
+  $("csv").onclick = function(){
+    var cols = ["Fecha","Estado","Verificado","Cliente","Email","Teléfono","Envío a","Dirección","Ciudad","Provincia/Estado","Código postal","País","Productos","Total","Moneda","Guía","Tarjeta","ID Stripe"];
+    var rows = orders.map(function(o){
+      var a = (o.shipping && o.shipping.address) || {};
+      return [new Date(o.created*1000).toISOString(), LABEL[o.status], o.verified ? "Sí" : "No", o.customer.name, o.customer.email, o.customer.phone,
+        o.shipping ? o.shipping.name : "", [a.line1,a.line2].filter(Boolean).join(" "), a.city, a.state, a.postal_code, a.country,
+        o.items.map(function(i){ return i.qty + "x " + i.name; }).join(" | "), o.total, o.currency, o.tracking,
+        o.card ? o.card.brand + " " + o.card.last4 : "", o.payment_intent || o.id];
+    });
+    var csv = [cols].concat(rows).map(function(r){ return r.map(function(v){ return '"' + String(v == null ? "" : v).replace(/"/g,'""') + '"'; }).join(","); }).join("\n");
+    var blob = new Blob(["﻿" + csv], {type:"text/csv;charset=utf-8"});
+    var a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "vysor-pedidos-" + new Date().toISOString().slice(0,10) + ".csv"; a.click();
+  };
+
+  if (pw()) start(); else logout();
+})();
+</script>
+</body>
+</html>
