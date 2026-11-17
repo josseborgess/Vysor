@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VYSOR — Order confirmed</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;background:#06070A;color:#F2F4F8;font-family:Inter,sans-serif;text-align:center;padding:24px;box-sizing:border-box}
+h1{font:600 48px/1.05 'Space Grotesk',sans-serif;margin:16px 0}
+p{color:#AEB6C4;max-width:460px;margin:0 auto 28px;line-height:1.6}
+a{display:inline-flex;align-items:center;min-height:52px;padding:0 30px;border-radius:999px;background:#F2F4F8;color:#06070A;text-decoration:none;font-weight:600}
+.k{font:700 18px 'Space Grotesk',sans-serif;letter-spacing:.32em}
+</style>
+</head>
+<body>
+<main>
+<div class="k">VYSOR</div>
+<h1 id="h">Thank you for your order</h1>
+<p id="p">Your payment was received. You'll get a Stripe receipt by email, and we'll contact you to coordinate delivery.</p>
+<a id="a" href="/">Back to the store</a>
+</main>
+<script>
+try { localStorage.removeItem("vysor_cart"); } catch (e) {}
+if ((navigator.language || "").toLowerCase().startsWith("es")) {
+  document.documentElement.lang = "es";
+  document.getElementById("h").textContent = "Gracias por tu compra";
+  document.getElementById("p").textContent = "Recibimos tu pago. Te llegará el recibo de Stripe por correo y te contactaremos para coordinar la entrega.";
+  document.getElementById("a").textContent = "Volver a la tienda";
+}
+</script>
+</body>
+</html>
