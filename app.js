@@ -1,11 +1,11 @@
-import { h, render, Component } from "https://esm.sh/preact@10.24.3";
-import htm from "https://esm.sh/htm@3.1.1";
+import { h, render, Component } from "/vendor/preact.module.js";
+import htm from "/vendor/htm.module.js";
 const html = htm.bind(h);
 class App extends Component {
   constructor(p){ super(p); this.state = { items: [], cartOpen: false, prices: {}, busy: false, checkoutErr: "", lang: "en", page: "home", deck: "smart", sel: 3, prevSel: 3, dealt: false, cart: 0, toast: false, hold: false }; }
   _deal(){ var self = this; clearTimeout(this._dt); this._dt = setTimeout(function () { self.setState({ dealt: true }); }, 2700); }
   _setSel(i){ this.setState({ prevSel: this.state.sel, sel: i }); }
-  componentDidMount(){ var self = this; this._deal(); try { fetch("/catalog.json").then(function (r) { return r.json(); }).then(function (c) { var m = {}; c.forEach(function (x, i) { if (typeof x.price === "number") m[i] = x.price; }); self.setState({ prices: m }); }).catch(function () {}); } catch (e) {} if (/[?&]cancel=1/.test(location.search)) { try { var sv = JSON.parse(localStorage.getItem("vysor_cart") || "[]"); if (sv.length) self.setState({ items: sv, cartOpen: true }); } catch (e) {} } this._iv = setInterval(function () { var st = self.state; if (st.hold || !st.dealt || st.page !== "home") return; self._setSel(self._nextSel(st)); }, 3800); }
+  componentDidMount(){ var self = this; window.addEventListener("vysor:open", function (e) { var i = Number(e.detail); var p = window.VYSOR_PRODUCTS && window.VYSOR_PRODUCTS[i]; if (!p) return; self.setState({ page: p.k, deck: p.k, sel: i, prevSel: i }); try { window.scrollTo({ top: 0, behavior: "smooth" }); } catch (x) {} }); this._deal(); try { fetch("/catalog.json").then(function (r) { return r.json(); }).then(function (c) { var m = {}; c.forEach(function (x, i) { if (typeof x.price === "number") m[i] = x.price; }); self.setState({ prices: m }); }).catch(function () {}); } catch (e) {} if (/[?&]cancel=1/.test(location.search)) { try { var sv = JSON.parse(localStorage.getItem("vysor_cart") || "[]"); if (sv.length) self.setState({ items: sv, cartOpen: true }); } catch (e) {} } this._iv = setInterval(function () { var st = self.state; if (st.hold || !st.dealt || st.page !== "home") return; self._setSel(self._nextSel(st)); }, 3800); }
   componentWillUnmount(){ clearTimeout(this._t); clearInterval(this._iv); clearTimeout(this._dt); }
   _nextSel(st){ var ids = (this._deckIds && this._deckIds[st.deck]) || []; var k = ids.indexOf(st.sel); return ids.length ? ids[(k + 1) % ids.length] : st.sel; }
   renderVals() {
@@ -124,6 +124,7 @@ class App extends Component {
     var deckNames = { smart: T.deckNames[0], run: T.deckNames[1], sport: T.deckNames[2] };
     var animByDeck = { smart: "deal0", run: "deal1", sport: "deal2" };
     var deckIds = { smart: [], run: [], sport: [] };
+    try { window.VYSOR_PRODUCTS = P.map(function (p) { return { i: p.i, k: p.k, name: p.name, short: p.short, desc: p.desc, feats: p.feats, specs: p.specs, date: p.date, img: p.img }; }); window.VYSOR_LANG = L; } catch (e) {}
     P.forEach(function (p) { deckIds[p.k].push(p.i); });
     this._deckIds = deckIds;
     var top = function () { try { window.scrollTo({ top: 0, behavior: "smooth" }); } catch (e) {} };
@@ -183,7 +184,7 @@ class App extends Component {
       holdOn: function () { self.setState({ hold: true }); }, holdOff: function () { self.setState({ hold: false }); },
       t: Object.assign({}, T, { viewSel: T.view + d.name, added: d.name + T.addedSuf, allLine: (L === "en" ? "All " + line.title + " models" : "Todos los modelos " + line.title) }),
       marquee: T.marquee.concat(T.marquee).map(function (w, n) { return { w: w, st: { color: ["#5EE7FF", "#FF6B2C", "#7B5CFF"][n % 3] } }; }),
-      langs: [["en", "EN", "English"], ["es", "ES", "Español"]].map(function (x) { return { label: x[1], aria: x[2], cls: L === x[0] ? "lang on" : "lang", pick: function () { self.setState({ lang: x[0] }); } }; }),
+      langs: [["en", "EN", "English"], ["es", "ES", "Español"]].map(function (x) { return { label: x[1], aria: x[2], cls: L === x[0] ? "lang on" : "lang", pick: function () { self.setState({ lang: x[0] }); try { document.documentElement.lang = x[0]; window.dispatchEvent(new CustomEvent("vysor:lang", { detail: x[0] })); } catch (e) {}; } }; }),
       cart: s.items.reduce(function (a, x) { return a + x.qty; }, 0), toast: s.toast,
       addCart: function () { var it = s.items.slice(); var f = it.find(function (x) { return x.i === d.i; }); if (f) f.qty++; else it.push({ i: d.i, qty: 1 }); self.setState({ items: it, toast: true, cartOpen: true, checkoutErr: "" }); clearTimeout(self._t); self._t = setTimeout(function () { self.setState({ toast: false }); }, 2000); },
       openCart: function () { self.setState({ cartOpen: true }); }, closeCart: function () { self.setState({ cartOpen: false }); },

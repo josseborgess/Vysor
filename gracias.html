@@ -20,14 +20,6 @@ a{display:inline-flex;align-items:center;min-height:52px;padding:0 30px;border-r
 <p id="p">Your payment was received. You'll get a Stripe receipt by email, and we'll contact you to coordinate delivery.</p>
 <a id="a" href="/">Back to the store</a>
 </main>
-<script>
-try { localStorage.removeItem("vysor_cart"); } catch (e) {}
-if ((navigator.language || "").toLowerCase().startsWith("es")) {
-  document.documentElement.lang = "es";
-  document.getElementById("h").textContent = "Gracias por tu compra";
-  document.getElementById("p").textContent = "Recibimos tu pago. Te llegará el recibo de Stripe por correo y te contactaremos para coordinar la entrega.";
-  document.getElementById("a").textContent = "Volver a la tienda";
-}
-</script>
+<script src="/gracias.js" defer></script>
 </body>
 </html>

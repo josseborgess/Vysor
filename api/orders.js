@@ -1,16 +1,10 @@
 // Panel de pedidos de VYSOR.
 // Lee los pedidos directamente de Stripe (la fuente de verdad del pago), así
 // el panel nunca muestra una venta que Stripe no haya cobrado de verdad.
-// Requiere STRIPE_SECRET_KEY y ADMIN_PASSWORD en Vercel.
-const crypto = require("crypto");
+// Requiere STRIPE_SECRET_KEY y una sesión válida del panel (ver admin-login.js).
+const { hasSession, sameOrigin } = require("./_security");
 
 const STATUSES = ["nuevo", "preparando", "enviado", "entregado", "cancelado"];
-
-function safeEqual(a, b) {
-  const x = crypto.createHash("sha256").update(String(a)).digest();
-  const y = crypto.createHash("sha256").update(String(b)).digest();
-  return crypto.timingSafeEqual(x, y);
-}
 
 async function stripe(key, path, body) {
   const r = await fetch("https://api.stripe.com/v1/" + path, {
@@ -84,14 +78,9 @@ function toOrder(s) {
 module.exports = async (req, res) => {
   res.setHeader("Cache-Control", "no-store");
   const key = process.env.STRIPE_SECRET_KEY;
-  const pass = process.env.ADMIN_PASSWORD;
-  if (!key || !pass) return res.status(500).json({ error: "El panel aún no está configurado." });
-
-  const given = req.headers["x-admin-password"] || "";
-  if (!given || !safeEqual(given, pass)) {
-    await new Promise((r) => setTimeout(r, 600));
-    return res.status(401).json({ error: "Contraseña incorrecta." });
-  }
+  if (!key) return res.status(500).json({ error: "El panel aún no está configurado." });
+  if (!hasSession(req)) return res.status(401).json({ error: "Sesión vencida. Vuelve a entrar." });
+  if (req.method !== "GET" && !sameOrigin(req)) return res.status(403).json({ error: "Forbidden" });
 
   try {
     if (req.method === "GET") {
@@ -100,7 +89,7 @@ module.exports = async (req, res) => {
       q.append("status", "complete");
       q.append("expand[]", "data.line_items");
       q.append("expand[]", "data.payment_intent.latest_charge");
-      if (req.query && req.query.starting_after) q.append("starting_after", String(req.query.starting_after));
+      if (req.query && /^cs_[A-Za-z0-9_]+$/.test(String(req.query.starting_after || ""))) q.append("starting_after", String(req.query.starting_after));
       const list = await stripe(key, "checkout/sessions?" + q.toString());
       const orders = list.data.filter((s) => s.mode === "payment").map(toOrder);
       return res.status(200).json({ orders, has_more: !!list.has_more, livemode: key.startsWith("sk_live") });

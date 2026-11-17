@@ -7,6 +7,9 @@ module.exports = async (req, res) => {
     res.setHeader("Allow", "POST");
     return res.status(405).json({ error: "Method not allowed" });
   }
+  const { sameOrigin, siteUrl } = require("./_security");
+  if (!sameOrigin(req)) return res.status(403).json({ error: "Forbidden" });
+  if (!String(req.headers["content-type"] || "").startsWith("application/json")) return res.status(415).json({ error: "Unsupported" });
   const key = process.env.STRIPE_SECRET_KEY;
   const es = req.body && req.body.lang === "es";
   if (!key) return res.status(500).json({ error: es ? "Los pagos aún no están activados." : "Payments are not enabled yet." });
@@ -14,7 +17,7 @@ module.exports = async (req, res) => {
   const items = Array.isArray(req.body && req.body.items) ? req.body.items : [];
   if (!items.length || items.length > 30) return res.status(400).json({ error: es ? "Carrito vacío." : "Empty cart." });
 
-  const origin = process.env.SITE_URL || `https://${req.headers.host}`;
+  const origin = siteUrl(req);
   const form = new URLSearchParams();
   form.append("mode", "payment");
   form.append("success_url", `${origin}/gracias.html?session_id={CHECKOUT_SESSION_ID}`);
@@ -26,7 +29,8 @@ module.exports = async (req, res) => {
 
   let line = 0;
   for (const it of items) {
-    const p = catalog[Number(it.i)];
+    const idx = Number(it && it.i);
+    const p = Number.isInteger(idx) && idx >= 0 && idx < catalog.length ? catalog[idx] : null;
     const qty = Math.max(1, Math.min(10, parseInt(it.qty, 10) || 1));
     if (!p) return res.status(400).json({ error: es ? "Producto inválido." : "Invalid product." });
     if (typeof p.price !== "number" || p.price <= 0) {
