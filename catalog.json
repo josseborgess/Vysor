@@ -3,126 +3,126 @@
     "index": 0,
     "name": "Ray-Ban Meta Gen 3",
     "img": "/img/g01.webp",
-    "price": null
+    "price": 449
   },
   {
     "index": 1,
     "name": "Ray-Ban Meta Audio",
     "img": "/img/g02.webp",
-    "price": null
+    "price": 349
   },
   {
     "index": 2,
     "name": "Meta Glasses Capri",
     "img": "/img/g03.webp",
-    "price": null
+    "price": 299
   },
   {
     "index": 3,
     "name": "Meta Adventurer",
     "img": "/img/g04.webp",
-    "price": null
+    "price": 249
   },
   {
     "index": 4,
     "name": "Samsung Galaxy Glasses",
     "img": "/img/g05.webp",
-    "price": null
+    "price": 449
   },
   {
     "index": 5,
     "name": "Snap Specs",
     "img": "/img/g06.webp",
-    "price": null
+    "price": 2195
   },
   {
     "index": 6,
     "name": "Even Realities G2",
     "img": "/img/g07.webp",
-    "price": null
+    "price": 599
   },
   {
     "index": 7,
     "name": "SunGod Ultras Air",
     "img": "/img/g08.webp",
-    "price": null
+    "price": 230
   },
   {
     "index": 8,
     "name": "Oakley Cybr Lightning",
     "img": "/img/g09.webp",
-    "price": null
+    "price": 214
   },
   {
     "index": 9,
     "name": "Rudy Project Astral Arc",
     "img": "/img/g10.webp",
-    "price": null
+    "price": 179
   },
   {
     "index": 10,
     "name": "Bollé Trailchaser",
     "img": "/img/g11.webp",
-    "price": null
+    "price": 300
   },
   {
     "index": 11,
     "name": "adidas Kentro SP0123",
     "img": "/img/g12.webp",
-    "price": null
+    "price": 154
   },
   {
     "index": 12,
     "name": "Tifosi Moab XC",
     "img": "/img/g13.webp",
-    "price": null
+    "price": 80
   },
   {
     "index": 13,
     "name": "Oakley Eye Jacket Redux",
     "img": "/img/g14.webp",
-    "price": null
+    "price": 200
   },
   {
     "index": 14,
     "name": "Oakley Radar EV Heater",
     "img": "/img/g15.webp",
-    "price": null
+    "price": 244
   },
   {
     "index": 15,
     "name": "Oakley Bisphaera Speed",
     "img": "/img/g16.webp",
-    "price": null
+    "price": 214
   },
   {
     "index": 16,
     "name": "Oakley Sphaera Strike",
     "img": "/img/g17.webp",
-    "price": null
+    "price": 244
   },
   {
     "index": 17,
     "name": "Oakley RSLV Lite",
     "img": "/img/g18.webp",
-    "price": null
+    "price": 233
   },
   {
     "index": 18,
     "name": "Rudy Project Performance 40",
     "img": "/img/g19.webp",
-    "price": null
+    "price": 1099
   },
   {
     "index": 19,
     "name": "POC Ciasma",
     "img": "/img/g20.webp",
-    "price": null
+    "price": 350
   },
   {
     "index": 20,
     "name": "SPY Crosspoint",
     "img": "/img/g21.webp",
-    "price": null
+    "price": 235
   }
 ]
