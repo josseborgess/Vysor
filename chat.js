@@ -1,4 +1,4 @@
-// Asistente de VYSOR: responde dudas frecuentes y de cada modelo, y pasa a soporte.
+// Asistente de VISORS: responde dudas frecuentes y de cada modelo, y pasa a soporte.
 // Funciona 100% en el navegador: no envía la conversación a ningún servidor ni la guarda.
 // Lo que el cliente escribe nunca se inserta como HTML (solo texto), para evitar inyecciones.
 (function () {
@@ -29,8 +29,8 @@
 
   var T = {
     es: {
-      open: "¿Dudas? Pregúntame", title: "Asistente VYSOR", sub: "Respuestas al instante · soporte humano si lo necesitas",
-      hello: "¡Hola! Soy el asistente de VYSOR. Puedo ayudarte con envíos, pagos, garantías o cualquier modelo. ¿Qué necesitas?",
+      open: "¿Dudas? Pregúntame", title: "Asistente VISORS", sub: "Respuestas al instante · soporte humano si lo necesitas",
+      hello: "¡Hola! Soy el asistente de VISORS. Puedo ayudarte con envíos, pagos, garantías o cualquier modelo. ¿Qué necesitas?",
       ph: "Escribe tu pregunta…", send: "Enviar", close: "Cerrar",
       chips: ["Envíos", "Formas de pago", "Garantía y cambios", "¿Cuál me recomiendas?", "Tengo un problema con mi producto"],
       pay: "Pagas en la página segura de Stripe, la misma plataforma que usan Amazon y Shopify. Aceptamos tarjetas de crédito y débito, Apple Pay y Google Pay. Los datos de tu tarjeta van directo a Stripe: nosotros nunca los vemos ni los guardamos.",
@@ -55,12 +55,12 @@
       sWa: "Enviar por WhatsApp", sMail: "Enviar por correo", sHours: "Horario de soporte: ",
       sNone: "El canal de soporte aún no está activo. Guarda este resumen y escríbenos cuando esté disponible.",
       sCancel: "Cancelar", sCancelled: "Listo, cancelé la solicitud. ¿Te ayudo con algo más?",
-      sum: { title: "Solicitud de soporte VYSOR", name: "Nombre", contact: "Correo o pedido", product: "Producto", issue: "Problema" },
+      sum: { title: "Solicitud de soporte VISORS", name: "Nombre", contact: "Correo o pedido", product: "Producto", issue: "Problema" },
       bad: "Ese dato parece incompleto, ¿me lo escribes de nuevo?"
     },
     en: {
-      open: "Questions? Ask me", title: "VYSOR Assistant", sub: "Instant answers · human support when you need it",
-      hello: "Hi! I'm the VYSOR assistant. I can help with shipping, payments, warranty or any model. What do you need?",
+      open: "Questions? Ask me", title: "VISORS Assistant", sub: "Instant answers · human support when you need it",
+      hello: "Hi! I'm the VISORS assistant. I can help with shipping, payments, warranty or any model. What do you need?",
       ph: "Type your question…", send: "Send", close: "Close",
       chips: ["Shipping", "Payment options", "Warranty & returns", "What do you recommend?", "I have a problem with my product"],
       pay: "You pay on Stripe's secure checkout, the same platform used by Amazon and Shopify. We accept credit and debit cards, Apple Pay and Google Pay. Your card details go straight to Stripe: we never see or store them.",
@@ -85,7 +85,7 @@
       sWa: "Send via WhatsApp", sMail: "Send by email", sHours: "Support hours: ",
       sNone: "The support channel isn't active yet. Keep this summary and contact us once it's available.",
       sCancel: "Cancel", sCancelled: "OK, I cancelled the request. Anything else I can help with?",
-      sum: { title: "VYSOR support request", name: "Name", contact: "Email or order", product: "Product", issue: "Issue" },
+      sum: { title: "VISORS support request", name: "Name", contact: "Email or order", product: "Product", issue: "Issue" },
       bad: "That looks incomplete, could you type it again?"
     }
   };

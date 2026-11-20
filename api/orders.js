@@ -1,4 +1,4 @@
-// Panel de pedidos de VYSOR.
+// Panel de pedidos de VISORS.
 // Lee los pedidos directamente de Stripe (la fuente de verdad del pago), así
 // el panel nunca muestra una venta que Stripe no haya cobrado de verdad.
 // Requiere STRIPE_SECRET_KEY y una sesión válida del panel (ver admin-login.js).

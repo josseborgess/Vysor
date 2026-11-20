@@ -102,7 +102,7 @@ class App extends Component {
       kicker: "VISION · TECHNOLOGY · PERFORMANCE", specsTitle: "Tech specs", cartAria: "Cart", cartTitle: "Your cart", close: "Close", cartEmpty: "Your cart is empty.", remove: "Remove", total: "Total", pay: "Pay with card", paying: "Redirecting to secure checkout…", secure: "Secure payment by Stripe · Cards, Apple Pay and Google Pay", missingPrice: "Some items don't have a price yet. Contact us to complete your order.", askPrice: "Price on request", errGeneric: "We couldn't start the payment. Please try again.", specsNote: "From official and retailer sources. May vary by version and region.", h1a: "The future", h1b: "looks different.", launchUp: "LAUNCH", sevenLaunches: "7 LAUNCHES", view: "View ",
       catH1: "Three worlds.", catH2: "One vision.", catP: "Choose by how you live: connected, on the run or at the limit. Each line takes you to its models.", seeModels: "See models", modelsSp: " models",
       newest: "Just launched", newestP: "One standout launch from each line. Open its tab to see all seven.", ref: "Ref.", renderNote: "PRODUCT RENDER · HOVER TO ZOOM",
-      avail: "In stock · ships in [SHIPPING TIME]", refOff: "OFFICIAL REF.", price: "VYSOR PRICE", addCart: "Add to cart", addedSuf: " added to cart", allPre: "All ",
+      avail: "In stock · ships in [SHIPPING TIME]", refOff: "OFFICIAL REF.", price: "VISORS PRICE", addCart: "Add to cart", addedSuf: " added to cart", allPre: "All ",
       ctaH: "What's your next pair?", ctaP: "We'll help you on WhatsApp to pick the right model, lens and fit.", whats: "Message us on WhatsApp", backHome: "Back to home",
       footer: "Smart glasses · Running · Sport", contact: "[CITY] · [CONTACT]", seeLine: "See the full ", lineSuf: " line", count: "7 models",
       marquee: ["META AI", "RUNNING", "CYCLING", "SNOW", "PRIZM LENSES", "CAMERA + AUDIO"],
@@ -113,7 +113,7 @@ class App extends Component {
       kicker: "VISIÓN · TECNOLOGÍA · RENDIMIENTO", specsTitle: "Ficha técnica", cartAria: "Carrito", cartTitle: "Tu carrito", close: "Cerrar", cartEmpty: "Tu carrito está vacío.", remove: "Quitar", total: "Total", pay: "Pagar con tarjeta", paying: "Redirigiendo al pago seguro…", secure: "Pago seguro con Stripe · Tarjetas, Apple Pay y Google Pay", missingPrice: "Algunos productos aún no tienen precio. Escríbenos para completar tu pedido.", askPrice: "Precio a consultar", errGeneric: "No pudimos iniciar el pago. Inténtalo de nuevo.", specsNote: "Datos de fuentes oficiales y tiendas. Pueden variar por versión y región.", h1a: "El futuro", h1b: "se ve distinto.", launchUp: "LANZAMIENTO", sevenLaunches: "7 LANZAMIENTOS", view: "Ver ",
       catH1: "Tres mundos.", catH2: "Una sola visión.", catP: "Elige por cómo vives: conectado, corriendo o al límite. Cada línea te lleva a sus modelos.", seeModels: "Ver modelos", modelsSp: " modelos",
       newest: "Lo más nuevo", newestP: "Un lanzamiento destacado de cada línea. Entra a su pestaña para ver los siete.", ref: "Ref.", renderNote: "RENDER DE PRODUCTO · PASA EL CURSOR PARA AMPLIAR",
-      avail: "Disponible · envío [TIEMPO DE ENVÍO]", refOff: "REF. OFICIAL", price: "PRECIO VYSOR", addCart: "Agregar al carrito", addedSuf: " agregado al carrito", allPre: "Todos los ",
+      avail: "Disponible · envío [TIEMPO DE ENVÍO]", refOff: "REF. OFICIAL", price: "PRECIO VISORS", addCart: "Agregar al carrito", addedSuf: " agregado al carrito", allPre: "Todos los ",
       ctaH: "¿Cuál es tu próximo par?", ctaP: "Te asesoramos por WhatsApp para elegir el modelo, la lente y la talla correcta.", whats: "Escribir por WhatsApp", backHome: "Volver al inicio",
       footer: "Smart glasses · Running · Deporte", contact: "[CIUDAD] · [CONTACTO]", seeLine: "Ver toda la línea ", lineSuf: "", count: "7 modelos",
       marquee: ["META AI", "RUNNING", "CICLISMO", "NIEVE", "LENTES PRIZM", "CÁMARA + AUDIO"],
@@ -197,7 +197,7 @@ class App extends Component {
 
 
 <header style="position:sticky;top:0;z-index:50;display:flex;justify-content:center;align-items:center;gap:16px;padding:18px 16px;flex-wrap:wrap">
-<a href="#inicio" onClick=${v.goHome} style="font:700 20px 'Space Grotesk',sans-serif;letter-spacing:.32em;color:#F2F4F8;text-decoration:none;min-height:44px;display:flex;align-items:center">VYSOR</a>
+<a href="#inicio" onClick=${v.goHome} style="font:700 20px 'Space Grotesk',sans-serif;letter-spacing:.32em;color:#F2F4F8;text-decoration:none;min-height:44px;display:flex;align-items:center">VISORS</a>
 <nav class="navpill" aria-label="Principal">
 ${(v.navs || []).map((n, $index) => html`
 <a class=${n.cls} href=${n.href} onClick=${n.pick}>${n.label}</a>
@@ -245,7 +245,7 @@ ${(v.cards || []).map((c, $index) => html`
 <div class="inner">
 <div class="flip" style=${c.flipStyle}>
 <div class="face back" aria-hidden="true">
-<span style="font:700 22px 'Space Grotesk',sans-serif;letter-spacing:.4em;color:#F2F4F8;padding-left:.4em">VYSOR</span>
+<span style="font:700 22px 'Space Grotesk',sans-serif;letter-spacing:.4em;color:#F2F4F8;padding-left:.4em">VISORS</span>
 <span style="font:500 10px Inter,sans-serif;letter-spacing:.3em;color:#5EE7FF">${c.num} · ${c.cat}</span>
 </div>
 <div class="face front" style=${c.bg}>
@@ -460,7 +460,7 @@ ${v.checkoutErr ? html`<p role="alert" style="margin:0;font-size:13px;color:#FF6
 </div>
 </div>
 <footer style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;padding-top:40px;color:#7E8796;font-size:13px">
-<span style="font:700 15px 'Space Grotesk',sans-serif;letter-spacing:.3em;color:#C3C9D4">VYSOR</span>
+<span style="font:700 15px 'Space Grotesk',sans-serif;letter-spacing:.3em;color:#C3C9D4">VISORS</span>
 <span>${v.t.footer}</span>
 <span>${v.t.contact}</span>
 </footer>

@@ -1,4 +1,4 @@
-# VYSOR — tienda de gafas
+# VISORS — tienda de gafas
 
 Sitio estático (Preact sin build) + función serverless de Vercel para cobrar con Stripe Checkout.
 
