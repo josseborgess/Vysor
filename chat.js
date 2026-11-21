@@ -30,7 +30,7 @@
   var T = {
     es: {
       open: "¿Dudas? Pregúntame", title: "Asistente VISORS", sub: "Respuestas al instante · soporte humano si lo necesitas",
-      hello: "¡Hola! Soy el asistente de VISORS. Hoy tenemos disponible nuestra colección de lujo (Gucci, Bottega Veneta, Cartier, Prada, Miu Miu y Ferragamo). Puedo ayudarte con modelos, envíos, pagos o garantía. ¿Qué necesitas?",
+      hello: "¡Hola! Soy el asistente de VISORS. Hoy tenemos disponible nuestra colección de lujo (Gucci, Chanel, Bottega Veneta, Cartier, Prada, Miu Miu y Ferragamo). Puedo ayudarte con modelos, envíos, pagos o garantía. ¿Qué necesitas?",
       ph: "Escribe tu pregunta…", send: "Enviar", close: "Cerrar",
       chips: ["Ver colección de lujo", "Envíos", "Formas de pago", "Garantía y cambios", "Tengo un problema con mi producto"],
       pay: "Pagas en la página segura de Stripe, la misma plataforma que usan Amazon y Shopify. Aceptamos tarjetas de crédito y débito, Apple Pay y Google Pay. Los datos de tu tarjeta van directo a Stripe: nosotros nunca los vemos ni los guardamos.",
@@ -62,7 +62,7 @@
     },
     en: {
       open: "Questions? Ask me", title: "VISORS Assistant", sub: "Instant answers · human support when you need it",
-      hello: "Hi! I'm the VISORS assistant. Our luxury collection is available now (Gucci, Bottega Veneta, Cartier, Prada, Miu Miu and Ferragamo). I can help with models, shipping, payments or warranty. What do you need?",
+      hello: "Hi! I'm the VISORS assistant. Our luxury collection is available now (Gucci, Chanel, Bottega Veneta, Cartier, Prada, Miu Miu and Ferragamo). I can help with models, shipping, payments or warranty. What do you need?",
       ph: "Type your question…", send: "Send", close: "Close",
       chips: ["See the luxury collection", "Shipping", "Payment options", "Warranty & returns", "I have a problem with my product"],
       pay: "You pay on Stripe's secure checkout, the same platform used by Amazon and Shopify. We accept credit and debit cards, Apple Pay and Google Pay. Your card details go straight to Stripe: we never see or store them.",
@@ -168,7 +168,8 @@
   // ---------- conocimiento ----------
   var ALIASES = [
     [0, ["gucci negra", "gucci black", "black shield", "mascara negra"]], [2, ["honey", "miel"]], [3, ["tortoise", "carey"]], [4, ["dark havana", "havana oscuro"]],
-    [1, ["bottega shield", "crystal", "transparente"]], [5, ["cat eye", "ojo de gato"]], [6, ["cartier"]], [7, ["prada"]], [8, ["miu"]], [9, ["ferragamo", "salvatore"]],
+    [1, ["bottega shield", "crystal", "transparente"]], [5, ["cat eye", "ojo de gato"]], [6, ["cartier"]], [7, ["prada negra", "prada black", "prada rectangular"]], [8, ["miu miu geometric", "geometrica", "geometric", "hexagonal"]], [9, ["ferragamo", "salvatore"]],
+    [31, ["chanel negra", "chanel black", "crema", "cream"]], [32, ["chanel blanca", "chanel white", "blanca", "white"]], [33, ["bv1273", "aviador", "aviator", "esfera"]], [34, ["oval", "ovalada"]], [35, ["17ws", "pr 17", "prada carey", "prada tortoise"]],
     [10, ["gen 3", "gen3", "ray ban meta gen"]], [11, ["meta audio", "ray ban audio", "sin camara", "no camera"]], [12, ["capri", "nova", "meta glasses"]],
     [13, ["adventurer"]], [14, ["samsung", "galaxy"]], [15, ["snap", "specs"]], [16, ["even", "g2", "realities"]],
     [17, ["sungod", "ultras"]], [18, ["cybr", "lightning"]], [19, ["astral"]], [20, ["bolle", "trailchaser"]], [21, ["adidas", "kentro"]],
@@ -179,7 +180,11 @@
     var out = [];
     ALIASES.forEach(function (a) { if (has(q, a[1])) out.push(a[0]); });
     if (!out.length && has(q, ["gucci"])) out = [0, 2, 3, 4];
-    if (!out.length && has(q, ["bottega", "veneta"])) out = [1, 5];
+    if (!out.length && has(q, ["bottega", "veneta"])) out = [33, 1, 5];
+    if (!out.length && has(q, ["chanel"])) out = [31, 32];
+    if (!out.length && has(q, ["prada"])) out = [35, 7];
+    if (!out.length && has(q, ["miu"])) out = [34, 8];
+    if (!out.length && has(q, ["nuevo", "nuevos", "new", "novedad", "llegaron"])) out = [31, 32, 33, 34];
     if (!out.length && has(q, ["ray ban", "rayban"])) out = [10, 11];
     if (!out.length && has(q, ["oakley"])) out = [18, 24, 25, 26, 27];
     if (!out.length && has(q, ["rudy"])) out = [19, 28];
@@ -190,7 +195,7 @@
     var kk = k === "running" ? "run" : k;
     var ps = products().filter(function (p) { return p.k === kk; });
     bot(t().recIntro + t().recNames[k] + ":");
-    var pick = { lux: [0, 6, 8, 1], smart: [10, 16, 13], running: [17, 18, 22], sport: [24, 27, 29] }[k];
+    var pick = { lux: [31, 33, 34, 0], smart: [10, 16, 13], running: [17, 18, 22], sport: [24, 27, 29] }[k];
     if (k !== "lux") bot(t().soonLine);
     pick.forEach(function (i) { var p = products()[i]; if (p) productCard(p); });
     if (!ps.length) bot(t().fallback);
