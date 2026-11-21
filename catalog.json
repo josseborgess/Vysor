@@ -10,7 +10,7 @@
     "index": 1,
     "name": "Bottega Veneta Shield Crystal",
     "img": "/img/l02.webp",
-    "price": null,
+    "price": 300,
     "soon": false
   },
   {
@@ -38,35 +38,35 @@
     "index": 5,
     "name": "Bottega Veneta Cat-Eye Havana",
     "img": "/img/l06.webp",
-    "price": null,
+    "price": 300,
     "soon": false
   },
   {
     "index": 6,
     "name": "Cartier Rimless Gold",
     "img": "/img/l07.webp",
-    "price": null,
+    "price": 250,
     "soon": false
   },
   {
     "index": 7,
     "name": "Prada Rectangular Black",
     "img": "/img/l08.webp",
-    "price": null,
+    "price": 250,
     "soon": false
   },
   {
     "index": 8,
     "name": "Miu Miu Geometric Gold",
     "img": "/img/l09.webp",
-    "price": null,
+    "price": 250,
     "soon": false
   },
   {
     "index": 9,
     "name": "Salvatore Ferragamo Purple",
     "img": "/img/l10.webp",
-    "price": null,
+    "price": 250,
     "soon": false
   },
   {
