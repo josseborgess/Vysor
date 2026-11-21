@@ -30,17 +30,19 @@
   var T = {
     es: {
       open: "¿Dudas? Pregúntame", title: "Asistente VISORS", sub: "Respuestas al instante · soporte humano si lo necesitas",
-      hello: "¡Hola! Soy el asistente de VISORS. Puedo ayudarte con envíos, pagos, garantías o cualquier modelo. ¿Qué necesitas?",
+      hello: "¡Hola! Soy el asistente de VISORS. Hoy tenemos disponible nuestra colección de lujo (Gucci, Bottega Veneta, Cartier, Prada, Miu Miu y Ferragamo). Puedo ayudarte con modelos, envíos, pagos o garantía. ¿Qué necesitas?",
       ph: "Escribe tu pregunta…", send: "Enviar", close: "Cerrar",
-      chips: ["Envíos", "Formas de pago", "Garantía y cambios", "¿Cuál me recomiendas?", "Tengo un problema con mi producto"],
+      chips: ["Ver colección de lujo", "Envíos", "Formas de pago", "Garantía y cambios", "Tengo un problema con mi producto"],
       pay: "Pagas en la página segura de Stripe, la misma plataforma que usan Amazon y Shopify. Aceptamos tarjetas de crédito y débito, Apple Pay y Google Pay. Los datos de tu tarjeta van directo a Stripe: nosotros nunca los vemos ni los guardamos.",
       safe: "Tu compra es segura: el pago se procesa en Stripe con cifrado de nivel bancario, tu banco puede pedirte confirmación extra (3D Secure) y recibes el recibo de Stripe en tu correo.",
       order: "Al pagar, Stripe te envía el recibo a tu correo. Después te contactamos con el número de guía. Si quieres saber el estado de tu pedido, te paso con soporte; ten a mano el correo con el que compraste.",
       rx: "Algunos modelos aceptan lentes con graduación: Even Realities G2 (graduación a medida), Tifosi Moab XC (adaptador RX) y los Rudy Project (inserto óptico). Para las Meta y Ray-Ban Meta la graduación se hace con ópticas autorizadas. ¿Quieres que soporte te confirme tu caso?",
       compat: "Las gafas inteligentes funcionan con iPhone y Android mediante la app de cada marca (Meta AI para Ray-Ban Meta y Meta; Even para las G2; Samsung con Galaxy). Las de running y deporte no necesitan app.",
       price: function (lo, hi) { return "Tenemos modelos desde " + lo + " hasta " + hi + ". Dime para qué los quieres (correr, ciclismo, nieve o inteligentes) y te recomiendo."; },
-      recIntro: "Te recomiendo estos para ", recNames: { smart: "uso diario con IA", running: "correr", sport: "ciclismo y nieve" },
-      ask: "¿Para qué las quieres usar? Elige una opción:", recChips: ["Gafas inteligentes", "Para correr", "Ciclismo o nieve"],
+      recIntro: "Te recomiendo estos para ", recNames: { lux: "lucir con estilo (disponibles ya)", smart: "uso diario con IA", running: "correr", sport: "ciclismo y nieve" },
+      soon: "Próximamente", askP: "Precio a consultar", soonLine: "Esta línea llega muy pronto; por ahora no tiene stock. Hoy tenemos disponible nuestra colección de lujo.",
+      luxChip: "Ver colección de lujo",
+      ask: "¿Para qué las quieres usar? Elige una opción:", recChips: ["Colección de lujo", "Gafas inteligentes", "Para correr", "Ciclismo o nieve"],
       view: "Ver modelo", from: "Precio", launch: "Lanzamiento",
       fallback: "No estoy seguro de haber entendido. Puedo ayudarte con envíos, pagos, garantía, graduación o con cualquier modelo. Si prefieres, te paso con una persona de soporte.",
       human: "Hablar con soporte",
@@ -60,17 +62,19 @@
     },
     en: {
       open: "Questions? Ask me", title: "VISORS Assistant", sub: "Instant answers · human support when you need it",
-      hello: "Hi! I'm the VISORS assistant. I can help with shipping, payments, warranty or any model. What do you need?",
+      hello: "Hi! I'm the VISORS assistant. Our luxury collection is available now (Gucci, Bottega Veneta, Cartier, Prada, Miu Miu and Ferragamo). I can help with models, shipping, payments or warranty. What do you need?",
       ph: "Type your question…", send: "Send", close: "Close",
-      chips: ["Shipping", "Payment options", "Warranty & returns", "What do you recommend?", "I have a problem with my product"],
+      chips: ["See the luxury collection", "Shipping", "Payment options", "Warranty & returns", "I have a problem with my product"],
       pay: "You pay on Stripe's secure checkout, the same platform used by Amazon and Shopify. We accept credit and debit cards, Apple Pay and Google Pay. Your card details go straight to Stripe: we never see or store them.",
       safe: "Your purchase is safe: payment is processed by Stripe with bank-grade encryption, your bank may ask for extra confirmation (3D Secure), and you get Stripe's receipt by email.",
       order: "When you pay, Stripe emails you a receipt. Then we contact you with your tracking number. To check your order status I can connect you with support; have the email you used at checkout handy.",
       rx: "Some models take prescription lenses: Even Realities G2 (custom prescription), Tifosi Moab XC (RX adapter) and Rudy Project models (optical insert). For Meta and Ray-Ban Meta, prescriptions are done by authorized opticians. Want support to confirm your case?",
       compat: "Smart glasses work with iPhone and Android through each brand's app (Meta AI for Ray-Ban Meta and Meta; Even for G2; Samsung with Galaxy). Running and sport models need no app.",
       price: function (lo, hi) { return "Our models range from " + lo + " to " + hi + ". Tell me what you need them for (running, cycling, snow or smart) and I'll recommend some."; },
-      recIntro: "I recommend these for ", recNames: { smart: "everyday AI use", running: "running", sport: "cycling and snow" },
-      ask: "What will you use them for? Pick one:", recChips: ["Smart glasses", "Running", "Cycling or snow"],
+      recIntro: "I recommend these for ", recNames: { lux: "standing out in style (available now)", smart: "everyday AI use", running: "running", sport: "cycling and snow" },
+      soon: "Coming soon", askP: "Price on request", soonLine: "This line is coming soon and isn't in stock yet. Our luxury collection is available today.",
+      luxChip: "See the luxury collection",
+      ask: "What will you use them for? Pick one:", recChips: ["Luxury collection", "Smart glasses", "Running", "Cycling or snow"],
       view: "View model", from: "Price", launch: "Launch",
       fallback: "I'm not sure I understood. I can help with shipping, payments, warranty, prescriptions or any model. Or I can connect you with a support person.",
       human: "Talk to support",
@@ -150,8 +154,9 @@
     info.appendChild(el("div", "vc-cname", p.name));
     info.appendChild(el("div", "vc-cshort", p.short || ""));
     var meta = [];
-    if (prices[p.i] != null) meta.push(t().from + ": " + money(prices[p.i]));
-    if (p.date) meta.push(t().launch + ": " + p.date);
+    if (p.soon) meta.push(t().soon);
+    else meta.push(prices[p.i] != null ? t().from + ": " + money(prices[p.i]) : t().askP);
+    if (p.soon && p.date) meta.push(t().launch + ": " + p.date);
     info.appendChild(el("div", "vc-cmeta", meta.join(" · ")));
     var b = el("button", "vc-cbtn", t().view); b.type = "button";
     b.onclick = function () { window.dispatchEvent(new CustomEvent("vysor:open", { detail: p.i })); if (window.matchMedia("(max-width: 640px)").matches) toggle(false); };
@@ -162,24 +167,31 @@
 
   // ---------- conocimiento ----------
   var ALIASES = [
-    [0, ["gen 3", "gen3", "ray ban meta gen"]], [1, ["meta audio", "ray ban audio", "sin camara", "no camera"]], [2, ["capri", "nova", "meta glasses"]],
-    [3, ["adventurer"]], [4, ["samsung", "galaxy"]], [5, ["snap", "specs"]], [6, ["even", "g2", "realities"]],
-    [7, ["sungod", "ultras"]], [8, ["cybr", "lightning"]], [9, ["astral"]], [10, ["bolle", "trailchaser"]], [11, ["adidas", "kentro"]],
-    [12, ["tifosi", "moab"]], [13, ["eye jacket", "redux"]], [14, ["radar", "heater"]], [15, ["bisphaera"]], [16, ["sphaera strike", "strike"]],
-    [17, ["rslv"]], [18, ["performance 40", "titanio", "titanium"]], [19, ["poc", "ciasma"]], [20, ["spy", "crosspoint"]]
+    [0, ["gucci negra", "gucci black", "black shield", "mascara negra"]], [2, ["honey", "miel"]], [3, ["tortoise", "carey"]], [4, ["dark havana", "havana oscuro"]],
+    [1, ["bottega shield", "crystal", "transparente"]], [5, ["cat eye", "ojo de gato"]], [6, ["cartier"]], [7, ["prada"]], [8, ["miu"]], [9, ["ferragamo", "salvatore"]],
+    [10, ["gen 3", "gen3", "ray ban meta gen"]], [11, ["meta audio", "ray ban audio", "sin camara", "no camera"]], [12, ["capri", "nova", "meta glasses"]],
+    [13, ["adventurer"]], [14, ["samsung", "galaxy"]], [15, ["snap", "specs"]], [16, ["even", "g2", "realities"]],
+    [17, ["sungod", "ultras"]], [18, ["cybr", "lightning"]], [19, ["astral"]], [20, ["bolle", "trailchaser"]], [21, ["adidas", "kentro"]],
+    [22, ["tifosi", "moab"]], [23, ["eye jacket", "redux"]], [24, ["radar", "heater"]], [25, ["bisphaera"]], [26, ["sphaera strike", "strike"]],
+    [27, ["rslv"]], [28, ["performance 40", "titanio", "titanium"]], [29, ["poc", "ciasma"]], [30, ["spy", "crosspoint"]]
   ];
   function findProducts(q) {
     var out = [];
     ALIASES.forEach(function (a) { if (has(q, a[1])) out.push(a[0]); });
-    if (!out.length && has(q, ["ray ban", "rayban"])) out = [0, 1];
-    if (!out.length && has(q, ["oakley"])) out = [8, 14, 15, 16, 17];
-    if (!out.length && has(q, ["rudy"])) out = [9, 18];
-    return out.slice(0, 3);
+    if (!out.length && has(q, ["gucci"])) out = [0, 2, 3, 4];
+    if (!out.length && has(q, ["bottega", "veneta"])) out = [1, 5];
+    if (!out.length && has(q, ["ray ban", "rayban"])) out = [10, 11];
+    if (!out.length && has(q, ["oakley"])) out = [18, 24, 25, 26, 27];
+    if (!out.length && has(q, ["rudy"])) out = [19, 28];
+    var seen = {}; out = out.filter(function (i) { if (seen[i]) return false; seen[i] = true; return true; });
+    return out.slice(0, 4);
   }
   function recommend(k) {
-    var ps = products().filter(function (p) { return p.k === k; });
+    var kk = k === "running" ? "run" : k;
+    var ps = products().filter(function (p) { return p.k === kk; });
     bot(t().recIntro + t().recNames[k] + ":");
-    var pick = { smart: [0, 6, 3], running: [7, 8, 12], sport: [14, 17, 19] }[k];
+    var pick = { lux: [0, 6, 8, 1], smart: [10, 16, 13], running: [17, 18, 22], sport: [24, 27, 29] }[k];
+    if (k !== "lux") bot(t().soonLine);
     pick.forEach(function (i) { var p = products()[i]; if (p) productCard(p); });
     if (!ps.length) bot(t().fallback);
   }
@@ -194,7 +206,7 @@
     var v = text.trim();
     if (v.length < 2) { bot(t().bad); return; }
     if (flow.step === 1) { flow.data.name = v.slice(0, 80); flow.step = 2; bot(t().s2); return; }
-    if (flow.step === 2) { flow.data.contact = v.slice(0, 120); flow.step = 3; bot(t().s3); chips(products().map(function (p) { return { label: p.name, action: function () { me(p.name); flowAnswer(p.name); } }; }).slice(0, 21)); return; }
+    if (flow.step === 2) { flow.data.contact = v.slice(0, 120); flow.step = 3; bot(t().s3); chips(products().filter(function (p) { return !p.soon; }).map(function (p) { return { label: p.name, action: function () { me(p.name); flowAnswer(p.name); } }; }).slice(0, 21)); return; }
     if (flow.step === 3) { flow.data.product = v.slice(0, 80); flow.step = 4; bot(t().s4); return; }
     if (flow.step === 4) { flow.data.issue = v.slice(0, 600); finishFlow(); }
   }
@@ -239,6 +251,7 @@
     if (has(q, ["seguro", "segura", "confiable", "fraude", "estafa", "safe", "secure", "trust", "scam", "legit"])) { bot(t().safe); return; }
     if (has(q, ["graduacion", "graduadas", "receta", "medida", "optica", "prescription", "rx", "optical"])) { bot(t().rx); chips([t().human]); return; }
     if (has(q, ["iphone", "android", "app", "compatib", "celular", "telefono", "phone"])) { bot(t().compat); return; }
+    if (has(q, ["lujo", "luxury", "disenador", "designer", "marca", "marcas", "brand", "disponible", "available", "stock", "coleccion", "collection"])) { recommend("lux"); return; }
     if (has(q, ["inteligente", "smart", "ia ", "ai ", "meta", "camara", "camera"])) { recommend("smart"); return; }
     if (has(q, ["correr", "running", "run", "runner", "trail", "maraton", "marathon"])) { recommend("running"); return; }
     if (has(q, ["ciclismo", "bici", "bicicleta", "cycling", "bike", "nieve", "esqui", "ski", "snow", "deporte", "sport", "goggle", "mascara"])) { recommend("sport"); return; }
@@ -260,6 +273,8 @@
     "Gafas inteligentes": function () { recommend("smart"); }, "Smart glasses": function () { recommend("smart"); },
     "Para correr": function () { recommend("running"); }, "Running": function () { recommend("running"); },
     "Ciclismo o nieve": function () { recommend("sport"); }, "Cycling or snow": function () { recommend("sport"); },
+    "Ver colección de lujo": function () { recommend("lux"); }, "See the luxury collection": function () { recommend("lux"); },
+    "Colección de lujo": function () { recommend("lux"); }, "Luxury collection": function () { recommend("lux"); },
     "Hablar con soporte": support, "Talk to support": support
   };
   var _handle = handle;

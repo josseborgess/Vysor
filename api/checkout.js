@@ -33,6 +33,7 @@ module.exports = async (req, res) => {
     const p = Number.isInteger(idx) && idx >= 0 && idx < catalog.length ? catalog[idx] : null;
     const qty = Math.max(1, Math.min(10, parseInt(it.qty, 10) || 1));
     if (!p) return res.status(400).json({ error: es ? "Producto inválido." : "Invalid product." });
+    if (p.soon) return res.status(400).json({ error: (es ? "Aún no disponible: " : "Not available yet: ") + p.name });
     if (typeof p.price !== "number" || p.price <= 0) {
       return res.status(400).json({ error: (es ? "Sin precio: " : "No price yet: ") + p.name });
     }

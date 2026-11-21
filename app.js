@@ -2,7 +2,7 @@ import { h, render, Component } from "/vendor/preact.module.js";
 import htm from "/vendor/htm.module.js";
 const html = htm.bind(h);
 class App extends Component {
-  constructor(p){ super(p); this.state = { items: [], cartOpen: false, prices: {}, busy: false, checkoutErr: "", lang: "en", page: "home", deck: "smart", sel: 3, prevSel: 3, dealt: false, cart: 0, toast: false, hold: false }; }
+  constructor(p){ super(p); this.state = { items: [], cartOpen: false, prices: {}, busy: false, checkoutErr: "", lang: "en", page: "home", deck: "lux", sel: 3, prevSel: 3, dealt: false, cart: 0, toast: false, hold: false }; }
   _deal(){ var self = this; clearTimeout(this._dt); this._dt = setTimeout(function () { self.setState({ dealt: true }); }, 2700); }
   _setSel(i){ this.setState({ prevSel: this.state.sel, sel: i }); }
   componentDidMount(){ var self = this; window.addEventListener("vysor:open", function (e) { var i = Number(e.detail); var p = window.VYSOR_PRODUCTS && window.VYSOR_PRODUCTS[i]; if (!p) return; self.setState({ page: p.k, deck: p.k, sel: i, prevSel: i }); try { window.scrollTo({ top: 0, behavior: "smooth" }); } catch (x) {} }); this._deal(); try { fetch("/catalog.json").then(function (r) { return r.json(); }).then(function (c) { var m = {}; c.forEach(function (x, i) { if (typeof x.price === "number") m[i] = x.price; }); self.setState({ prices: m }); }).catch(function () {}); } catch (e) {} if (/[?&]cancel=1/.test(location.search)) { try { var sv = JSON.parse(localStorage.getItem("vysor_cart") || "[]"); if (sv.length) self.setState({ items: sv, cartOpen: true }); } catch (e) {} } this._iv = setInterval(function () { var st = self.state; if (st.hold || !st.dealt || st.page !== "home") return; self._setSel(self._nextSel(st)); }, 3800); }
@@ -12,11 +12,22 @@ class App extends Component {
     var self = this;
     var s = this.state;
     var G = {
+      lux: ["linear-gradient(160deg,#0A0A0C 0%,#3A3A42 100%)", "linear-gradient(160deg,#1B1410 0%,#B8743A 100%)", "linear-gradient(160deg,#1E1A06 0%,#B89A1E 100%)", "linear-gradient(160deg,#1C0E05 0%,#A8551E 100%)", "linear-gradient(160deg,#0E1208 0%,#5E6A3A 100%)", "linear-gradient(160deg,#04180C 0%,#1F8A4C 100%)", "linear-gradient(160deg,#2A0606 0%,#B3121B 100%)", "linear-gradient(160deg,#0B0B0B 0%,#4B4F57 100%)", "linear-gradient(160deg,#2A0A14 0%,#E07A93 100%)", "linear-gradient(160deg,#1A0A1E 0%,#8E3FA0 100%)"],
       smart: ["linear-gradient(160deg,#1A0B33 0%,#7B5CFF 100%)", "linear-gradient(160deg,#071A3A 0%,#2E6EFF 100%)", "linear-gradient(180deg,#DCEBF5 0%,#33507A 55%,#0A1220 100%)", "linear-gradient(160deg,#2A0F3D 0%,#C04DFF 100%)", "linear-gradient(160deg,#04202E 0%,#1FA3C9 100%)", "linear-gradient(160deg,#141414 0%,#5C5C6E 100%)", "linear-gradient(160deg,#0B2433 0%,#5EE7FF 100%)"],
       run: ["linear-gradient(160deg,#04262A 0%,#1FB5A3 100%)", "linear-gradient(160deg,#3A1405 0%,#FF6B2C 100%)", "linear-gradient(160deg,#06220F 0%,#3DDC97 100%)", "linear-gradient(160deg,#2B1A04 0%,#E0A526 100%)", "linear-gradient(160deg,#0A0F1F 0%,#3B5BDB 100%)", "linear-gradient(160deg,#1C2414 0%,#8FB339 100%)", "linear-gradient(160deg,#2B0A18 0%,#E0457B 100%)"],
       sport: ["linear-gradient(160deg,#5A0E0E 0%,#FF4A3D 100%)", "linear-gradient(160deg,#3A1405 0%,#FF8A4C 100%)", "linear-gradient(160deg,#2B0A18 0%,#B0204F 100%)", "linear-gradient(160deg,#141414 0%,#C8A15A 100%)", "linear-gradient(170deg,#C9D6E6 0%,#5B6B86 60%,#141A26 100%)", "linear-gradient(170deg,#E8F1F8 0%,#7EA6C8 55%,#0E1A2A 100%)", "linear-gradient(160deg,#1A1A1A 0%,#FF5E3A 100%)"]
     };
     var P = [
+      { k: "lux", name: "Gucci Shield Black", cat: "LUJO · GUCCI", shape: "shield", word: "GUCCI", date: "EN STOCK", ref: "—", short: "Máscara envolvente en acetato negro brillante.", desc: "Gafa de máscara de una sola lente, montura gruesa de acetato negro brillante y patillas anchas con el logo GUCCI grabado.", feats: ["Lente única tipo máscara", "Acetato negro brillante", "Logo GUCCI en la patilla"] },
+      { k: "lux", name: "Bottega Veneta Shield Crystal", cat: "LUJO · BOTTEGA VENETA", shape: "shield", word: "BOTTEGA", date: "EN STOCK", ref: "—", short: "Máscara de acetato transparente con lente ámbar.", desc: "Máscara de una sola lente con montura de acetato transparente y lente color ámbar, de líneas suaves y envolventes.", feats: ["Acetato transparente", "Lente ámbar", "Diseño envolvente"] },
+      { k: "lux", name: "Gucci Shield Honey Havana", cat: "LUJO · GUCCI", shape: "shield", word: "GUCCI", date: "EN STOCK", ref: "—", short: "Máscara en acetato havana miel con lente clara.", desc: "La máscara de Gucci en acetato havana color miel, con lente clara de tono melocotón y patillas anchas con el logo grabado.", feats: ["Acetato havana miel", "Lente clara melocotón", "Logo GUCCI en la patilla"] },
+      { k: "lux", name: "Gucci Shield Tortoise", cat: "LUJO · GUCCI", shape: "shield", word: "GUCCI", date: "EN STOCK", ref: "—", short: "Máscara carey clásico con lente marrón.", desc: "Máscara de Gucci en acetato carey clásico, con lente única marrón y montura de borde superior marcado.", feats: ["Acetato carey", "Lente marrón", "Borde superior marcado"] },
+      { k: "lux", name: "Gucci Shield Dark Havana", cat: "LUJO · GUCCI", shape: "shield", word: "GUCCI", date: "EN STOCK", ref: "—", short: "Máscara havana oscuro con lente clara.", desc: "Máscara de Gucci en acetato havana oscuro con reflejos verdosos, lente clara y patillas anchas.", feats: ["Acetato havana oscuro", "Lente clara", "Patillas anchas"] },
+      { k: "lux", name: "Bottega Veneta Cat-Eye Havana", cat: "LUJO · BOTTEGA VENETA", shape: "frame", word: "BOTTEGA", date: "EN STOCK", ref: "—", short: "Ojo de gato carey con patillas doradas.", desc: "Gafa ojo de gato estilizada en acetato carey, con patillas metálicas doradas y detalle de nudo dorado en la bisagra.", feats: ["Ojo de gato", "Patillas doradas", "Detalle de nudo en la bisagra"] },
+      { k: "lux", name: "Cartier Rimless Gold", cat: "LUJO · CARTIER", shape: "frame", word: "CARTIER", date: "EN STOCK", ref: "—", short: "Sin aro, metal dorado y lentes degradadas.", desc: "Gafa sin aro de Cartier con puente y patillas en metal dorado y lentes rectangulares en degradado marrón.", feats: ["Sin aro", "Metal dorado", "Lentes degradadas marrón"] },
+      { k: "lux", name: "Prada Rectangular Black", cat: "LUJO · PRADA", shape: "frame", word: "PRADA", date: "EN STOCK", ref: "—", short: "Rectangular de acetato negro con logo Prada.", desc: "Gafa rectangular de Prada en acetato negro, lentes oscuras y patillas anchas con el logo Prada Milano.", feats: ["Rectangular", "Acetato negro", "Logo Prada Milano"] },
+      { k: "lux", name: "Miu Miu Geometric Gold", cat: "LUJO · MIU MIU", shape: "frame", word: "MIU MIU", date: "EN STOCK", ref: "—", short: "Geométrica de metal dorado con lentes oscuras.", desc: "Gafa geométrica de Miu Miu con montura fina de metal dorado, lentes oscuras y patillas con detalle metálico.", feats: ["Forma geométrica", "Metal dorado", "Lentes oscuras"] },
+      { k: "lux", name: "Salvatore Ferragamo Purple", cat: "LUJO · FERRAGAMO", shape: "frame", word: "FERRAGAMO", date: "EN STOCK", ref: "—", short: "Montura morada con patillas de cristales.", desc: "Gafa de Salvatore Ferragamo de forma amplia, montura en acetato morado, lentes degradadas y patillas con detalle de cristales.", feats: ["Acetato morado", "Patillas con cristales", "Lentes degradadas"] },
       { k: "smart", name: "Ray-Ban Meta Gen 3", cat: "SMART · META AI", shape: "frame", word: "GEN 3", date: "SEP 2026", ref: "$449", short: "Más delgadas, botón de acción y hasta 9 h.", desc: "La tercera generación de Ray-Ban Meta: diseño más delgado, nuevo botón de acción y hasta nueve horas de batería, con la cámara de 12 MP y video 3K.", feats: ["Cámara 12 MP · video 3K", "Hasta 9 h de batería", "Nuevo botón de acción"] },
       { k: "smart", name: "Ray-Ban Meta Audio", cat: "SMART · AUDIO", shape: "frame", word: "AUDIO", date: "OCT 2026", ref: "$349", short: "Las primeras Meta sin cámara.", desc: "Las primeras gafas con IA de Meta sin cámara: conservan micrófonos, audio abierto y la conexión a la IA de Meta.", feats: ["Sin cámara", "Audio abierto", "IA de Meta por voz"] },
       { k: "smart", name: "Meta Glasses", cat: "SMART · ENTRADA", shape: "frame", word: "META", date: "JUN 2026", ref: "desde $299", short: "La línea propia de Meta, nuevos estilos Capri y Nova.", desc: "La línea de gafas propias de Meta, más accesible que Ray-Ban Meta. En Connect 2026 sumó los estilos Capri y Nova y una colaboración con LISA.", feats: ["Estilos Capri y Nova", "Ediciones Kylie Jenner y LISA", "Entrada a la familia Meta"] },
@@ -39,12 +50,23 @@ class App extends Component {
       { k: "sport", name: "POC Ciasma", cat: "NIEVE · MÁSCARA", shape: "shield", word: "CIASMA", date: "OCT 2026", ref: "Consultar", short: "Cambio de lente con una mano, puesta.", desc: "Nueva máscara de esquí y snowboard de la colección 26/27 de POC, con sistema de cambio de lente que se opera con una mano sin quitártela.", feats: ["Cambio de lente con una mano", "Esquí y snowboard", "Temporada 26/27"] },
       { k: "sport", name: "SPY Crosspoint", cat: "NIEVE · MÁSCARA", shape: "shield", word: "CROSS", date: "NOV 2026", ref: "Consultar", short: "Su visión más amplia: 194,5°.", desc: "Máscara cilíndrica de SPY para la temporada 26/27 con un campo de visión de 194,5°, el más amplio de la marca.", feats: ["Campo de visión 194,5°", "Lente cilíndrica", "Temporada 26/27"] }
     ];
-    var IMG = ["/img/g01.webp","/img/g02.webp","/img/g03.webp","/img/g04.webp","/img/g05.webp","/img/g06.webp","/img/g07.webp","/img/g08.webp","/img/g09.webp","/img/g10.webp","/img/g11.webp","/img/g12.webp","/img/g13.webp","/img/g14.webp","/img/g15.webp","/img/g16.webp","/img/g17.webp","/img/g18.webp","/img/g19.webp","/img/g20.webp","/img/g21.webp"];
-    var frames = { smart: "#14161C", run: "#101418", sport: "#16121A" };
-    var idx = { smart: 0, run: 0, sport: 0 };
+    var IMG = ["/img/l01.webp","/img/l02.webp","/img/l03.webp","/img/l04.webp","/img/l05.webp","/img/l06.webp","/img/l07.webp","/img/l08.webp","/img/l09.webp","/img/l10.webp","/img/g01.webp","/img/g02.webp","/img/g03.webp","/img/g04.webp","/img/g05.webp","/img/g06.webp","/img/g07.webp","/img/g08.webp","/img/g09.webp","/img/g10.webp","/img/g11.webp","/img/g12.webp","/img/g13.webp","/img/g14.webp","/img/g15.webp","/img/g16.webp","/img/g17.webp","/img/g18.webp","/img/g19.webp","/img/g20.webp","/img/g21.webp"];
+    var frames = { lux: "#121112", smart: "#14161C", run: "#101418", sport: "#16121A" };
+    var idx = { lux: 0, smart: 0, run: 0, sport: 0 };
     P.forEach(function (p, i) { p.i = i; p.isFrame = p.shape === "frame"; p.isShield = p.shape === "shield"; p.g = G[p.k][idx[p.k]++]; p.frame = frames[p.k]; p.img = IMG[i]; });
+    P.forEach(function (p) { p.soon = p.k !== "lux"; if (p.soon) { p.gOrig = p.g; p.g = "linear-gradient(160deg,#111216 0%,#4A4E57 100%)"; } });
     var L = s.lang === "es" ? "es" : "en";
     var EN = [
+      { cat: "LUXURY · GUCCI", short: "Wraparound shield in glossy black acetate.", desc: "A single-lens shield with a thick glossy black acetate frame and wide temples engraved with the GUCCI logo.", feats: ["Single shield lens", "Glossy black acetate", "GUCCI logo on the temple"], date: "IN STOCK" },
+      { cat: "LUXURY · BOTTEGA VENETA", short: "Clear acetate shield with an amber lens.", desc: "A single-lens shield with a clear acetate frame and an amber lens, with soft wraparound lines.", feats: ["Clear acetate", "Amber lens", "Wraparound design"], date: "IN STOCK" },
+      { cat: "LUXURY · GUCCI", short: "Honey havana acetate shield with a light lens.", desc: "Gucci's shield in honey havana acetate, with a light peach lens and wide temples with the engraved logo.", feats: ["Honey havana acetate", "Light peach lens", "GUCCI logo on the temple"], date: "IN STOCK" },
+      { cat: "LUXURY · GUCCI", short: "Classic tortoise shield with a brown lens.", desc: "Gucci's shield in classic tortoise acetate, with a single brown lens and a bold top bar.", feats: ["Tortoise acetate", "Brown lens", "Bold top bar"], date: "IN STOCK" },
+      { cat: "LUXURY · GUCCI", short: "Dark havana shield with a light lens.", desc: "Gucci's shield in dark havana acetate with green undertones, a light lens and wide temples.", feats: ["Dark havana acetate", "Light lens", "Wide temples"], date: "IN STOCK" },
+      { cat: "LUXURY · BOTTEGA VENETA", short: "Tortoise cat-eye with gold temples.", desc: "A slim tortoise acetate cat-eye with gold metal temples and a gold knot detail at the hinge.", feats: ["Cat-eye shape", "Gold temples", "Knot detail at the hinge"], date: "IN STOCK" },
+      { cat: "LUXURY · CARTIER", short: "Rimless gold metal with gradient lenses.", desc: "Cartier rimless glasses with a gold metal bridge and temples and rectangular brown gradient lenses.", feats: ["Rimless", "Gold metal", "Brown gradient lenses"], date: "IN STOCK" },
+      { cat: "LUXURY · PRADA", short: "Black acetate rectangular with the Prada logo.", desc: "Prada rectangular glasses in black acetate, with dark lenses and wide temples carrying the Prada Milano logo.", feats: ["Rectangular", "Black acetate", "Prada Milano logo"], date: "IN STOCK" },
+      { cat: "LUXURY · MIU MIU", short: "Gold metal geometric with dark lenses.", desc: "Miu Miu geometric glasses with a thin gold metal frame, dark lenses and metal-detailed temples.", feats: ["Geometric shape", "Gold metal", "Dark lenses"], date: "IN STOCK" },
+      { cat: "LUXURY · FERRAGAMO", short: "Purple frame with crystal-detailed temples.", desc: "Salvatore Ferragamo oversized glasses with a purple acetate frame, gradient lenses and crystal-detailed temples.", feats: ["Purple acetate", "Crystal-detailed temples", "Gradient lenses"], date: "IN STOCK" },
       { cat: "SMART · META AI", short: "Slimmer, new action button, up to 9 h.", desc: "The third generation of Ray-Ban Meta: a slimmer design, a new action button and up to nine hours of battery, with the 12 MP camera and 3K video.", feats: ["12 MP camera · 3K video", "Up to 9 h battery", "New action button"] },
       { cat: "SMART · AUDIO", short: "Meta's first camera-free glasses.", desc: "Meta's first AI glasses without a camera: they keep the microphones, open-ear audio and the connection to Meta AI.", feats: ["No camera", "Open-ear audio", "Meta AI by voice"] },
       { cat: "SMART · ENTRY", short: "Meta's own line, new Capri and Nova styles.", desc: "Meta's own glasses line, more affordable than Ray-Ban Meta. Connect 2026 added the Capri and Nova styles and a LISA collaboration.", feats: ["Capri and Nova styles", "Kylie Jenner and LISA editions", "Entry to the Meta family"] },
@@ -71,6 +93,16 @@ class App extends Component {
     var REFEN = function (r) { return r.replace("desde", "from").replace("Por confirmar", "TBA").replace("Consultar", "Ask us"); };
     if (L === "en") P.forEach(function (p, i) { Object.assign(p, EN[i]); p.date = p.date.replace(/^[A-Z]+/, function (m) { return MON[m] || m; }); p.ref = REFEN(p.ref); });
     var SPECS = [
+      { ref: null, rows: [["Marca", "Brand", "Gucci"], ["Forma", "Shape", "Máscara (lente única)", "Shield (single lens)"], ["Montura", "Frame", "Acetato negro brillante", "Glossy black acetate"], ["Lente", "Lens", "Gris oscuro", "Dark grey"], ["Incluye", "In the box", "Caja Gucci", "Gucci box"]] },
+      { ref: null, rows: [["Marca", "Brand", "Bottega Veneta"], ["Forma", "Shape", "Máscara (lente única)", "Shield (single lens)"], ["Montura", "Frame", "Acetato transparente", "Clear acetate"], ["Lente", "Lens", "Ámbar", "Amber"], ["Incluye", "In the box", "Caja Bottega Veneta", "Bottega Veneta box"]] },
+      { ref: null, rows: [["Marca", "Brand", "Gucci"], ["Forma", "Shape", "Máscara (lente única)", "Shield (single lens)"], ["Montura", "Frame", "Acetato havana miel", "Honey havana acetate"], ["Lente", "Lens", "Melocotón claro", "Light peach"], ["Incluye", "In the box", "Caja Gucci", "Gucci box"]] },
+      { ref: null, rows: [["Marca", "Brand", "Gucci"], ["Forma", "Shape", "Máscara (lente única)", "Shield (single lens)"], ["Montura", "Frame", "Acetato carey", "Tortoise acetate"], ["Lente", "Lens", "Marrón", "Brown"], ["Incluye", "In the box", "Caja Gucci", "Gucci box"]] },
+      { ref: null, rows: [["Marca", "Brand", "Gucci"], ["Forma", "Shape", "Máscara (lente única)", "Shield (single lens)"], ["Montura", "Frame", "Acetato havana oscuro", "Dark havana acetate"], ["Lente", "Lens", "Clara", "Light"], ["Incluye", "In the box", "Caja Gucci", "Gucci box"]] },
+      { ref: null, rows: [["Marca", "Brand", "Bottega Veneta"], ["Forma", "Shape", "Ojo de gato", "Cat-eye"], ["Montura", "Frame", "Acetato carey y metal dorado", "Tortoise acetate and gold metal"], ["Lente", "Lens", "Marrón", "Brown"], ["Incluye", "In the box", "Caja Bottega Veneta", "Bottega Veneta box"]] },
+      { ref: null, rows: [["Marca", "Brand", "Cartier"], ["Forma", "Shape", "Rectangular sin aro", "Rimless rectangular"], ["Montura", "Frame", "Metal dorado", "Gold metal"], ["Lente", "Lens", "Degradado marrón", "Brown gradient"], ["Incluye", "In the box", "Estuche, caja, funda, paño y tarjeta Cartier", "Cartier case, box, pouch, cloth and card"]] },
+      { ref: null, rows: [["Marca", "Brand", "Prada"], ["Forma", "Shape", "Rectangular", "Rectangular"], ["Montura", "Frame", "Acetato negro", "Black acetate"], ["Lente", "Lens", "Oscura", "Dark"], ["Incluye", "In the box", "Estuche, paño y tarjeta Prada", "Prada case, cloth and card"]] },
+      { ref: null, rows: [["Marca", "Brand", "Miu Miu"], ["Forma", "Shape", "Geométrica", "Geometric"], ["Montura", "Frame", "Metal dorado", "Gold metal"], ["Lente", "Lens", "Oscura", "Dark"], ["Incluye", "In the box", "Estuche y caja Miu Miu", "Miu Miu case and box"]] },
+      { ref: null, rows: [["Marca", "Brand", "Salvatore Ferragamo"], ["Forma", "Shape", "Amplia", "Oversized"], ["Montura", "Frame", "Acetato morado", "Purple acetate"], ["Lente", "Lens", "Degradada", "Gradient"], ["Incluye", "In the box", "Estuche y caja Ferragamo", "Ferragamo case and box"]] },
       { ref: "$449", rows: [["Cámara", "Camera", "12 MP ultra gran angular", "12 MP ultra-wide"], ["Video", "Video", "3K"], ["Batería", "Battery", "Hasta 9 h", "Up to 9 h"], ["Estuche de carga", "Charging case", "+50 h"], ["Peso", "Weight", "51,5 g (Standard)", "51.5 g (Standard)"], ["Estilos", "Styles", "Aviator, Wayfarer, Zena"], ["Controles", "Controls", "Botón de acción, táctil y voz", "Action button, touch and voice"]] },
       { ref: "$349", rows: [["Cámara", "Camera", "Sin cámara", "No camera"], ["Batería", "Battery", "Hasta 12 h", "Up to 12 h"], ["Estuche de carga", "Charging case", "+48 h"], ["Peso", "Weight", "43 g"], ["Audio", "Audio", "Altavoces abiertos", "Open-ear speakers"], ["Estilos", "Styles", "Clubmaster, Burbank (23 combinaciones)", "Clubmaster, Burbank (23 combos)"], ["Graduación", "Prescription", "Compatible", "Compatible"]] },
       { ref: null, rows: [["Cámara", "Camera", "12 MP, campo de 100°", "12 MP, 100° field of view"], ["Video", "Video", "3K"], ["Batería", "Battery", "Más de 8 h", "8+ h"], ["Estuche de carga", "Charging case", "+40 h (plegable)", "+40 h (foldable)"], ["Peso", "Weight", "~54 g"], ["Lentes", "Lenses", "Sol, polarizadas, Transitions", "Sun, polarized, Transitions"], ["Graduación", "Prescription", "−6.00 a +2.25", "−6.00 to +2.25"]] },
@@ -100,31 +132,31 @@ class App extends Component {
     });
     var T = L === "en" ? {
       kicker: "VISION · TECHNOLOGY · PERFORMANCE", specsTitle: "Tech specs", cartAria: "Cart", cartTitle: "Your cart", close: "Close", cartEmpty: "Your cart is empty.", remove: "Remove", total: "Total", pay: "Pay with card", paying: "Redirecting to secure checkout…", secure: "Secure payment by Stripe · Cards, Apple Pay and Google Pay", missingPrice: "Some items don't have a price yet. Contact us to complete your order.", askPrice: "Price on request", errGeneric: "We couldn't start the payment. Please try again.", specsNote: "From official and retailer sources. May vary by version and region.", h1a: "The future", h1b: "looks different.", launchUp: "LAUNCH", sevenLaunches: "7 LAUNCHES", view: "View ",
-      catH1: "Three worlds.", catH2: "One vision.", catP: "Choose by how you live: connected, on the run or at the limit. Each line takes you to its models.", seeModels: "See models", modelsSp: " models",
-      newest: "Just launched", newestP: "One standout launch from each line. Open its tab to see all seven.", ref: "Ref.", renderNote: "PRODUCT RENDER · HOVER TO ZOOM",
-      avail: "In stock · ships in [SHIPPING TIME]", refOff: "OFFICIAL REF.", price: "VISORS PRICE", addCart: "Add to cart", addedSuf: " added to cart", allPre: "All ",
+      catH1: "Luxury today.", catH2: "Tech next.", catP: "Our designer collection is available now. Smart, running and sport eyewear are coming soon.", seeModels: "See models", modelsSp: " models",
+      newest: "Available now", newestP: "Real pieces from our luxury collection, ready to ship.", ref: "Ref.", renderNote: "PRODUCT RENDER · HOVER TO ZOOM",
+      avail: "In stock · ready to ship", soonAvail: "Coming soon · not in stock yet", soonTag: "COMING SOON", soonBtn: "Coming soon", stockTag: "IN STOCK", photoNote: "REAL PRODUCT PHOTO", luxNote: "Photo of the actual piece", refOff: "OFFICIAL REF.", price: "VISORS PRICE", addCart: "Add to cart", addedSuf: " added to cart", allPre: "All ",
       ctaH: "What's your next pair?", ctaP: "We'll help you on WhatsApp to pick the right model, lens and fit.", whats: "Message us on WhatsApp", backHome: "Back to home",
-      footer: "Smart glasses · Running · Sport", contact: "[CITY] · [CONTACT]", seeLine: "See the full ", lineSuf: " line", count: "7 models",
-      marquee: ["META AI", "RUNNING", "CYCLING", "SNOW", "PRIZM LENSES", "CAMERA + AUDIO"],
-      nav: ["Home", "Smart", "Running", "Sport"], decks: ["Smart", "Running", "Sport"], deckNames: ["SMART GLASSES", "RUNNING", "SPORT"],
-      cats: [["Connected", "Smart Glasses"], ["On the move", "Running"], ["Cycling and snow", "Sport"]],
-      lines: [["SMART GLASSES · 7 LAUNCHES", "Smart Glasses", "Glasses with camera, audio, AI and displays: Meta, Samsung, Snap and Even Realities."], ["RUNNING · 7 LAUNCHES", "Running", "Light, bounce-free shields for road, trail and marathon."], ["SPORT · 7 LAUNCHES", "Sport", "Road cycling and snow goggles from this season."]]
+      footer: "Luxury eyewear · Smart glasses · Running · Sport", contact: "[CITY] · [CONTACT]", seeLine: "See the full ", lineSuf: " line", count: "7 models",
+      marquee: ["GUCCI", "BOTTEGA VENETA", "CARTIER", "PRADA", "MIU MIU", "FERRAGAMO"],
+      nav: ["Home", "Luxury", "Smart", "Running", "Sport"], decks: ["Luxury", "Smart", "Running", "Sport"], deckNames: ["LUXURY EYEWEAR", "SMART GLASSES · COMING SOON", "RUNNING · COMING SOON", "SPORT · COMING SOON"],
+      cats: [["Available now", "Luxury"], ["Coming soon", "Smart Glasses"], ["Coming soon", "Running"], ["Coming soon", "Sport"]],
+      lines: [["LUXURY EYEWEAR · IN STOCK", "Luxury", "Gucci, Bottega Veneta, Cartier, Prada, Miu Miu and Salvatore Ferragamo. Every photo shows the actual piece."], ["SMART GLASSES · COMING SOON", "Smart Glasses", "Glasses with camera, audio, AI and displays: Meta, Samsung, Snap and Even Realities. Coming soon."], ["RUNNING · COMING SOON", "Running", "Light, bounce-free shields for road, trail and marathon. Coming soon."], ["SPORT · COMING SOON", "Sport", "Road cycling and snow goggles from this season. Coming soon."]]
     } : {
       kicker: "VISIÓN · TECNOLOGÍA · RENDIMIENTO", specsTitle: "Ficha técnica", cartAria: "Carrito", cartTitle: "Tu carrito", close: "Cerrar", cartEmpty: "Tu carrito está vacío.", remove: "Quitar", total: "Total", pay: "Pagar con tarjeta", paying: "Redirigiendo al pago seguro…", secure: "Pago seguro con Stripe · Tarjetas, Apple Pay y Google Pay", missingPrice: "Algunos productos aún no tienen precio. Escríbenos para completar tu pedido.", askPrice: "Precio a consultar", errGeneric: "No pudimos iniciar el pago. Inténtalo de nuevo.", specsNote: "Datos de fuentes oficiales y tiendas. Pueden variar por versión y región.", h1a: "El futuro", h1b: "se ve distinto.", launchUp: "LANZAMIENTO", sevenLaunches: "7 LANZAMIENTOS", view: "Ver ",
-      catH1: "Tres mundos.", catH2: "Una sola visión.", catP: "Elige por cómo vives: conectado, corriendo o al límite. Cada línea te lleva a sus modelos.", seeModels: "Ver modelos", modelsSp: " modelos",
-      newest: "Lo más nuevo", newestP: "Un lanzamiento destacado de cada línea. Entra a su pestaña para ver los siete.", ref: "Ref.", renderNote: "RENDER DE PRODUCTO · PASA EL CURSOR PARA AMPLIAR",
-      avail: "Disponible · envío [TIEMPO DE ENVÍO]", refOff: "REF. OFICIAL", price: "PRECIO VISORS", addCart: "Agregar al carrito", addedSuf: " agregado al carrito", allPre: "Todos los ",
+      catH1: "Lujo hoy.", catH2: "Tecnología muy pronto.", catP: "Nuestra colección de diseñador ya está disponible. Las gafas inteligentes, de running y de deporte llegan muy pronto.", seeModels: "Ver modelos", modelsSp: " modelos",
+      newest: "Disponibles ahora", newestP: "Piezas reales de nuestra colección de lujo, listas para enviar.", ref: "Ref.", renderNote: "RENDER DE PRODUCTO · PASA EL CURSOR PARA AMPLIAR",
+      avail: "En stock · listo para enviar", soonAvail: "Próximamente · aún sin stock", soonTag: "PRÓXIMAMENTE", soonBtn: "Próximamente", stockTag: "EN STOCK", photoNote: "FOTO REAL DEL PRODUCTO", luxNote: "Foto de la pieza real", refOff: "REF. OFICIAL", price: "PRECIO VISORS", addCart: "Agregar al carrito", addedSuf: " agregado al carrito", allPre: "Todos los ",
       ctaH: "¿Cuál es tu próximo par?", ctaP: "Te asesoramos por WhatsApp para elegir el modelo, la lente y la talla correcta.", whats: "Escribir por WhatsApp", backHome: "Volver al inicio",
-      footer: "Smart glasses · Running · Deporte", contact: "[CIUDAD] · [CONTACTO]", seeLine: "Ver toda la línea ", lineSuf: "", count: "7 modelos",
-      marquee: ["META AI", "RUNNING", "CICLISMO", "NIEVE", "LENTES PRIZM", "CÁMARA + AUDIO"],
-      nav: ["Inicio", "Smart", "Running", "Deporte"], decks: ["Smart", "Running", "Deporte"], deckNames: ["SMART GLASSES", "RUNNING", "DEPORTE"],
-      cats: [["Conectadas", "Smart Glasses"], ["En movimiento", "Running"], ["Ciclismo y nieve", "Deporte"]],
-      lines: [["SMART GLASSES · 7 LANZAMIENTOS", "Smart Glasses", "Gafas con cámara, audio, IA y pantalla: Meta, Samsung, Snap y Even Realities."], ["RUNNING · 7 LANZAMIENTOS", "Running", "Escudos ligeros y sin rebote para ruta, trail y maratón."], ["DEPORTE · 7 LANZAMIENTOS", "Deporte", "Ciclismo de ruta y máscaras de nieve de la temporada."]]
+      footer: "Gafas de lujo · Smart glasses · Running · Deporte", contact: "[CIUDAD] · [CONTACTO]", seeLine: "Ver toda la línea ", lineSuf: "", count: "7 modelos",
+      marquee: ["GUCCI", "BOTTEGA VENETA", "CARTIER", "PRADA", "MIU MIU", "FERRAGAMO"],
+      nav: ["Inicio", "Lujo", "Smart", "Running", "Deporte"], decks: ["Lujo", "Smart", "Running", "Deporte"], deckNames: ["GAFAS DE LUJO", "SMART GLASSES · PRÓXIMAMENTE", "RUNNING · PRÓXIMAMENTE", "DEPORTE · PRÓXIMAMENTE"],
+      cats: [["Disponibles ya", "Lujo"], ["Próximamente", "Smart Glasses"], ["Próximamente", "Running"], ["Próximamente", "Deporte"]],
+      lines: [["GAFAS DE LUJO · EN STOCK", "Lujo", "Gucci, Bottega Veneta, Cartier, Prada, Miu Miu y Salvatore Ferragamo. Cada foto muestra la pieza real."], ["SMART GLASSES · PRÓXIMAMENTE", "Smart Glasses", "Gafas con cámara, audio, IA y pantalla: Meta, Samsung, Snap y Even Realities. Muy pronto."], ["RUNNING · PRÓXIMAMENTE", "Running", "Escudos ligeros y sin rebote para ruta, trail y maratón. Muy pronto."], ["DEPORTE · PRÓXIMAMENTE", "Deporte", "Ciclismo de ruta y máscaras de nieve de la temporada. Muy pronto."]]
     };
-    var deckNames = { smart: T.deckNames[0], run: T.deckNames[1], sport: T.deckNames[2] };
-    var animByDeck = { smart: "deal0", run: "deal1", sport: "deal2" };
-    var deckIds = { smart: [], run: [], sport: [] };
-    try { window.VYSOR_PRODUCTS = P.map(function (p) { return { i: p.i, k: p.k, name: p.name, short: p.short, desc: p.desc, feats: p.feats, specs: p.specs, date: p.date, img: p.img }; }); window.VYSOR_LANG = L; var tg = (P[s.sel] || P[0]).g; if (tg !== window.__vysorG) { window.__vysorG = tg; window.dispatchEvent(new CustomEvent("vysor:theme", { detail: tg })); } } catch (e) {}
+    var deckNames = { lux: T.deckNames[0], smart: T.deckNames[1], run: T.deckNames[2], sport: T.deckNames[3] };
+    var animByDeck = { lux: "deal0", smart: "deal1", run: "deal2", sport: "deal0" };
+    var deckIds = { lux: [], smart: [], run: [], sport: [] };
+    try { window.VYSOR_PRODUCTS = P.map(function (p) { return { i: p.i, k: p.k, soon: !!p.soon, name: p.name, short: p.short, desc: p.desc, feats: p.feats, specs: p.specs, date: p.date, img: p.img }; }); window.VYSOR_LANG = L; var tg = (P[s.sel] || P[0]).g; if (tg !== window.__vysorG) { window.__vysorG = tg; window.dispatchEvent(new CustomEvent("vysor:theme", { detail: tg })); } } catch (e) {}
     P.forEach(function (p) { deckIds[p.k].push(p.i); });
     this._deckIds = deckIds;
     var top = function () { try { window.scrollTo({ top: 0, behavior: "smooth" }); } catch (e) {} };
@@ -135,11 +167,11 @@ class App extends Component {
     var ci = deckItems.findIndex(function (p) { return p.i === sel; }); if (ci < 0) ci = 3;
     var cp = deckItems.findIndex(function (p) { return p.i === s.prevSel; }); if (cp < 0) cp = ci;
     var cards = deckItems.map(function (p, j) {
-      var o = ((j - ci + 10) % 7) - 3;
-      var t = "translateX(" + (o * 150) + "px) translateY(" + (Math.abs(o) * 30) + "px) rotate(" + (o * 8) + "deg)";
-      return Object.assign({}, p, { num: "0" + (j + 1), cls: p.i === sel ? "card on" : "card", pick: pick(p.i), pos: (function () { var op = ((j - cp + 10) % 7) - 3; var wrap = s.dealt && Math.abs(o - op) > 3; var st = { transform: t, zIndex: 10 - Math.abs(o), left: 0 }; if (wrap) { st.transition = "none"; st.animation = "popin .9s ease both"; } return st; })(), dealStyle: s.dealt ? { animationName: "none" } : { animationName: animByDeck[s.deck], animationDelay: (0.15 + Math.abs(j - 3) * 0.12) + "s" }, flipStyle: s.dealt ? { animationName: "none" } : { animationName: "flip" + animByDeck[s.deck].slice(-1), animationDelay: (0.9 + j * 0.14) + "s" }, bg: { background: p.g } });
+      var n = deckItems.length; var o = ((j - ci + n * 2 + 3) % n) - 3; var hid = Math.abs(o) > 3; var oo = hid ? 0 : o;
+      var t = "translateX(" + (oo * 150) + "px) translateY(" + (Math.abs(oo) * 30 + (hid ? 40 : 0)) + "px) rotate(" + (oo * 8) + "deg)" + (hid ? " scale(.85)" : "");
+      return Object.assign({}, p, { num: "0" + (j + 1), cls: (p.i === sel ? "card on" : "card") + (p.soon ? " soon" : ""), meta: p.soon ? T.soonTag : (s.prices[p.i] != null ? T.stockTag + " · $" + s.prices[p.i] : T.stockTag), pick: pick(p.i), pos: (function () { var op = ((j - cp + n * 2 + 3) % n) - 3; var wrap = s.dealt && !hid && (Math.abs(op) > 3 || Math.abs(o - op) > 3); var st = { transform: t, zIndex: hid ? 0 : 10 - Math.abs(o), left: 0, opacity: hid ? 0 : 1, pointerEvents: hid ? "none" : "auto" }; if (wrap) { st.transition = "none"; st.animation = "popin .9s ease both"; } return st; })(), dealStyle: s.dealt ? { animationName: "none" } : { animationName: animByDeck[s.deck], animationDelay: (0.15 + Math.min(Math.abs(o), 4) * 0.12) + "s" }, flipStyle: s.dealt ? { animationName: "none" } : { animationName: "flip" + animByDeck[s.deck].slice(-1), animationDelay: (0.9 + (o + 3) * 0.14) + "s" }, bg: { background: p.g } });
     });
-    var deckDefs = [["smart", T.decks[0]], ["run", T.decks[1]], ["sport", T.decks[2]]];
+    var deckDefs = [["lux", T.decks[0]], ["smart", T.decks[1]], ["run", T.decks[2]], ["sport", T.decks[3]]];
     var decks = deckDefs.map(function (dk) { return { label: dk[1], cls: s.deck === dk[0] ? "tab on" : "tab", pick: function () { var first = P.filter(function (p) { return p.k === dk[0]; })[3]; self.setState({ deck: dk[0], sel: first.i, prevSel: first.i, dealt: false }); self._deal(); } }; });
     var lensDefs = [
       { name: "Transparente", color: "#BFD9EE", bg: "radial-gradient(circle at 35% 30%,#fff,#9FC3DF)" },
@@ -147,27 +179,29 @@ class App extends Component {
       { name: "Prizm", color: "#FF6B2C", bg: "radial-gradient(circle at 35% 30%,#FFD36B,#FF4A3D 60%,#7B5CFF)" }
     ];
     var lenses = lensDefs.map(function (l, i) { return { name: l.name, cls: i === s.lens ? "sw on" : "sw", bg: { background: l.bg }, pick: function () { self.setState({ lens: i }); } }; });
-    var counts = { smart: 0, run: 0, sport: 0 };
+    var counts = { lux: 0, smart: 0, run: 0, sport: 0 };
     P.forEach(function (p) { counts[p.k]++; });
     var catDefs = [
-      { key: "smart", kicker: T.cats[0][0], label: T.cats[0][1], color: "#5EE7FF", bg: { background: "radial-gradient(120% 90% at 50% 110%,rgba(46,110,255,.55),#070B16 70%)", border: "1px solid rgba(94,231,255,.35)", boxShadow: "inset 0 -30px 60px rgba(46,110,255,.25),0 0 40px rgba(46,110,255,.15)" }, curve: "M10 100 C 70 100, 110 100, 130 60 C 145 25, 160 20, 170 55 C 185 100, 230 100, 290 96" },
-      { key: "run", kicker: T.cats[1][0], label: T.cats[1][1], color: "#3DDC97", bg: { background: "radial-gradient(120% 90% at 50% 110%,rgba(30,200,130,.5),#06120E 70%)", border: "1px solid rgba(61,220,151,.35)", boxShadow: "inset 0 -30px 60px rgba(30,200,130,.22),0 0 40px rgba(30,200,130,.12)" }, curve: "M10 105 C 60 100, 90 90, 120 80 C 160 66, 190 72, 220 50 C 245 32, 265 20, 290 18" },
-      { key: "sport", kicker: T.cats[2][0], label: T.cats[2][1], color: "#FF8A4C", bg: { background: "radial-gradient(120% 90% at 50% 110%,rgba(255,107,44,.5),#140904 70%)", border: "1px solid rgba(255,138,76,.35)", boxShadow: "inset 0 -30px 60px rgba(255,107,44,.22),0 0 40px rgba(255,107,44,.12)" }, curve: "M10 90 C 50 30, 80 30, 110 80 C 140 120, 170 110, 200 60 C 225 20, 260 30, 290 40" }
+      { key: "lux", kicker: T.cats[0][0], label: T.cats[0][1], color: "#E8C77A", bg: { background: "radial-gradient(120% 90% at 50% 110%,rgba(232,199,122,.45),#110D06 70%)", border: "1px solid rgba(232,199,122,.4)", boxShadow: "inset 0 -30px 60px rgba(232,199,122,.2),0 0 40px rgba(232,199,122,.12)" }, curve: "M10 95 C 60 95, 90 40, 150 40 C 210 40, 240 95, 290 95" },
+      { key: "smart", kicker: T.cats[1][0], label: T.cats[1][1], color: "#5EE7FF", bg: { background: "radial-gradient(120% 90% at 50% 110%,rgba(46,110,255,.55),#070B16 70%)", border: "1px solid rgba(94,231,255,.35)", boxShadow: "inset 0 -30px 60px rgba(46,110,255,.25),0 0 40px rgba(46,110,255,.15)" }, curve: "M10 100 C 70 100, 110 100, 130 60 C 145 25, 160 20, 170 55 C 185 100, 230 100, 290 96" },
+      { key: "run", kicker: T.cats[2][0], label: T.cats[2][1], color: "#3DDC97", bg: { background: "radial-gradient(120% 90% at 50% 110%,rgba(30,200,130,.5),#06120E 70%)", border: "1px solid rgba(61,220,151,.35)", boxShadow: "inset 0 -30px 60px rgba(30,200,130,.22),0 0 40px rgba(30,200,130,.12)" }, curve: "M10 105 C 60 100, 90 90, 120 80 C 160 66, 190 72, 220 50 C 245 32, 265 20, 290 18" },
+      { key: "sport", kicker: T.cats[3][0], label: T.cats[3][1], color: "#FF8A4C", bg: { background: "radial-gradient(120% 90% at 50% 110%,rgba(255,107,44,.5),#140904 70%)", border: "1px solid rgba(255,138,76,.35)", boxShadow: "inset 0 -30px 60px rgba(255,107,44,.22),0 0 40px rgba(255,107,44,.12)" }, curve: "M10 90 C 50 30, 80 30, 110 80 C 140 120, 170 110, 200 60 C 225 20, 260 30, 290 40" }
     ];
     var cats = catDefs.map(function (c) { return Object.assign({}, c, { count: counts[c.key], pick: go(c.key) }); });
     var lineK = s.page === "home" ? d.k : s.page;
-    var mk = function (p, n) { return Object.assign({}, p, { bg: { background: p.g, height: "200px", display: "flex", alignItems: "center", justifyContent: "center" }, delay: { animationDelay: (n * 0.05) + "s" } }); };
+    var mk = function (p, n) { return Object.assign({}, p, { pcls: p.soon ? "pcard soon" : "pcard", l1: p.soon ? T.soonTag : T.stockTag, l2: p.soon ? T.ref + " " + p.ref : (s.prices[p.i] != null ? "$" + s.prices[p.i] : T.askPrice), bg: { background: p.g, height: "200px", display: "flex", alignItems: "center", justifyContent: "center" }, delay: { animationDelay: (n * 0.05) + "s" } }); };
     var grid = P.filter(function (p) { return p.k === lineK; }).map(function (p, n) { return Object.assign(mk(p, n), { pick: function () { self.setState({ sel: p.i, prevSel: p.i }); } }); });
-    var featured = [0, 7, 14].map(function (i, n) { return Object.assign(mk(P[i], n), { pick: go(P[i].k, i) }); });
+    var featured = [0, 1, 6, 8].map(function (i, n) { return Object.assign(mk(P[i], n), { pick: go(P[i].k, i) }); });
     var lines = {
-      smart: { kicker: T.lines[0][0], title: T.lines[0][1], color: "#5EE7FF", desc: T.lines[0][2] },
-      run: { kicker: T.lines[1][0], title: T.lines[1][1], color: "#3DDC97", desc: T.lines[1][2] },
-      sport: { kicker: T.lines[2][0], title: T.lines[2][1], color: "#FF8A4C", desc: T.lines[2][2] }
+      lux: { kicker: T.lines[0][0], title: T.lines[0][1], color: "#E8C77A", desc: T.lines[0][2] },
+      smart: { kicker: T.lines[1][0], title: T.lines[1][1], color: "#5EE7FF", desc: T.lines[1][2] },
+      run: { kicker: T.lines[2][0], title: T.lines[2][1], color: "#3DDC97", desc: T.lines[2][2] },
+      sport: { kicker: T.lines[3][0], title: T.lines[3][1], color: "#FF8A4C", desc: T.lines[3][2] }
     };
-    var line = Object.assign({}, lines[lineK], { count: T.count });
-    var navDefs = [[T.nav[0], "home"], [T.nav[1], "smart"], [T.nav[2], "run"], [T.nav[3], "sport"]];
+    var line = Object.assign({}, lines[lineK], { count: counts[lineK] + (L === "en" ? " models" : " modelos") });
+    var navDefs = [[T.nav[0], "home"], [T.nav[1], "lux"], [T.nav[2], "smart"], [T.nav[3], "run"], [T.nav[4], "sport"]];
     var navs = navDefs.map(function (n, i) { return { label: n[0], href: "#inicio", cls: s.page === n[1] ? "navbtn on" : "navbtn", pick: n[1] === "home" ? function () { self.setState({ page: "home" }); top(); } : go(n[1]) }; });
-    var thumbs = P.filter(function (p) { return p.k === d.k; }).map(function (p) { return { name: p.name, img: p.img, isFrame: p.isFrame, isShield: p.isShield, cls: p.i === sel ? "thumb on" : "thumb", pick: pick(p.i) }; });
+    var thumbs = P.filter(function (p) { return p.k === d.k; }).map(function (p) { return { name: p.name, img: p.img, isFrame: p.isFrame, isShield: p.isShield, cls: (p.i === sel ? "thumb on" : "thumb") + (p.soon ? " soon" : ""), pick: pick(p.i) }; });
     var fmt = function (n) { return "$" + Number(n).toLocaleString("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 2 }); };
     var total = 0, missing = false;
     var cartItems = s.items.map(function (x, n) { var p = P[x.i]; var pr = s.prices[x.i]; if (pr == null) missing = true; else total += pr * x.qty;
@@ -186,9 +220,9 @@ class App extends Component {
       marquee: T.marquee.concat(T.marquee).map(function (w, n) { return { w: w, st: { color: ["#5EE7FF", "#FF6B2C", "#7B5CFF"][n % 3] } }; }),
       langs: [["en", "EN", "English"], ["es", "ES", "Español"]].map(function (x) { return { label: x[1], aria: x[2], cls: L === x[0] ? "lang on" : "lang", pick: function () { self.setState({ lang: x[0] }); try { document.documentElement.lang = x[0]; window.dispatchEvent(new CustomEvent("vysor:lang", { detail: x[0] })); } catch (e) {}; } }; }),
       cart: s.items.reduce(function (a, x) { return a + x.qty; }, 0), toast: s.toast,
-      addCart: function () { var it = s.items.slice(); var f = it.find(function (x) { return x.i === d.i; }); if (f) f.qty++; else it.push({ i: d.i, qty: 1 }); self.setState({ items: it, toast: true, cartOpen: true, checkoutErr: "" }); clearTimeout(self._t); self._t = setTimeout(function () { self.setState({ toast: false }); }, 2000); },
+      addCart: function () { if (d.soon || s.prices[d.i] == null) return; var it = s.items.slice(); var f = it.find(function (x) { return x.i === d.i; }); if (f) f.qty++; else it.push({ i: d.i, qty: 1 }); self.setState({ items: it, toast: true, cartOpen: true, checkoutErr: "" }); clearTimeout(self._t); self._t = setTimeout(function () { self.setState({ toast: false }); }, 2000); },
       openCart: function () { self.setState({ cartOpen: true }); }, closeCart: function () { self.setState({ cartOpen: false }); },
-      cartOpen: s.cartOpen, cartEmpty: s.items.length === 0, cartItems: cartItems, cartTotal: fmt(total), missingPrice: missing, payDisabled: s.busy || missing || s.items.length === 0, payLabel: s.busy ? T.paying : T.pay, checkoutErr: s.checkoutErr, priceLabel: s.prices[d.i] != null ? fmt(s.prices[d.i]) : T.askPrice,
+      cartOpen: s.cartOpen, cartEmpty: s.items.length === 0, cartItems: cartItems, cartTotal: fmt(total), missingPrice: missing, payDisabled: s.busy || missing || s.items.length === 0, payLabel: s.busy ? T.paying : T.pay, checkoutErr: s.checkoutErr, priceLabel: d.soon ? T.soonTag : (s.prices[d.i] != null ? fmt(s.prices[d.i]) : T.askPrice), soon: !!d.soon, deckSub: (s.deck === "lux" ? (counts.lux + (L === "en" ? " MODELS · IN STOCK" : " MODELOS · EN STOCK")) : T.sevenLaunches), specsNote: d.soon ? T.specsNote : (L === "en" ? "Details taken from the actual piece. Ask us if you need exact measurements." : "Datos tomados de la pieza real. Escríbenos si necesitas medidas exactas."), noPrice: !d.soon && s.prices[d.i] == null, renderNote: d.soon ? T.renderNote : T.photoNote, availTxt: d.soon ? T.soonAvail : T.avail, dotSt: { width: "8px", height: "8px", borderRadius: "99px", background: d.soon ? "#6B7280" : "#3DDC97", animation: d.soon ? "none" : "pulse 1.6s infinite" }, addLabel: d.soon ? T.soonBtn : (s.prices[d.i] == null ? T.askPrice : T.addCart), dateLabel: d.soon ? T.launchUp : (L === "en" ? "STATUS" : "ESTADO"), detCls: d.soon ? "detail soon" : "detail",
       checkout: function () { if (s.busy) return; self.setState({ busy: true, checkoutErr: "" }); try { localStorage.setItem("vysor_cart", JSON.stringify(s.items)); } catch (e) {} fetch("/api/checkout", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ items: s.items, lang: L }) }).then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); }).then(function (res) { if (res.ok && res.j.url) { location.href = res.j.url; } else { self.setState({ busy: false, checkoutErr: (res.j && res.j.error) || T.errGeneric }); } }).catch(function () { self.setState({ busy: false, checkoutErr: T.errGeneric }); }); }
     };
   }
@@ -235,7 +269,7 @@ ${(v.decks || []).map((dk, $index) => html`
 </div>
 <div style="margin-top:26px;display:flex;flex-direction:column;align-items:center;gap:2px">
 <span style="font:600 44px 'Space Grotesk',sans-serif;color:rgba(242,244,248,.14);line-height:1">${v.selNum}</span>
-<span style="font:500 12px Inter,sans-serif;letter-spacing:.42em;color:#AEB6C4">${v.deckLabel} · ${v.t.sevenLaunches}</span>
+<span style="font:500 12px Inter,sans-serif;letter-spacing:.42em;color:#AEB6C4">${v.deckLabel} · ${v.deckSub}</span>
 </div>
 <div class="fanwrap">
 <div class=${v.fanCls} style="position:relative;width:230px;height:420px" onMouseEnter=${v.holdOn} onMouseLeave=${v.holdOff}>
@@ -256,7 +290,7 @@ ${(v.cards || []).map((c, $index) => html`
 <div style="position:absolute;left:18px;right:18px;bottom:18px;text-align:left">
 <div style="font:600 19px/1.15 'Space Grotesk',sans-serif;color:#fff">${c.name}</div>
 <div style="margin-top:6px;font:400 11px/1.4 Inter,sans-serif;color:rgba(255,255,255,.78)">${c.short}</div>
-<div style="margin-top:8px;font:500 10px Inter,sans-serif;letter-spacing:.18em;color:rgba(255,255,255,.9)">${v.t.launchUp} · ${c.date}</div>
+<div style="margin-top:8px;font:500 10px Inter,sans-serif;letter-spacing:.18em;color:rgba(255,255,255,.9)">${c.meta}</div>
 </div>
 </div>
 </div>
@@ -311,14 +345,14 @@ ${(v.cats || []).map((k, $index) => html`
 </div>
 <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px">
 ${(v.featured || []).map((g, $index) => html`
-<a class="pcard" href="#inicio" onClick=${g.pick} style=${g.delay}>
+<a class=${g.pcls} href="#inicio" onClick=${g.pick} style=${g.delay}>
 <div class="pimg" style=${g.bg}>
 <img src=${g.img} alt="" style="height:190px;width:auto;display:block" />
 </div>
 <div style="padding:18px 20px 20px;display:flex;flex-direction:column;gap:6px">
 <span style="font:500 11px Inter,sans-serif;letter-spacing:.24em;color:#8C95A4">${g.cat}</span>
 <span style="font:600 18px 'Space Grotesk',sans-serif">${g.name}</span>
-<div style="display:flex;justify-content:space-between;gap:12px;font-size:13px;color:#AEB6C4"><span>${g.date}</span><span>${v.t.ref} ${g.ref}</span></div>
+<div style="display:flex;justify-content:space-between;gap:12px;font-size:13px;color:#AEB6C4"><span>${g.l1}</span><span>${g.l2}</span></div>
 </div>
 </a>
 `)}
@@ -356,16 +390,16 @@ ${(v.thumbs || []).map((t, $index) => html`
 <img src=${v.d.img} alt=${v.d.name} style="width:100%;height:auto;display:block;filter:drop-shadow(0 40px 40px rgba(0,0,0,.55))" />
 </div>
 <div aria-hidden="true" style="width:60%;height:26px;margin-top:30px;border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.6),transparent)"></div>
-<span style="margin-top:14px;font:500 11px Inter,sans-serif;letter-spacing:.3em;color:#8C95A4">${v.t.renderNote}</span>
+<span style="margin-top:14px;font:500 11px Inter,sans-serif;letter-spacing:.3em;color:#8C95A4">${v.renderNote}</span>
 </div>
 
 <div style="flex:1 1 240px;display:flex;flex-direction:column;gap:22px;padding-top:120px">
-<div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#C3C9D4"><span style="width:8px;height:8px;border-radius:99px;background:#3DDC97;animation:pulse 1.6s infinite"></span>${v.t.avail}</div>
-<div style="display:flex;justify-content:space-between;border-top:1px solid rgba(255,255,255,.1);padding-top:16px"><span style="color:#AEB6C4;font-size:13px;letter-spacing:.2em">${v.t.launchUp}</span><span style="font-size:14px">${v.d.date}</span></div>
+<div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#C3C9D4"><span style=${v.dotSt}></span>${v.availTxt}</div>
+<div style="display:flex;justify-content:space-between;border-top:1px solid rgba(255,255,255,.1);padding-top:16px"><span style="color:#AEB6C4;font-size:13px;letter-spacing:.2em">${v.dateLabel}</span><span style="font-size:14px">${v.d.date}</span></div>
 <div style="display:flex;justify-content:space-between"><span style="color:#AEB6C4;font-size:13px;letter-spacing:.2em">${v.t.refOff}</span><span style="font-size:14px;color:#C3C9D4">${v.d.ref}</span></div>
 <div style="display:flex;justify-content:space-between"><span style="color:#AEB6C4;font-size:13px;letter-spacing:.2em">${v.t.price}</span><span style="font:600 22px 'Space Grotesk',sans-serif">${v.priceLabel}</span></div>
 
-<button class="cta" onClick=${v.addCart} style="justify-content:center;width:100%">${v.t.addCart}</button>
+<button class="cta" onClick=${v.addCart} disabled=${v.soon || v.noPrice} style="justify-content:center;width:100%">${v.addLabel}</button>
 ${v.toast ? html`
 <div role="status" style="font-size:13px;color:#5EE7FF;animation:rise .4s both">✓ ${v.t.added}</div>
 ` : null}
@@ -377,7 +411,7 @@ ${(v.d.feats || []).map((f, $index) => html`<li style="display:flex;gap:10px;ali
 <div style="position:relative;margin-top:44px;border-top:1px solid rgba(255,255,255,.1);padding-top:28px">
 <div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;margin-bottom:18px">
 <h3 style="margin:0;font:600 22px 'Space Grotesk',sans-serif;letter-spacing:.02em">${v.t.specsTitle} · ${v.d.name}</h3>
-<span style="font-size:12px;color:#8C95A4">${v.t.specsNote}</span>
+<span style="font-size:12px;color:#8C95A4">${v.specsNote}</span>
 </div>
 <dl style="margin:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));column-gap:40px">
 ${(v.d.specs || []).map((sp, $index) => html`
@@ -399,14 +433,14 @@ ${(v.d.specs || []).map((sp, $index) => html`
 </div>
 <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px">
 ${(v.grid || []).map((g, $index) => html`
-<a class="pcard" href="#detalle" onClick=${g.pick} style=${g.delay}>
+<a class=${g.pcls} href="#detalle" onClick=${g.pick} style=${g.delay}>
 <div class="pimg" style=${g.bg}>
 <img src=${g.img} alt="" style="height:190px;width:auto;display:block" />
 </div>
 <div style="padding:18px 20px 20px;display:flex;flex-direction:column;gap:6px">
 <span style="font:500 11px Inter,sans-serif;letter-spacing:.24em;color:#8C95A4">${g.cat}</span>
 <span style="font:600 18px 'Space Grotesk',sans-serif">${g.name}</span>
-<div style="display:flex;justify-content:space-between;gap:12px;font-size:13px;color:#AEB6C4"><span>${g.date}</span><span>${v.t.ref} ${g.ref}</span></div>
+<div style="display:flex;justify-content:space-between;gap:12px;font-size:13px;color:#AEB6C4"><span>${g.l1}</span><span>${g.l2}</span></div>
 </div>
 </a>
 `)}
