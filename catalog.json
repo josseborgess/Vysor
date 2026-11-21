@@ -241,35 +241,35 @@
     "index": 31,
     "name": "Chanel Cat-Eye Black Cream",
     "img": "/img/l11.webp?v=1",
-    "price": 250,
+    "price": null,
     "soon": false
   },
   {
     "index": 32,
     "name": "Chanel Cat-Eye White Black",
     "img": "/img/l12.webp?v=1",
-    "price": 250,
+    "price": null,
     "soon": false
   },
   {
     "index": 33,
     "name": "Bottega Veneta BV1273 Black Gold",
     "img": "/img/l13.webp?v=1",
-    "price": 300,
+    "price": null,
     "soon": false
   },
   {
     "index": 34,
     "name": "Miu Miu Oval Black Gold",
     "img": "/img/l14.webp?v=1",
-    "price": 250,
+    "price": null,
     "soon": false
   },
   {
     "index": 35,
     "name": "Prada PR 17WS Tortoise",
     "img": "/img/l15.webp?v=1",
-    "price": 250,
+    "price": null,
     "soon": false
   }
 ]
