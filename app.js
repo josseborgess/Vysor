@@ -54,7 +54,7 @@ class App extends Component {
     var frames = { lux: "#121112", smart: "#14161C", run: "#101418", sport: "#16121A" };
     var idx = { lux: 0, smart: 0, run: 0, sport: 0 };
     P.forEach(function (p, i) { p.i = i; p.isFrame = p.shape === "frame"; p.isShield = p.shape === "shield"; p.g = G[p.k][idx[p.k]++]; p.frame = frames[p.k]; p.img = IMG[i]; });
-    P.forEach(function (p) { p.soon = p.k !== "lux"; if (p.soon) { p.gOrig = p.g; p.g = "linear-gradient(160deg,#111216 0%,#4A4E57 100%)"; } });
+    P.forEach(function (p) { p.soon = p.k !== "lux"; });
     var L = s.lang === "es" ? "es" : "en";
     var EN = [
       { cat: "LUXURY · GUCCI", short: "Wraparound shield in glossy black acetate.", desc: "A single-lens shield with a thick glossy black acetate frame and wide temples engraved with the GUCCI logo.", feats: ["Single shield lens", "Glossy black acetate", "GUCCI logo on the temple"], date: "IN STOCK" },

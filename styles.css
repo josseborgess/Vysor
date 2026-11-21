@@ -87,8 +87,5 @@ html{scroll-behavior:smooth}
 .fanscale.dealt .card.on .inner{transform:translateY(-24px) scale(1.06)}}
 @media (max-width:560px){.fanscale{zoom:.42}.fanwrap{height:240px}}
 /* Próximamente: modelos sin stock en gris */
-.card.soon .glass img,.pcard.soon img,.thumb.soon img{filter:grayscale(1) brightness(.85)}
-.pcard.soon{opacity:.72}
-.pcard.soon:hover{opacity:.9}
 .cta[disabled]:hover{background:#F2F4F8;box-shadow:none}
 @media (max-width:640px){.navbtn{padding:0 11px;font-size:13px;gap:6px}.navpill{scrollbar-width:none}.navpill::-webkit-scrollbar{display:none}}
