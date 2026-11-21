@@ -89,3 +89,33 @@ html{scroll-behavior:smooth}
 /* Próximamente: modelos sin stock en gris */
 .cta[disabled]:hover{background:#F2F4F8;box-shadow:none}
 @media (max-width:640px){.navbtn{padding:0 11px;font-size:13px;gap:6px}.navpill{scrollbar-width:none}.navpill::-webkit-scrollbar{display:none}}
+/* ===== Colección Luxury: línea gráfica "First Drop" (negro cálido, luz ámbar, serif dorado) ===== */
+.luxmode{background:radial-gradient(80% 60% at 50% 0%,#2A1D12 0%,#0B0807 60%) #0B0807 !important;transition:background .6s}
+.luxmode .lkicker{color:#C9A46A !important;letter-spacing:.6em !important}
+.luxmode .line-title{font-family:'Cinzel',serif !important;font-weight:500 !important;letter-spacing:.12em !important;text-transform:uppercase;background:linear-gradient(180deg,#FFF6E4 0%,#E8CFA0 55%,#B8894A 100%);-webkit-background-clip:text;background-clip:text;color:transparent !important}
+.luxmode .line-title::after{content:"";display:block;width:140px;height:1px;margin:22px auto 0;background:linear-gradient(90deg,transparent,#D9B77A,transparent)}
+.luxmode .detbox{background:radial-gradient(70% 70% at 55% 20%,rgba(214,160,88,.22) 0%,rgba(60,40,24,.35) 40%,#0E0A08 80%) !important;border-color:rgba(201,164,106,.22) !important}
+.luxmode .giant{font-family:'Cinzel',serif !important;font-weight:500 !important;letter-spacing:.08em !important;-webkit-text-stroke:1.2px rgba(217,183,122,.22) !important}
+.luxmode .dname{font-family:'Cinzel',serif !important;font-weight:500 !important;letter-spacing:.06em !important;text-transform:uppercase;font-size:34px !important;line-height:1.15 !important;background:linear-gradient(180deg,#FFF6E4,#D9B77A);-webkit-background-clip:text;background-clip:text;color:transparent}
+.luxmode .dname::after{content:"";display:block;width:90px;height:1px;margin-top:16px;background:linear-gradient(90deg,#D9B77A,transparent)}
+.luxmode #detalle span,.luxmode #detalle dt{color:#B9A07A}
+.luxmode .dprice{font-family:'Cinzel',serif !important;color:#F3E3C2 !important;letter-spacing:.04em}
+.luxmode .dshadow{background:radial-gradient(closest-side,rgba(232,176,96,.38),rgba(120,80,40,.15) 60%,transparent) !important;width:75% !important;height:34px !important}
+.luxmode .zoom img{filter:drop-shadow(0 30px 30px rgba(0,0,0,.6)) drop-shadow(0 0 40px rgba(214,160,88,.12)) !important}
+.luxmode .fline{background:#D9B77A !important}
+.luxmode .thumb{background:#14100C;border-color:rgba(201,164,106,.18)}
+.luxmode .thumb.on{border-color:#D9B77A;box-shadow:0 0 16px rgba(217,183,122,.4)}
+.luxmode .cta:not([disabled]){background:linear-gradient(180deg,#F3DDB0,#C9985A);color:#1A120A}
+.luxmode .cta:not([disabled]):hover{background:linear-gradient(180deg,#FFF0CF,#D9AB6A);box-shadow:0 0 30px rgba(217,183,122,.45);color:#1A120A}
+.luxmode .cname{font-family:'Cinzel',serif !important;font-weight:500 !important;letter-spacing:.06em;text-transform:uppercase;font-size:16px !important;color:#F3E3C2 !important}
+.luxmode .face.front{border:1px solid rgba(217,183,122,.25)}
+.luxmode .face.back{background:radial-gradient(100% 70% at 50% 20%,#3A2716,#0B0807) !important}
+.luxmode .face.back span{font-family:'Cinzel',serif !important;color:#D9B77A !important}
+.luxmode .hero-title{font-family:'Cinzel',serif !important;font-weight:500 !important;letter-spacing:.04em !important;background:linear-gradient(180deg,#FFF6E4,#D9B77A);-webkit-background-clip:text;background-clip:text;color:transparent}
+.luxmode .navbtn.on{border-color:rgba(217,183,122,.7);background:rgba(217,183,122,.08);box-shadow:0 0 18px rgba(217,183,122,.22),inset 0 0 12px rgba(217,183,122,.12)}
+.luxmode .card.on .face.front{box-shadow:0 0 0 1.5px #D9B77A,0 30px 80px rgba(217,160,88,.3)}
+.luxmode svg.flow path{stroke:#C9A46A !important}
+.luxmode .face .sheen,.luxmode .face .scanline{opacity:.5}
+.luxmode #detalle h3{font-family:'Cinzel',serif !important;font-weight:500 !important;letter-spacing:.06em !important;color:#F3E3C2}
+.luxmode #detalle dd{color:#F3E3C2 !important}
+.luxmode .cbadge{background:#D9B77A !important;color:#1A120A !important}

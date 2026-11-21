@@ -12,7 +12,7 @@ class App extends Component {
     var self = this;
     var s = this.state;
     var G = {
-      lux: ["linear-gradient(160deg,#0A0A0C 0%,#3A3A42 100%)", "linear-gradient(160deg,#1B1410 0%,#B8743A 100%)", "linear-gradient(160deg,#1E1A06 0%,#B89A1E 100%)", "linear-gradient(160deg,#1C0E05 0%,#A8551E 100%)", "linear-gradient(160deg,#0E1208 0%,#5E6A3A 100%)", "linear-gradient(160deg,#04180C 0%,#1F8A4C 100%)", "linear-gradient(160deg,#2A0606 0%,#B3121B 100%)", "linear-gradient(160deg,#0B0B0B 0%,#4B4F57 100%)", "linear-gradient(160deg,#2A0A14 0%,#E07A93 100%)", "linear-gradient(160deg,#1A0A1E 0%,#8E3FA0 100%)"],
+      lux: ["radial-gradient(120% 75% at 50% 12%,#7A5530 0%,#2A1C12 42%,#0B0807 100%)","radial-gradient(120% 75% at 50% 12%,#7A5530 0%,#2A1C12 42%,#0B0807 100%)","radial-gradient(120% 75% at 50% 12%,#7A5530 0%,#2A1C12 42%,#0B0807 100%)","radial-gradient(120% 75% at 50% 12%,#7A5530 0%,#2A1C12 42%,#0B0807 100%)","radial-gradient(120% 75% at 50% 12%,#7A5530 0%,#2A1C12 42%,#0B0807 100%)","radial-gradient(120% 75% at 50% 12%,#7A5530 0%,#2A1C12 42%,#0B0807 100%)","radial-gradient(120% 75% at 50% 12%,#7A5530 0%,#2A1C12 42%,#0B0807 100%)","radial-gradient(120% 75% at 50% 12%,#7A5530 0%,#2A1C12 42%,#0B0807 100%)","radial-gradient(120% 75% at 50% 12%,#7A5530 0%,#2A1C12 42%,#0B0807 100%)","radial-gradient(120% 75% at 50% 12%,#7A5530 0%,#2A1C12 42%,#0B0807 100%)"],
       smart: ["linear-gradient(160deg,#1A0B33 0%,#7B5CFF 100%)", "linear-gradient(160deg,#071A3A 0%,#2E6EFF 100%)", "linear-gradient(180deg,#DCEBF5 0%,#33507A 55%,#0A1220 100%)", "linear-gradient(160deg,#2A0F3D 0%,#C04DFF 100%)", "linear-gradient(160deg,#04202E 0%,#1FA3C9 100%)", "linear-gradient(160deg,#141414 0%,#5C5C6E 100%)", "linear-gradient(160deg,#0B2433 0%,#5EE7FF 100%)"],
       run: ["linear-gradient(160deg,#04262A 0%,#1FB5A3 100%)", "linear-gradient(160deg,#3A1405 0%,#FF6B2C 100%)", "linear-gradient(160deg,#06220F 0%,#3DDC97 100%)", "linear-gradient(160deg,#2B1A04 0%,#E0A526 100%)", "linear-gradient(160deg,#0A0F1F 0%,#3B5BDB 100%)", "linear-gradient(160deg,#1C2414 0%,#8FB339 100%)", "linear-gradient(160deg,#2B0A18 0%,#E0457B 100%)"],
       sport: ["linear-gradient(160deg,#5A0E0E 0%,#FF4A3D 100%)", "linear-gradient(160deg,#3A1405 0%,#FF8A4C 100%)", "linear-gradient(160deg,#2B0A18 0%,#B0204F 100%)", "linear-gradient(160deg,#141414 0%,#C8A15A 100%)", "linear-gradient(170deg,#C9D6E6 0%,#5B6B86 60%,#141A26 100%)", "linear-gradient(170deg,#E8F1F8 0%,#7EA6C8 55%,#0E1A2A 100%)", "linear-gradient(160deg,#1A1A1A 0%,#FF5E3A 100%)"]
@@ -140,7 +140,7 @@ class App extends Component {
       marquee: ["GUCCI", "BOTTEGA VENETA", "CARTIER", "PRADA", "MIU MIU", "FERRAGAMO"],
       nav: ["Home", "Luxury", "Smart", "Running", "Sport"], decks: ["Luxury", "Smart", "Running", "Sport"], deckNames: ["LUXURY EYEWEAR", "SMART GLASSES · COMING SOON", "RUNNING · COMING SOON", "SPORT · COMING SOON"],
       cats: [["Available now", "Luxury"], ["Coming soon", "Smart Glasses"], ["Coming soon", "Running"], ["Coming soon", "Sport"]],
-      lines: [["LUXURY EYEWEAR · IN STOCK", "Luxury", "Gucci, Bottega Veneta, Cartier, Prada, Miu Miu and Salvatore Ferragamo. Every photo shows the actual piece."], ["SMART GLASSES · COMING SOON", "Smart Glasses", "Glasses with camera, audio, AI and displays: Meta, Samsung, Snap and Even Realities. Coming soon."], ["RUNNING · COMING SOON", "Running", "Light, bounce-free shields for road, trail and marathon. Coming soon."], ["SPORT · COMING SOON", "Sport", "Road cycling and snow goggles from this season. Coming soon."]]
+      lines: [["VISORS · FIRST DROP · IN STOCK", "Luxury", "Gucci, Bottega Veneta, Cartier, Prada, Miu Miu and Salvatore Ferragamo. Luxury has a new look."], ["SMART GLASSES · COMING SOON", "Smart Glasses", "Glasses with camera, audio, AI and displays: Meta, Samsung, Snap and Even Realities. Coming soon."], ["RUNNING · COMING SOON", "Running", "Light, bounce-free shields for road, trail and marathon. Coming soon."], ["SPORT · COMING SOON", "Sport", "Road cycling and snow goggles from this season. Coming soon."]]
     } : {
       kicker: "VISIÓN · TECNOLOGÍA · RENDIMIENTO", specsTitle: "Ficha técnica", cartAria: "Carrito", cartTitle: "Tu carrito", close: "Cerrar", cartEmpty: "Tu carrito está vacío.", remove: "Quitar", total: "Total", pay: "Pagar con tarjeta", paying: "Redirigiendo al pago seguro…", secure: "Pago seguro con Stripe · Tarjetas, Apple Pay y Google Pay", missingPrice: "Algunos productos aún no tienen precio. Escríbenos para completar tu pedido.", askPrice: "Precio a consultar", errGeneric: "No pudimos iniciar el pago. Inténtalo de nuevo.", specsNote: "Datos de fuentes oficiales y tiendas. Pueden variar por versión y región.", h1a: "El futuro", h1b: "se ve distinto.", launchUp: "LANZAMIENTO", sevenLaunches: "7 LANZAMIENTOS", view: "Ver ",
       catH1: "Lujo hoy.", catH2: "Tecnología muy pronto.", catP: "Nuestra colección de diseñador ya está disponible. Las gafas inteligentes, de running y de deporte llegan muy pronto.", seeModels: "Ver modelos", modelsSp: " modelos",
@@ -151,7 +151,7 @@ class App extends Component {
       marquee: ["GUCCI", "BOTTEGA VENETA", "CARTIER", "PRADA", "MIU MIU", "FERRAGAMO"],
       nav: ["Inicio", "Lujo", "Smart", "Running", "Deporte"], decks: ["Lujo", "Smart", "Running", "Deporte"], deckNames: ["GAFAS DE LUJO", "SMART GLASSES · PRÓXIMAMENTE", "RUNNING · PRÓXIMAMENTE", "DEPORTE · PRÓXIMAMENTE"],
       cats: [["Disponibles ya", "Lujo"], ["Próximamente", "Smart Glasses"], ["Próximamente", "Running"], ["Próximamente", "Deporte"]],
-      lines: [["GAFAS DE LUJO · EN STOCK", "Lujo", "Gucci, Bottega Veneta, Cartier, Prada, Miu Miu y Salvatore Ferragamo. Cada foto muestra la pieza real."], ["SMART GLASSES · PRÓXIMAMENTE", "Smart Glasses", "Gafas con cámara, audio, IA y pantalla: Meta, Samsung, Snap y Even Realities. Muy pronto."], ["RUNNING · PRÓXIMAMENTE", "Running", "Escudos ligeros y sin rebote para ruta, trail y maratón. Muy pronto."], ["DEPORTE · PRÓXIMAMENTE", "Deporte", "Ciclismo de ruta y máscaras de nieve de la temporada. Muy pronto."]]
+      lines: [["VISORS · FIRST DROP · EN STOCK", "Lujo", "Gucci, Bottega Veneta, Cartier, Prada, Miu Miu y Salvatore Ferragamo. El lujo tiene una nueva mirada."], ["SMART GLASSES · PRÓXIMAMENTE", "Smart Glasses", "Gafas con cámara, audio, IA y pantalla: Meta, Samsung, Snap y Even Realities. Muy pronto."], ["RUNNING · PRÓXIMAMENTE", "Running", "Escudos ligeros y sin rebote para ruta, trail y maratón. Muy pronto."], ["DEPORTE · PRÓXIMAMENTE", "Deporte", "Ciclismo de ruta y máscaras de nieve de la temporada. Muy pronto."]]
     };
     var deckNames = { lux: T.deckNames[0], smart: T.deckNames[1], run: T.deckNames[2], sport: T.deckNames[3] };
     var animByDeck = { lux: "deal0", smart: "deal1", run: "deal2", sport: "deal0" };
@@ -213,7 +213,7 @@ class App extends Component {
       selNum: "0" + ((selInDeck < 0 ? 0 : selInDeck) + 1),
       deckLabel: deckNames[s.deck],
       cards: cards, decks: decks, cats: cats, grid: grid, navs: navs, thumbs: thumbs, lenses: lenses,
-      isHome: s.page === "home", isLine: s.page !== "home", line: line, featured: featured, deckShort: deckDefs.filter(function (x) { return x[0] === s.deck; })[0][1], deckCta: T.seeLine + deckDefs.filter(function (x) { return x[0] === s.deck; })[0][1] + T.lineSuf, fanCls: s.dealt ? "fanscale dealt" : "fanscale",
+      isHome: s.page === "home", luxCls: ((s.page === "lux") || (s.page === "home" && s.deck === "lux")) ? "luxmode" : "", isLine: s.page !== "home", line: line, featured: featured, deckShort: deckDefs.filter(function (x) { return x[0] === s.deck; })[0][1], deckCta: T.seeLine + deckDefs.filter(function (x) { return x[0] === s.deck; })[0][1] + T.lineSuf, fanCls: s.dealt ? "fanscale dealt" : "fanscale",
       goHome: function () { self.setState({ page: "home" }); top(); }, goSel: go(d.k, d.i), goDeck: go(s.deck),
       holdOn: function () { self.setState({ hold: true }); }, holdOff: function () { self.setState({ hold: false }); },
       t: Object.assign({}, T, { viewSel: T.view + d.name, added: d.name + T.addedSuf, allLine: (L === "en" ? "All " + line.title + " models" : "Todos los modelos " + line.title) }),
@@ -227,7 +227,7 @@ class App extends Component {
     };
   }
   render() { const v = this.renderVals(); return html`
-<div id="inicio" style="width:100%;min-height:100vh;background:#06070A;color:#F2F4F8;font-family:Inter,sans-serif;position:relative;overflow:hidden">
+<div id="inicio" class=${v.luxCls} style="width:100%;min-height:100vh;background:#06070A;color:#F2F4F8;font-family:Inter,sans-serif;position:relative;overflow:hidden">
 
 
 <header style="position:sticky;top:0;z-index:50;display:flex;justify-content:center;align-items:center;gap:16px;padding:18px 16px;flex-wrap:wrap">
@@ -238,7 +238,7 @@ ${(v.navs || []).map((n, $index) => html`
 `)}
 <button class="navbtn" style="background:none;cursor:pointer" onClick=${v.openCart} aria-label=${v.t.cartAria}>
 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M5 7h14l-1.4 11.2a2 2 0 0 1-2 1.8H8.4a2 2 0 0 1-2-1.8z"></path><path d="M9 7V5.5a3 3 0 0 1 6 0V7"></path></svg>
-<span style="min-width:22px;height:22px;border-radius:999px;background:#5EE7FF;color:#06070A;font:600 12px Inter,sans-serif;display:inline-flex;align-items:center;justify-content:center">${v.cart}</span>
+<span class="cbadge" style="min-width:22px;height:22px;border-radius:999px;background:#5EE7FF;color:#06070A;font:600 12px Inter,sans-serif;display:inline-flex;align-items:center;justify-content:center">${v.cart}</span>
 </button>
 </nav>
 <div class="langpill" role="group" aria-label="Language / Idioma">
@@ -288,7 +288,7 @@ ${(v.cards || []).map((c, $index) => html`
 <div style="position:absolute;top:16px;left:16px;right:16px;display:flex;justify-content:space-between;font:500 10px Inter,sans-serif;letter-spacing:.24em;color:rgba(255,255,255,.75)"><span>${c.num}</span><span>${c.ref}</span></div>
 <div class="glass"><img src=${c.img} alt="" /></div>
 <div style="position:absolute;left:18px;right:18px;bottom:18px;text-align:left">
-<div style="font:600 19px/1.15 'Space Grotesk',sans-serif;color:#fff">${c.name}</div>
+<div class="cname" style="font:600 19px/1.15 'Space Grotesk',sans-serif;color:#fff">${c.name}</div>
 <div style="margin-top:6px;font:400 11px/1.4 Inter,sans-serif;color:rgba(255,255,255,.78)">${c.short}</div>
 <div style="margin-top:8px;font:500 10px Inter,sans-serif;letter-spacing:.18em;color:rgba(255,255,255,.9)">${c.meta}</div>
 </div>
@@ -363,18 +363,18 @@ ${(v.featured || []).map((g, $index) => html`
 ${v.isLine ? html`
 
 <section style="position:relative;max-width:1320px;margin:0 auto;padding:40px 24px 0;text-align:center;animation:rise .7s both">
-<p style="margin:0;font:500 12px Inter,sans-serif;letter-spacing:.42em;color:${v.line.color}">${v.line.kicker}</p>
+<p class="lkicker" style="margin:0;font:500 12px Inter,sans-serif;letter-spacing:.42em;color:${v.line.color}">${v.line.kicker}</p>
 <h1 class="line-title" style="margin:14px 0 0;font:600 88px/1 'Space Grotesk',sans-serif;letter-spacing:-.03em">${v.line.title}</h1>
 <p style="margin:18px auto 0;max-width:560px;color:#AEB6C4;font-size:16px;line-height:1.6">${v.line.desc}</p>
 </section>
 
 <section id="detalle" style="position:relative;margin:56px auto 0;max-width:1320px;padding:0 24px">
-<div style="position:relative;border-radius:36px;overflow:hidden;background:radial-gradient(90% 120% at 50% 0%, rgba(255,255,255,.06), #0B0D12 70%);border:1px solid rgba(255,255,255,.06);padding:48px 40px 40px">
+<div class="detbox" style="position:relative;border-radius:36px;overflow:hidden;background:radial-gradient(90% 120% at 50% 0%, rgba(255,255,255,.06), #0B0D12 70%);border:1px solid rgba(255,255,255,.06);padding:48px 40px 40px">
 <div class="giant" aria-hidden="true" style="position:absolute;top:-10px;left:0;right:0;text-align:center;font:700 200px/1 'Space Grotesk',sans-serif;letter-spacing:-.04em;color:transparent;-webkit-text-stroke:1.5px rgba(255,255,255,.16);white-space:nowrap;pointer-events:none">${v.d.word}</div>
 <div style="position:relative;display:flex;flex-wrap:wrap;gap:40px;align-items:stretch">
 <div style="flex:1 1 260px;display:flex;flex-direction:column;gap:18px;padding-top:120px">
 <span style="font:500 12px Inter,sans-serif;letter-spacing:.3em;color:#AEB6C4">${v.d.cat}</span>
-<h2 style="margin:0;font:600 40px/1.05 'Space Grotesk',sans-serif">${v.d.name}</h2>
+<h2 class="dname" style="margin:0;font:600 40px/1.05 'Space Grotesk',sans-serif">${v.d.name}</h2>
 <p style="margin:0;color:#C3C9D4;font-size:15px;line-height:1.65;max-width:340px">${v.d.desc}</p>
 <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:6px">
 ${(v.thumbs || []).map((t, $index) => html`
@@ -389,7 +389,7 @@ ${(v.thumbs || []).map((t, $index) => html`
 <div style="width:100%;max-width:560px;animation:floaty 6s ease-in-out infinite">
 <img src=${v.d.img} alt=${v.d.name} style="width:100%;height:auto;display:block;filter:drop-shadow(0 40px 40px rgba(0,0,0,.55))" />
 </div>
-<div aria-hidden="true" style="width:60%;height:26px;margin-top:30px;border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.6),transparent)"></div>
+<div class="dshadow" aria-hidden="true" style="width:60%;height:26px;margin-top:30px;border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.6),transparent)"></div>
 <span style="margin-top:14px;font:500 11px Inter,sans-serif;letter-spacing:.3em;color:#8C95A4">${v.renderNote}</span>
 </div>
 
@@ -397,14 +397,14 @@ ${(v.thumbs || []).map((t, $index) => html`
 <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#C3C9D4"><span style=${v.dotSt}></span>${v.availTxt}</div>
 <div style="display:flex;justify-content:space-between;border-top:1px solid rgba(255,255,255,.1);padding-top:16px"><span style="color:#AEB6C4;font-size:13px;letter-spacing:.2em">${v.dateLabel}</span><span style="font-size:14px">${v.d.date}</span></div>
 <div style="display:flex;justify-content:space-between"><span style="color:#AEB6C4;font-size:13px;letter-spacing:.2em">${v.t.refOff}</span><span style="font-size:14px;color:#C3C9D4">${v.d.ref}</span></div>
-<div style="display:flex;justify-content:space-between"><span style="color:#AEB6C4;font-size:13px;letter-spacing:.2em">${v.t.price}</span><span style="font:600 22px 'Space Grotesk',sans-serif">${v.priceLabel}</span></div>
+<div style="display:flex;justify-content:space-between"><span style="color:#AEB6C4;font-size:13px;letter-spacing:.2em">${v.t.price}</span><span class="dprice" style="font:600 22px 'Space Grotesk',sans-serif">${v.priceLabel}</span></div>
 
 <button class="cta" onClick=${v.addCart} disabled=${v.soon || v.noPrice} style="justify-content:center;width:100%">${v.addLabel}</button>
 ${v.toast ? html`
 <div role="status" style="font-size:13px;color:#5EE7FF;animation:rise .4s both">✓ ${v.t.added}</div>
 ` : null}
 <ul style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px;font-size:13px;color:#C3C9D4">
-${(v.d.feats || []).map((f, $index) => html`<li style="display:flex;gap:10px;align-items:center"><span style="width:16px;height:1px;background:#5EE7FF"></span>${f}</li>`)}
+${(v.d.feats || []).map((f, $index) => html`<li style="display:flex;gap:10px;align-items:center"><span class="fline" style="width:16px;height:1px;background:#5EE7FF"></span>${f}</li>`)}
 </ul>
 </div>
 </div>
