@@ -257,8 +257,8 @@ class App extends Component {
 <div id="inicio" class=${v.luxCls} style="width:100%;min-height:100vh;background:#06070A;color:#F2F4F8;font-family:Inter,sans-serif;position:relative;overflow:hidden">
 
 
-<header style="position:sticky;top:0;z-index:50;display:flex;justify-content:center;align-items:center;gap:16px;padding:18px 16px;flex-wrap:wrap">
-<a href="#inicio" onClick=${v.goHome} style="font:700 20px 'Space Grotesk',sans-serif;letter-spacing:.32em;color:#F2F4F8;text-decoration:none;min-height:44px;display:flex;align-items:center">VISORS</a>
+<header class="topbar" style="position:sticky;top:0;z-index:50;display:flex;justify-content:center;align-items:center;gap:16px;padding:18px 16px;flex-wrap:wrap">
+<a class="logo" href="#inicio" onClick=${v.goHome} style="font:700 20px 'Space Grotesk',sans-serif;letter-spacing:.32em;color:#F2F4F8;text-decoration:none;min-height:44px;display:flex;align-items:center">VISORS</a>
 <nav class="navpill lqbar" aria-label="Principal">
 <span class="lq" aria-hidden="true"></span>
 ${(v.navs || []).map((n, $index) => html`
@@ -288,7 +288,7 @@ ${(v.langs || []).map((lg, $index) => html`
 ${v.isHome ? html`
 
 <section style="position:relative;max-width:1320px;margin:0 auto;padding:24px 24px 0;text-align:center">
-<p style="margin:12px 0 0;font:500 12px Inter,sans-serif;letter-spacing:.42em;color:#9AA3B2;animation:rise .8s both">${v.t.kicker}</p>
+<p class="kick" style="margin:12px 0 0;font:500 12px Inter,sans-serif;letter-spacing:.42em;color:#9AA3B2;animation:rise .8s both">${v.t.kicker}</p>
 <h1 class="hero-title" style="margin:14px auto 0;max-width:980px;font:600 76px/1 'Space Grotesk',sans-serif;letter-spacing:-.03em;animation:rise .9s .1s both">${v.t.h1a}<br />${v.t.h1b}</h1>
 <div style="margin-top:34px;display:flex;justify-content:center"><div class="deckbar lqbar" role="group" aria-label="Elegir línea">
 <span class="lq" aria-hidden="true"></span>
@@ -299,7 +299,7 @@ ${(v.decks || []).map((dk, $index) => html`
 </div>
 <div style="margin-top:26px;display:flex;flex-direction:column;align-items:center;gap:2px">
 <span style="font:600 44px 'Space Grotesk',sans-serif;color:rgba(242,244,248,.14);line-height:1">${v.selNum}</span>
-<span style="font:500 12px Inter,sans-serif;letter-spacing:.42em;color:#AEB6C4">${v.deckLabel} · ${v.deckSub}</span>
+<span class="kick" style="font:500 12px Inter,sans-serif;letter-spacing:.42em;color:#AEB6C4">${v.deckLabel} · ${v.deckSub}</span>
 </div>
 <div class="fanwrap">
 <div class=${v.fanCls} style="position:relative;width:230px;height:420px" onMouseEnter=${v.holdOn} onMouseLeave=${v.holdOff}>
@@ -373,7 +373,7 @@ ${(v.cats || []).map((k, $index) => html`
 <h2 style="margin:0;font:600 48px/1.05 'Space Grotesk',sans-serif;letter-spacing:-.02em">${v.t.newest}</h2>
 <p style="margin:0;max-width:380px;color:#9AA3B2;font-size:15px;line-height:1.6">${v.t.newestP}</p>
 </div>
-<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px">
+<div class="pgrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px">
 ${(v.featured || []).map((g, $index) => html`
 <a class=${g.pcls} href="#inicio" onClick=${g.pick} style=${g.delay}>
 <div class="pimg" style=${g.bg}>
@@ -402,11 +402,11 @@ ${v.isLine ? html`
 <div class="detbox" style="position:relative;border-radius:36px;overflow:hidden;background:radial-gradient(90% 120% at 50% 0%, rgba(255,255,255,.06), #0B0D12 70%);border:1px solid rgba(255,255,255,.06);padding:48px 40px 40px">
 <div class="giant" aria-hidden="true" style="position:absolute;top:-10px;left:0;right:0;text-align:center;font:700 200px/1 'Space Grotesk',sans-serif;letter-spacing:-.04em;color:transparent;-webkit-text-stroke:1.5px rgba(255,255,255,.16);white-space:nowrap;pointer-events:none">${v.d.word}</div>
 <div style="position:relative;display:flex;flex-wrap:wrap;gap:40px;align-items:stretch">
-<div style="flex:1 1 260px;display:flex;flex-direction:column;gap:18px;padding-top:120px">
+<div class="dcol-l" style="flex:1 1 260px;display:flex;flex-direction:column;gap:18px;padding-top:120px">
 <span style="font:500 12px Inter,sans-serif;letter-spacing:.3em;color:#AEB6C4">${v.d.cat}</span>
 <h2 class="dname" style="margin:0;font:600 40px/1.05 'Space Grotesk',sans-serif">${v.d.name}</h2>
 <p style="margin:0;color:#C3C9D4;font-size:15px;line-height:1.65;max-width:340px">${v.d.desc}</p>
-<div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:6px">
+<div class="thumbs" style="display:flex;gap:10px;flex-wrap:wrap;margin-top:6px">
 ${(v.thumbs || []).map((t, $index) => html`
 <button class=${t.cls} onClick=${t.pick} aria-label=${t.name}>
 <img src=${t.img} alt="" style="height:52px;width:auto;display:block" />
@@ -423,7 +423,7 @@ ${(v.thumbs || []).map((t, $index) => html`
 <span style="margin-top:14px;font:500 11px Inter,sans-serif;letter-spacing:.3em;color:#8C95A4">${v.renderNote}</span>
 </div>
 
-<div style="flex:1 1 240px;display:flex;flex-direction:column;gap:22px;padding-top:120px">
+<div class="dcol-r" style="flex:1 1 240px;display:flex;flex-direction:column;gap:22px;padding-top:120px">
 <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#C3C9D4"><span style=${v.dotSt}></span>${v.availTxt}</div>
 <div style="display:flex;justify-content:space-between;border-top:1px solid rgba(255,255,255,.1);padding-top:16px"><span style="color:#AEB6C4;font-size:13px;letter-spacing:.2em">${v.dateLabel}</span><span style="font-size:14px">${v.d.date}</span></div>
 <div style="display:flex;justify-content:space-between"><span style="color:#AEB6C4;font-size:13px;letter-spacing:.2em">${v.t.refOff}</span><span style="font-size:14px;color:#C3C9D4">${v.d.ref}</span></div>
@@ -461,7 +461,7 @@ ${(v.d.specs || []).map((sp, $index) => html`
 <h2 style="margin:0;font:600 48px/1.05 'Space Grotesk',sans-serif;letter-spacing:-.02em">${v.t.allLine}</h2>
 <span style="color:#9AA3B2;font-size:15px">${v.line.count}</span>
 </div>
-<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px">
+<div class="pgrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px">
 ${(v.grid || []).map((g, $index) => html`
 <a class=${g.pcls} href="#detalle" onClick=${g.pick} style=${g.delay}>
 <div class="pimg" style=${g.bg}>
