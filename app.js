@@ -1,6 +1,14 @@
 import { h, render, Component } from "/vendor/preact.module.js";
 import htm from "/vendor/htm.module.js";
 const html = htm.bind(h);
+
+const ICO = {
+  home: html`<svg class="ic" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"/><path d="M5.5 9v10.5h13V9"/><path d="M10 19.5v-5h4v5"/></svg>`,
+  lux: html`<svg class="ic" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3.5h12l3.5 5L12 20.5 2.5 8.5z"/><path d="M2.5 8.5h19M9 3.5l3 17 3-17"/></svg>`,
+  smart: html`<svg class="ic" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6.5" cy="14" r="3.5"/><circle cx="17.5" cy="14" r="3.5"/><path d="M10 14h4M3 14V9l2-3M21 14V9l-2-3"/><path d="M17.5 4.5v2M19 5.5h-3" /></svg>`,
+  run: html`<svg class="ic" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2.5 5 13.5h6l-1 8 8-11h-6z"/></svg>`,
+  sport: html`<svg class="ic" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2"/></svg>`
+};
 class App extends Component {
   constructor(p){ super(p); this.state = { items: [], cartOpen: false, prices: {}, busy: false, checkoutErr: "", lang: "en", page: "home", deck: "lux", sel: 3, prevSel: 3, dealt: false, cart: 0, toast: false, hold: false }; }
   _deal(){ var self = this; clearTimeout(this._dt); this._dt = setTimeout(function () { self.setState({ dealt: true }); }, 2700); }
@@ -191,7 +199,7 @@ class App extends Component {
       return Object.assign({}, p, { num: (j < 9 ? "0" : "") + (j + 1), cls: (p.i === sel ? "card on" : "card") + (p.soon ? " soon" : ""), meta: p.soon ? T.soonTag : (s.prices[p.i] != null ? (p.isNew ? T.newTag : T.stockTag) + " · $" + s.prices[p.i] : T.stockTag), pick: pick(p.i), pos: (function () { var op = ((j - cp + n * 2 + 3) % n) - 3; var wrap = s.dealt && !hid && (Math.abs(op) > 3 || Math.abs(o - op) > 3); var st = { transform: t, zIndex: hid ? 0 : 10 - Math.abs(o), left: 0, opacity: hid ? 0 : 1, pointerEvents: hid ? "none" : "auto" }; if (wrap) { st.transition = "none"; st.animation = "popin .9s ease both"; } return st; })(), dealStyle: s.dealt ? { animationName: "none" } : { animationName: animByDeck[s.deck], animationDelay: (0.15 + Math.min(Math.abs(o), 4) * 0.12) + "s" }, flipStyle: s.dealt ? { animationName: "none" } : { animationName: "flip" + animByDeck[s.deck].slice(-1), animationDelay: (0.9 + (o + 3) * 0.14) + "s" }, bg: { background: p.g } });
     });
     var deckDefs = [["lux", T.decks[0]], ["smart", T.decks[1]], ["run", T.decks[2]], ["sport", T.decks[3]]];
-    var decks = deckDefs.map(function (dk) { return { label: dk[1], cls: s.deck === dk[0] ? "tab on" : "tab", pick: function () { var first = P.filter(function (p) { return p.k === dk[0]; })[3]; self.setState({ deck: dk[0], sel: first.i, prevSel: first.i, dealt: false }); self._deal(); } }; });
+    var decks = deckDefs.map(function (dk) { return { icon: ICO[dk[0]], label: dk[1], cls: s.deck === dk[0] ? "tab on" : "tab", pick: function () { var first = P.filter(function (p) { return p.k === dk[0]; })[3]; self.setState({ deck: dk[0], sel: first.i, prevSel: first.i, dealt: false }); self._deal(); } }; });
     var lensDefs = [
       { name: "Transparente", color: "#BFD9EE", bg: "radial-gradient(circle at 35% 30%,#fff,#9FC3DF)" },
       { name: "Polarizada", color: "#141820", bg: "radial-gradient(circle at 35% 30%,#4A5568,#0B0D12)" },
@@ -219,7 +227,7 @@ class App extends Component {
     };
     var line = Object.assign({}, lines[lineK], { count: counts[lineK] + (L === "en" ? " models" : " modelos") });
     var navDefs = [[T.nav[0], "home"], [T.nav[1], "lux"], [T.nav[2], "smart"], [T.nav[3], "run"], [T.nav[4], "sport"]];
-    var navs = navDefs.map(function (n, i) { return { label: n[0], href: "#inicio", cls: s.page === n[1] ? "navbtn on" : "navbtn", pick: n[1] === "home" ? function () { self.setState({ page: "home" }); top(); } : go(n[1]) }; });
+    var navs = navDefs.map(function (n, i) { return { icon: ICO[n[1]], label: n[0], href: "#inicio", cls: s.page === n[1] ? "navbtn on" : "navbtn", pick: n[1] === "home" ? function () { self.setState({ page: "home" }); top(); } : go(n[1]) }; });
     var thumbs = P.filter(function (p) { return p.k === d.k; }).map(function (p) { return { name: p.name, img: p.img, isFrame: p.isFrame, isShield: p.isShield, cls: (p.i === sel ? "thumb on" : "thumb") + (p.soon ? " soon" : ""), pick: pick(p.i) }; });
     var fmt = function (n) { return "$" + Number(n).toLocaleString("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 2 }); };
     var total = 0, missing = false;
@@ -251,9 +259,10 @@ class App extends Component {
 
 <header style="position:sticky;top:0;z-index:50;display:flex;justify-content:center;align-items:center;gap:16px;padding:18px 16px;flex-wrap:wrap">
 <a href="#inicio" onClick=${v.goHome} style="font:700 20px 'Space Grotesk',sans-serif;letter-spacing:.32em;color:#F2F4F8;text-decoration:none;min-height:44px;display:flex;align-items:center">VISORS</a>
-<nav class="navpill" aria-label="Principal">
+<nav class="navpill lqbar" aria-label="Principal">
+<span class="lq" aria-hidden="true"></span>
 ${(v.navs || []).map((n, $index) => html`
-<a class=${n.cls} href=${n.href} onClick=${n.pick}>${n.label}</a>
+<a class=${n.cls} href=${n.href} onClick=${n.pick}>${n.icon}<span>${n.label}</span></a>
 `)}
 <button class="navbtn" style="background:none;cursor:pointer" onClick=${v.openCart} aria-label=${v.t.cartAria}>
 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M5 7h14l-1.4 11.2a2 2 0 0 1-2 1.8H8.4a2 2 0 0 1-2-1.8z"></path><path d="M9 7V5.5a3 3 0 0 1 6 0V7"></path></svg>
@@ -281,10 +290,12 @@ ${v.isHome ? html`
 <section style="position:relative;max-width:1320px;margin:0 auto;padding:24px 24px 0;text-align:center">
 <p style="margin:12px 0 0;font:500 12px Inter,sans-serif;letter-spacing:.42em;color:#9AA3B2;animation:rise .8s both">${v.t.kicker}</p>
 <h1 class="hero-title" style="margin:14px auto 0;max-width:980px;font:600 76px/1 'Space Grotesk',sans-serif;letter-spacing:-.03em;animation:rise .9s .1s both">${v.t.h1a}<br />${v.t.h1b}</h1>
-<div style="margin-top:34px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap" role="group" aria-label="Elegir línea">
+<div style="margin-top:34px;display:flex;justify-content:center"><div class="deckbar lqbar" role="group" aria-label="Elegir línea">
+<span class="lq" aria-hidden="true"></span>
 ${(v.decks || []).map((dk, $index) => html`
-<button class=${dk.cls} onClick=${dk.pick}>${dk.label}</button>
+<button class=${dk.cls} onClick=${dk.pick}>${dk.icon}<span>${dk.label}</span></button>
 `)}
+</div>
 </div>
 <div style="margin-top:26px;display:flex;flex-direction:column;align-items:center;gap:2px">
 <span style="font:600 44px 'Space Grotesk',sans-serif;color:rgba(242,244,248,.14);line-height:1">${v.selNum}</span>

@@ -119,3 +119,33 @@ html{scroll-behavior:smooth}
 .luxmode #detalle h3{font-family:'Cinzel',serif !important;font-weight:500 !important;letter-spacing:.06em !important;color:#F3E3C2}
 .luxmode #detalle dd{color:#F3E3C2 !important}
 .luxmode .cbadge{background:#D9B77A !important;color:#1A120A !important}
+/* ===== Barra "liquid glass" (menú superior y selector de colecciones) ===== */
+@property --lqa{syntax:'<angle>';initial-value:0deg;inherits:false}
+.lqbar{position:relative;isolation:isolate}
+.lqbar>.lq{position:absolute;top:6px;bottom:6px;left:6px;width:0;border-radius:999px;pointer-events:none;z-index:0;opacity:0;transform-origin:center;
+  background:linear-gradient(180deg,rgba(255,255,255,.14),rgba(255,255,255,.04));
+  box-shadow:inset 0 1px 1px rgba(255,255,255,.35),inset 0 -6px 12px rgba(150,170,255,.10),0 8px 22px rgba(120,140,255,.22),0 0 0 .5px rgba(255,255,255,.12);
+  backdrop-filter:blur(6px) saturate(160%);-webkit-backdrop-filter:blur(6px) saturate(160%);transition:opacity .3s}
+.lqbar>.lq::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1.6px;
+  background:conic-gradient(from var(--lqa),#B9A2FF,#86CFFF,#8FF2CF,#FFB8E4,#B9A2FF);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);mask-composite:exclude;
+  animation:lqspin 6s linear infinite}
+.lqbar>.lq::after{content:"";position:absolute;left:12%;right:12%;top:2px;height:38%;border-radius:999px;background:linear-gradient(180deg,rgba(255,255,255,.28),transparent)}
+@keyframes lqspin{to{--lqa:360deg}}
+.lqbar>.navbtn,.lqbar>.tab,.lqbar>button{position:relative;z-index:1}
+.lqbar>.navbtn.on,.lqbar>.tab.on{background:transparent !important;border-color:transparent !important;box-shadow:none !important;color:#fff !important}
+.navbtn .ic,.tab .ic{flex:none;opacity:.85;transition:opacity .3s}
+.navbtn.on .ic,.tab.on .ic{opacity:1}
+.ic.pop{animation:icpop .62s cubic-bezier(.3,.7,.2,1)}
+@keyframes icpop{0%{transform:none}35%{transform:translate(4px,-7px) rotate(-14deg) scale(1.18)}70%{transform:translate(-1px,1px) rotate(4deg) scale(.96)}100%{transform:none}}
+.deckbar{display:flex;gap:4px;padding:6px;border-radius:999px;background:rgba(18,21,28,.72);border:1px solid rgba(255,255,255,.08);max-width:100%;overflow-x:auto;scrollbar-width:none}
+.deckbar::-webkit-scrollbar{display:none}
+.deckbar>.tab{display:flex;align-items:center;gap:8px;border:1px solid transparent;white-space:nowrap}
+.deckbar>.tab:hover{color:#fff}
+/* Luxury: el vidrio toma reflejos champán/dorados */
+.luxmode .lqbar>.lq::before{background:conic-gradient(from var(--lqa),#F3DDB0,#C9985A,#FFE9C7,#E8B4A0,#F3DDB0)}
+.luxmode .lqbar>.lq{box-shadow:inset 0 1px 1px rgba(255,240,210,.35),inset 0 -6px 12px rgba(217,183,122,.10),0 8px 22px rgba(217,160,88,.22)}
+.luxmode .deckbar{background:rgba(26,19,13,.72);border-color:rgba(217,183,122,.16)}
+@media (max-width:640px){.deckbar>.tab{padding:0 12px;font-size:13px;gap:6px}}
+@media (prefers-reduced-motion:reduce){.lqbar>.lq::before{animation:none}.ic.pop{animation:none}}
+@media (max-width:640px){.lqbar>a.navbtn:not(.on)>span,.lqbar>.tab:not(.on)>span{display:none}.lqbar>a.navbtn,.lqbar>.tab{padding:0 13px}}
