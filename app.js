@@ -66,7 +66,7 @@ class App extends Component {
       { k: "lux", name: "Prada PR 17WS Tortoise", cat: "LUJO · PRADA", shape: "frame", word: "PRADA", date: "EN STOCK", ref: "—", isNew: true, short: "PR 17WS en carey con lentes marrones.", desc: "Gafa Prada modelo PR 17WS de forma rectangular redondeada en acetato carey, lentes marrones y patillas anchas con el logo triangular de Prada.", feats: ["Modelo PR 17WS", "Acetato carey", "Logo triangular Prada"] }
     ];
     var IMG = ["/img/l01.webp?v=4","/img/l02.webp?v=4","/img/l03.webp?v=4","/img/l04.webp?v=4","/img/l05.webp?v=4","/img/l06.webp?v=4","/img/l07.webp?v=4","/img/l08.webp?v=4","/img/l09.webp?v=4","/img/l10.webp?v=4","/img/g01.webp","/img/g02.webp","/img/g03.webp","/img/g04.webp","/img/g05.webp","/img/g06.webp","/img/g07.webp","/img/g08.webp","/img/g09.webp","/img/g10.webp","/img/g11.webp","/img/g12.webp","/img/g13.webp","/img/g14.webp","/img/g15.webp","/img/g16.webp","/img/g17.webp","/img/g18.webp","/img/g19.webp","/img/g20.webp","/img/g21.webp",
-      "/img/l11.webp?v=1","/img/l12.webp?v=1","/img/l13.webp?v=1","/img/l14.webp?v=1","/img/l15.webp?v=1"
+      "/img/l11.webp?v=1","/img/l12.webp?v=1","/img/l13.webp?v=5","/img/l14.webp?v=1","/img/l15.webp?v=1"
     ];
     var frames = { lux: "#121112", smart: "#14161C", run: "#101418", sport: "#16121A" };
     var idx = { lux: 0, smart: 0, run: 0, sport: 0 };
