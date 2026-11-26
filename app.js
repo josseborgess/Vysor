@@ -13,7 +13,7 @@ class App extends Component {
   constructor(p){ super(p); this.state = { items: [], cartOpen: false, prices: {}, busy: false, checkoutErr: "", lang: "en", page: "home", deck: "lux", sel: 3, prevSel: 3, dealt: false, cart: 0, toast: false, hold: false }; }
   _deal(){ var self = this; clearTimeout(this._dt); this._dt = setTimeout(function () { self.setState({ dealt: true }); }, 2700); }
   _setSel(i){ this.setState({ prevSel: this.state.sel, sel: i }); }
-  componentDidMount(){ var self = this; window.addEventListener("vysor:open", function (e) { var i = Number(e.detail); var p = window.VYSOR_PRODUCTS && window.VYSOR_PRODUCTS[i]; if (!p) return; self.setState({ page: p.k, deck: p.k, sel: i, prevSel: i }); try { window.scrollTo({ top: 0, behavior: "smooth" }); } catch (x) {} }); this._deal(); try { fetch("/catalog.json").then(function (r) { return r.json(); }).then(function (c) { var m = {}; c.forEach(function (x, i) { if (typeof x.price === "number") m[i] = x.price; }); self.setState({ prices: m }); }).catch(function () {}); } catch (e) {} if (/[?&]cancel=1/.test(location.search)) { try { var sv = JSON.parse(localStorage.getItem("vysor_cart") || "[]"); if (sv.length) self.setState({ items: sv, cartOpen: true }); } catch (e) {} } this._iv = setInterval(function () { var st = self.state; if (st.hold || !st.dealt || st.page !== "home") return; self._setSel(self._nextSel(st)); }, 3800); }
+  componentDidMount(){ var self = this; window.addEventListener("vysor:open", function (e) { var i = Number(e.detail); var p = window.VYSOR_PRODUCTS && window.VYSOR_PRODUCTS[i]; if (!p) return; self.setState({ page: p.k, deck: p.k, sel: i, prevSel: i }); try { window.scrollTo({ top: 0, behavior: "smooth" }); } catch (x) {} }); if (document.getElementById("intro")) { window.addEventListener("vysor:introdone", function () { self.setState({ dealt: false, ik: (self.state.ik || 0) + 1 }); self._deal(); }, { once: true }); } else { this._deal(); } try { fetch("/catalog.json").then(function (r) { return r.json(); }).then(function (c) { var m = {}; c.forEach(function (x, i) { if (typeof x.price === "number") m[i] = x.price; }); self.setState({ prices: m }); }).catch(function () {}); } catch (e) {} if (/[?&]cancel=1/.test(location.search)) { try { var sv = JSON.parse(localStorage.getItem("vysor_cart") || "[]"); if (sv.length) self.setState({ items: sv, cartOpen: true }); } catch (e) {} } this._iv = setInterval(function () { var st = self.state; if (st.hold || !st.dealt || st.page !== "home") return; self._setSel(self._nextSel(st)); }, 3800); }
   componentWillUnmount(){ clearTimeout(this._t); clearInterval(this._iv); clearTimeout(this._dt); }
   _nextSel(st){ var ids = (this._deckIds && this._deckIds[st.deck]) || []; var k = ids.indexOf(st.sel); return ids.length ? ids[(k + 1) % ids.length] : st.sel; }
   renderVals() {
@@ -240,7 +240,7 @@ class App extends Component {
       selNum: "0" + ((selInDeck < 0 ? 0 : selInDeck) + 1),
       deckLabel: deckNames[s.deck],
       cards: cards, decks: decks, cats: cats, grid: grid, navs: navs, thumbs: thumbs, lenses: lenses,
-      isHome: s.page === "home", luxCls: ((s.page === "lux") || (s.page === "home" && s.deck === "lux")) ? "luxmode" : "", isLine: s.page !== "home", line: line, featured: featured, deckShort: deckDefs.filter(function (x) { return x[0] === s.deck; })[0][1], deckCta: T.seeLine + deckDefs.filter(function (x) { return x[0] === s.deck; })[0][1] + T.lineSuf, fanCls: s.dealt ? "fanscale dealt" : "fanscale",
+      isHome: s.page === "home", ik: s.ik || 0, luxCls: ((s.page === "lux") || (s.page === "home" && s.deck === "lux")) ? "luxmode" : "", isLine: s.page !== "home", line: line, featured: featured, deckShort: deckDefs.filter(function (x) { return x[0] === s.deck; })[0][1], deckCta: T.seeLine + deckDefs.filter(function (x) { return x[0] === s.deck; })[0][1] + T.lineSuf, fanCls: s.dealt ? "fanscale dealt" : "fanscale",
       goHome: function () { self.setState({ page: "home" }); top(); }, goSel: go(d.k, d.i), goDeck: go(s.deck),
       holdOn: function () { self.setState({ hold: true }); }, holdOff: function () { self.setState({ hold: false }); },
       t: Object.assign({}, T, { viewSel: T.view + d.name, added: d.name + T.addedSuf, allLine: (L === "en" ? "All " + line.title + " models" : "Todos los modelos " + line.title) }),
@@ -302,7 +302,7 @@ ${(v.decks || []).map((dk, $index) => html`
 <span class="kick" style="font:500 12px Inter,sans-serif;letter-spacing:.42em;color:#AEB6C4">${v.deckLabel} · ${v.deckSub}</span>
 </div>
 <div class="fanwrap">
-<div class=${v.fanCls} style="position:relative;width:230px;height:420px" onMouseEnter=${v.holdOn} onMouseLeave=${v.holdOff}>
+<div key=${v.ik} class=${v.fanCls} style="position:relative;width:230px;height:420px" onMouseEnter=${v.holdOn} onMouseLeave=${v.holdOff}>
 ${(v.cards || []).map((c, $index) => html`
 <button class=${c.cls} style=${c.pos} onClick=${c.pick} aria-label=${c.name}>
 <div class="dealer" style=${c.dealStyle}>
