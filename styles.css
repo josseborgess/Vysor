@@ -198,3 +198,111 @@ html{scroll-behavior:smooth}
   .pgrid a>div:last-child>div>span:last-child{color:#F2F4F8;font-weight:600;font-size:13px}
   .luxmode .pgrid a>div:last-child>div>span:last-child{color:#F3E3C2}
 }
+/* ===== UX/UI: micro-interacciones (estilo 21st.dev) ===== */
+:root{interpolate-size:allow-keywords;--ac:94,231,255;--ac2:123,92,255}
+.luxmode{--ac:217,183,122;--ac2:243,221,176}
+.cta,.ghost,.tab,.navbtn,.qty,.thumb{position:relative;overflow:hidden;-webkit-tap-highlight-color:transparent}
+.rpl{position:absolute;border-radius:50%;pointer-events:none;background:radial-gradient(circle,rgba(255,255,255,.45),rgba(255,255,255,0) 60%);transform:scale(0);animation:rpl .65s cubic-bezier(.2,.7,.2,1) forwards;z-index:0}
+@keyframes rpl{to{transform:scale(1);opacity:0}}
+:focus-visible{outline:2px solid rgba(var(--ac),.9);outline-offset:3px;border-radius:14px}
+
+/* Botón principal: magnético, brillo que cruza y presión */
+.cta{transform:translate(var(--tx,0),var(--ty,0));transition:transform .35s cubic-bezier(.2,.8,.2,1),background .3s,box-shadow .3s,color .3s;isolation:isolate}
+.cta::after{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.55) 48%,transparent 66%);transform:translateX(-120%);transition:transform .9s cubic-bezier(.2,.7,.2,1);pointer-events:none;z-index:-1}
+.cta:not([disabled]):hover::after{transform:translateX(120%)}
+.cta:not([disabled]):active{transform:translate(var(--tx,0),var(--ty,0)) scale(.97)}
+.cta svg,.cta .arr{transition:transform .35s}
+.cta:hover svg{transform:translateX(4px)}
+/* Botón secundario: borde degradado que gira */
+@property --ga{syntax:'<angle>';initial-value:0deg;inherits:false}
+.ghost{transform:translate(var(--tx,0),var(--ty,0));transition:transform .35s cubic-bezier(.2,.8,.2,1),color .3s,border-color .3s,background .3s}
+.ghost::before{content:"";position:absolute;inset:-1px;border-radius:inherit;padding:1.5px;background:conic-gradient(from var(--ga),rgba(var(--ac),0),rgba(var(--ac),1),rgba(var(--ac2),.9),rgba(var(--ac),0) 60%);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);mask-composite:exclude;opacity:0;transition:opacity .35s;pointer-events:none}
+.ghost:hover::before{opacity:1;animation:gspin 2.4s linear infinite}
+.ghost:hover{background:rgba(var(--ac),.06);border-color:transparent}
+@keyframes gspin{to{--ga:360deg}}
+
+/* Tarjetas de producto: inclinación 3D, foco de luz y botón flecha */
+.pcard{position:relative;transform-style:preserve-3d;will-change:transform;transition:transform .5s cubic-bezier(.2,.8,.2,1),border-color .4s,box-shadow .4s}
+.pcard.tilting{transform:perspective(900px) rotateX(var(--rx,0)) rotateY(var(--ry,0)) translateY(-6px);transition:transform .12s linear,border-color .4s,box-shadow .4s}
+.pcard:hover{box-shadow:0 24px 60px rgba(0,0,0,.5),0 0 0 1px rgba(var(--ac),.35);border-color:rgba(var(--ac),.45)}
+.pcard::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:2;opacity:0;transition:opacity .4s;background:radial-gradient(420px circle at var(--mx,50%) var(--my,30%),rgba(var(--ac),.16),transparent 45%)}
+.pcard:hover::before{opacity:1}
+.pcard::after{content:"→";position:absolute;top:14px;right:14px;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font:500 16px Inter,sans-serif;color:#06070A;background:rgba(var(--ac),.95);z-index:3;opacity:0;transform:translate(-6px,6px) scale(.8);transition:opacity .35s,transform .45s cubic-bezier(.2,.9,.3,1.3)}
+.luxmode .pcard::after{color:#1A120A}
+.pcard:hover::after{opacity:1;transform:none}
+.pcard .pimg{position:relative;overflow:hidden}
+.pcard .pimg img{transition:transform .7s cubic-bezier(.2,.8,.2,1),filter .5s}
+.pcard:hover .pimg img{transform:translateY(-6px) scale(1.07) rotate(-2deg);filter:drop-shadow(0 18px 18px rgba(0,0,0,.45))}
+.pcard .pimg::after{content:"";position:absolute;left:20%;right:20%;bottom:14px;height:16px;border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.45),transparent);opacity:.6;transition:transform .7s,opacity .5s}
+.luxmode .pcard .pimg::after{background:radial-gradient(closest-side,rgba(232,176,96,.35),transparent)}
+.pcard:hover .pimg::after{transform:scaleX(.8);opacity:.35}
+
+/* Tarjetas de colecciones: inclinación + foco de luz */
+.glow{transform-style:preserve-3d;transition:transform .5s cubic-bezier(.2,.8,.2,1),box-shadow .4s}
+.glow.tilting{transform:perspective(1000px) rotateX(var(--rx,0)) rotateY(var(--ry,0)) translateY(-8px);transition:transform .12s linear,box-shadow .4s}
+.glow::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;transition:opacity .4s;background:radial-gradient(500px circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,.14),transparent 45%)}
+.glow:hover::before{opacity:1}
+.glow:hover{box-shadow:0 30px 80px rgba(0,0,0,.55)}
+
+/* Ficha: luz que sigue el cursor y miniaturas */
+.detbox::after{content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;background:radial-gradient(600px circle at var(--mx,50%) var(--my,30%),rgba(var(--ac),.07),transparent 50%);opacity:0;transition:opacity .5s}
+.detbox:hover::after{opacity:1}
+.thumb{transition:transform .35s cubic-bezier(.2,.8,.2,1),border-color .3s,box-shadow .3s,background .3s}
+.thumb:hover{transform:translateY(-3px);border-color:rgba(var(--ac),.45)}
+.thumb img{transition:transform .45s cubic-bezier(.2,.8,.2,1)}
+.thumb:hover img{transform:scale(1.12) rotate(-3deg)}
+.zoom img{transition:transform .8s cubic-bezier(.2,.8,.2,1)}
+.zoom:hover img{transform:scale(1.04)}
+
+/* Paneles desplegables */
+.pnl{border-bottom:1px solid rgba(255,255,255,.09)}
+.pnl:first-of-type{border-top:1px solid rgba(255,255,255,.09)}
+.luxmode .pnl{border-color:rgba(217,183,122,.16)}
+.pnl>summary{list-style:none;display:flex;align-items:center;gap:14px;padding:22px 4px;cursor:pointer;user-select:none;transition:padding .3s}
+.pnl>summary::-webkit-details-marker{display:none}
+.pnl>summary:hover{padding-left:10px}
+.pnl-t{font:600 20px 'Space Grotesk',sans-serif;letter-spacing:.01em}
+.luxmode .pnl-t{font-family:'Cinzel',serif;font-weight:500;letter-spacing:.06em;color:#F3E3C2}
+.pnl-s{font-size:13px;color:#8C95A4;margin-left:auto;text-align:right}
+.pnl-ic{position:relative;flex:none;width:32px;height:32px;border-radius:50%;border:1px solid rgba(255,255,255,.16);transition:transform .45s cubic-bezier(.2,.8,.2,1),background .3s,border-color .3s}
+.pnl-ic::before,.pnl-ic::after{content:"";position:absolute;left:50%;top:50%;width:12px;height:1.5px;background:currentColor;transform:translate(-50%,-50%);border-radius:2px;transition:transform .45s cubic-bezier(.2,.8,.2,1)}
+.pnl-ic::after{transform:translate(-50%,-50%) rotate(90deg)}
+.pnl[open] .pnl-ic{transform:rotate(180deg);background:rgba(var(--ac),.14);border-color:rgba(var(--ac),.5)}
+.pnl[open] .pnl-ic::after{transform:translate(-50%,-50%) rotate(0deg)}
+.pnl::details-content{block-size:0;overflow:hidden;opacity:0;transition:block-size .5s cubic-bezier(.2,.8,.2,1),opacity .4s,content-visibility .5s allow-discrete}
+.pnl[open]::details-content{block-size:auto;opacity:1}
+.pnl-b{padding:0 4px 26px}
+.pnl[open] .srow{animation:rise .5s both}
+.pnl[open] .srow:nth-child(2){animation-delay:.04s}.pnl[open] .srow:nth-child(3){animation-delay:.08s}.pnl[open] .srow:nth-child(4){animation-delay:.12s}.pnl[open] .srow:nth-child(5){animation-delay:.16s}.pnl[open] .srow:nth-child(6){animation-delay:.2s}
+
+/* Carrito: entrada con resorte, vidrio y elementos escalonados */
+.overlay{background:rgba(3,4,6,.5) !important;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);animation:fadein .35s both !important}
+@keyframes fadein{from{opacity:0}to{opacity:1}}
+.drawer{background:linear-gradient(180deg,rgba(16,19,26,.96),rgba(9,11,15,.98)) !important;box-shadow:-30px 0 80px rgba(0,0,0,.5);animation:drawerin .6s cubic-bezier(.2,.9,.25,1) both !important;border-radius:28px 0 0 28px}
+.luxmode .drawer{background:linear-gradient(180deg,rgba(28,21,14,.97),rgba(12,9,7,.98)) !important;border-left-color:rgba(217,183,122,.18) !important}
+@keyframes drawerin{from{transform:translateX(105%)}70%{transform:translateX(-1.5%)}to{transform:none}}
+.citem{animation:rise .5s both;transition:border-color .3s,background .3s,transform .3s}
+.citem:nth-child(2){animation-delay:.06s}.citem:nth-child(3){animation-delay:.12s}.citem:nth-child(4){animation-delay:.18s}
+.citem:hover{border-color:rgba(var(--ac),.35) !important;background:rgba(255,255,255,.02)}
+.qty{transition:background .25s,border-color .25s,transform .2s}
+.qty:hover{background:rgba(var(--ac),.12);border-color:rgba(var(--ac),.5)}
+.qty:active{transform:scale(.9)}
+.cbadge.bump{animation:bump .55s cubic-bezier(.2,.9,.3,1.4)}
+@keyframes bump{0%{transform:scale(1)}35%{transform:scale(1.45)}100%{transform:scale(1)}}
+
+/* Aviso "agregado al carrito" flotante */
+.toast{position:fixed;left:50%;bottom:32px;transform:translateX(-50%);z-index:120;display:flex;align-items:center;gap:10px;padding:12px 18px 12px 12px;border-radius:999px;font:500 14px Inter,sans-serif;color:#F2F4F8;background:rgba(16,19,26,.86);backdrop-filter:blur(14px) saturate(160%);-webkit-backdrop-filter:blur(14px) saturate(160%);border:1px solid rgba(var(--ac),.35);box-shadow:0 18px 50px rgba(0,0,0,.5);animation:toastin .6s cubic-bezier(.2,.9,.3,1.25) both}
+.toast-ic{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-size:13px;color:#06070A;background:rgb(var(--ac));animation:popin .5s .15s both}
+@keyframes toastin{from{opacity:0;transform:translate(-50%,24px) scale(.9)}to{opacity:1;transform:translate(-50%,0)}}
+@media (max-width:640px){.toast{bottom:calc(96px + env(safe-area-inset-bottom))}}
+
+/* Aparición al hacer scroll */
+.rv{opacity:0;transform:translateY(26px);filter:blur(6px);transition:opacity .8s cubic-bezier(.2,.8,.2,1),transform .8s cubic-bezier(.2,.8,.2,1),filter .8s}
+.rv.in{opacity:1;transform:none;filter:none}
+.glow.rv.in{transition:opacity .8s,transform .5s cubic-bezier(.2,.8,.2,1),filter .8s,box-shadow .4s}
+
+@media (prefers-reduced-motion:reduce){.cta::after,.ghost:hover::before,.pcard::after,.rv{animation:none;transition:none}.rv{opacity:1;transform:none;filter:none}}
+.pcard,.citem{animation-fill-mode:backwards !important}
+body:has(.drawer) .vc-root{opacity:0;pointer-events:none;transition:opacity .3s}
+.luxmode .pcard:hover span{color:inherit}
+.luxmode .pcard:hover > div:last-child > span:nth-child(2){color:#F3E3C2 !important}

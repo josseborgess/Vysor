@@ -249,7 +249,7 @@ class App extends Component {
       cart: s.items.reduce(function (a, x) { return a + x.qty; }, 0), toast: s.toast,
       addCart: function () { if (d.soon || s.prices[d.i] == null) return; var it = s.items.slice(); var f = it.find(function (x) { return x.i === d.i; }); if (f) f.qty++; else it.push({ i: d.i, qty: 1 }); self.setState({ items: it, toast: true, cartOpen: true, checkoutErr: "" }); clearTimeout(self._t); self._t = setTimeout(function () { self.setState({ toast: false }); }, 2000); },
       openCart: function () { self.setState({ cartOpen: true }); }, closeCart: function () { self.setState({ cartOpen: false }); },
-      cartOpen: s.cartOpen, cartEmpty: s.items.length === 0, cartItems: cartItems, cartTotal: fmt(total), missingPrice: missing, payDisabled: s.busy || missing || s.items.length === 0, payLabel: s.busy ? T.paying : T.pay, checkoutErr: s.checkoutErr, priceLabel: d.soon ? T.soonTag : (s.prices[d.i] != null ? fmt(s.prices[d.i]) : T.askPrice), soon: !!d.soon, deckSub: (s.deck === "lux" ? (counts.lux + (L === "en" ? " MODELS · IN STOCK" : " MODELOS · EN STOCK")) : T.sevenLaunches), specsNote: d.soon ? T.specsNote : (L === "en" ? "Details taken from the actual piece. Ask us if you need exact measurements." : "Datos tomados de la pieza real. Escríbenos si necesitas medidas exactas."), noPrice: !d.soon && s.prices[d.i] == null, renderNote: d.soon ? T.renderNote : (L === "en" ? "STUDIO IMAGE BASED ON THE ACTUAL PIECE" : "IMAGEN DE ESTUDIO BASADA EN LA PIEZA REAL"), availTxt: d.soon ? T.soonAvail : T.avail, dotSt: { width: "8px", height: "8px", borderRadius: "99px", background: d.soon ? "#6B7280" : "#3DDC97", animation: d.soon ? "none" : "pulse 1.6s infinite" }, addLabel: d.soon ? T.soonBtn : (s.prices[d.i] == null ? T.askPrice : T.addCart), dateLabel: d.soon ? T.launchUp : (L === "en" ? "STATUS" : "ESTADO"), detCls: d.soon ? "detail soon" : "detail",
+      cartOpen: s.cartOpen, cartEmpty: s.items.length === 0, cartItems: cartItems, cartTotal: fmt(total), missingPrice: missing, payDisabled: s.busy || missing || s.items.length === 0, payLabel: s.busy ? T.paying : T.pay, checkoutErr: s.checkoutErr, priceLabel: d.soon ? T.soonTag : (s.prices[d.i] != null ? fmt(s.prices[d.i]) : T.askPrice), soon: !!d.soon, deckSub: (s.deck === "lux" ? (counts.lux + (L === "en" ? " MODELS · IN STOCK" : " MODELOS · EN STOCK")) : T.sevenLaunches), infoPanels: d.soon ? [] : (L === "en" ? [{ t: "Authenticity", s: "100% original", b: "Every piece we sell is original, sourced as genuine designer eyewear. Nothing in our store is a replica." }, { t: "Shipping", s: "USA & Ecuador", b: "We ship to the United States and Ecuador. You enter your shipping address at checkout and we confirm the details with you once your order is placed." }, { t: "Secure payment", s: "Stripe", b: "Payments are processed by Stripe with cards, Apple Pay and Google Pay. We never see or store your card number." }] : [{ t: "Autenticidad", s: "100% original", b: "Todas las piezas que vendemos son originales, gafas de diseñador genuinas. En nuestra tienda no hay réplicas." }, { t: "Envíos", s: "EE. UU. y Ecuador", b: "Enviamos a Estados Unidos y Ecuador. Escribes tu dirección de envío al pagar y te confirmamos los detalles cuando recibimos tu pedido." }, { t: "Pago seguro", s: "Stripe", b: "Los pagos los procesa Stripe con tarjeta, Apple Pay y Google Pay. Nunca vemos ni guardamos el número de tu tarjeta." }]), specsNote: d.soon ? T.specsNote : (L === "en" ? "Details taken from the actual piece. Ask us if you need exact measurements." : "Datos tomados de la pieza real. Escríbenos si necesitas medidas exactas."), noPrice: !d.soon && s.prices[d.i] == null, renderNote: d.soon ? T.renderNote : (L === "en" ? "STUDIO IMAGE BASED ON THE ACTUAL PIECE" : "IMAGEN DE ESTUDIO BASADA EN LA PIEZA REAL"), availTxt: d.soon ? T.soonAvail : T.avail, dotSt: { width: "8px", height: "8px", borderRadius: "99px", background: d.soon ? "#6B7280" : "#3DDC97", animation: d.soon ? "none" : "pulse 1.6s infinite" }, addLabel: d.soon ? T.soonBtn : (s.prices[d.i] == null ? T.askPrice : T.addCart), dateLabel: d.soon ? T.launchUp : (L === "en" ? "STATUS" : "ESTADO"), detCls: d.soon ? "detail soon" : "detail",
       checkout: function () { if (s.busy) return; self.setState({ busy: true, checkoutErr: "" }); try { localStorage.setItem("vysor_cart", JSON.stringify(s.items)); } catch (e) {} fetch("/api/checkout", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ items: s.items, lang: L }) }).then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); }).then(function (res) { if (res.ok && res.j.url) { location.href = res.j.url; } else { self.setState({ busy: false, checkoutErr: (res.j && res.j.error) || T.errGeneric }); } }).catch(function () { self.setState({ busy: false, checkoutErr: T.errGeneric }); }); }
     };
   }
@@ -431,7 +431,7 @@ ${(v.thumbs || []).map((t, $index) => html`
 
 <button class="cta" onClick=${v.addCart} disabled=${v.soon || v.noPrice} style="justify-content:center;width:100%">${v.addLabel}</button>
 ${v.toast ? html`
-<div role="status" style="font-size:13px;color:#5EE7FF;animation:rise .4s both">✓ ${v.t.added}</div>
+<div role="status" class="toast"><span class="toast-ic" aria-hidden="true">✓</span>${v.t.added}</div>
 ` : null}
 <ul style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px;font-size:13px;color:#C3C9D4">
 ${(v.d.feats || []).map((f, $index) => html`<li style="display:flex;gap:10px;align-items:center"><span class="fline" style="width:16px;height:1px;background:#5EE7FF"></span>${f}</li>`)}
@@ -439,18 +439,26 @@ ${(v.d.feats || []).map((f, $index) => html`<li style="display:flex;gap:10px;ali
 </div>
 </div>
 <div style="position:relative;margin-top:44px;border-top:1px solid rgba(255,255,255,.1);padding-top:28px">
-<div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;margin-bottom:18px">
-<h3 style="margin:0;font:600 22px 'Space Grotesk',sans-serif;letter-spacing:.02em">${v.t.specsTitle} · ${v.d.name}</h3>
-<span style="font-size:12px;color:#8C95A4">${v.specsNote}</span>
-</div>
+<details class="pnl" open>
+<summary><span class="pnl-t">${v.t.specsTitle}</span><span class="pnl-s">${v.d.name}</span><span class="pnl-ic" aria-hidden="true"></span></summary>
+<div class="pnl-b">
+<p style="margin:0 0 6px;font-size:12px;color:#8C95A4">${v.specsNote}</p>
 <dl style="margin:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));column-gap:40px">
 ${(v.d.specs || []).map((sp, $index) => html`
-<div style="display:flex;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid rgba(255,255,255,.07)">
+<div class="srow" style="display:flex;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid rgba(255,255,255,.07)">
 <dt style="font:500 12px Inter,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#8C95A4">${sp.k}</dt>
 <dd style="margin:0;font-size:14px;color:#F2F4F8;text-align:right">${sp.v}</dd>
 </div>
 `)}
 </dl>
+</div>
+</details>
+${(v.infoPanels || []).map((ip, $index) => html`
+<details class="pnl">
+<summary><span class="pnl-t">${ip.t}</span><span class="pnl-s">${ip.s}</span><span class="pnl-ic" aria-hidden="true"></span></summary>
+<div class="pnl-b"><p style="margin:0;font-size:14px;line-height:1.7;color:#C3C9D4">${ip.b}</p></div>
+</details>
+`)}
 </div>
 </div>
 </section>
@@ -489,7 +497,7 @@ ${v.cartOpen ? html`
 ${v.cartEmpty ? html`<p style="color:#9AA3B2">${v.t.cartEmpty}</p>` : null}
 <div style="display:flex;flex-direction:column;gap:14px;overflow-y:auto;flex:1">
 ${(v.cartItems || []).map((ci, $index) => html`
-<div style="display:flex;gap:12px;align-items:center;border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:10px">
+<div class="citem" style="display:flex;gap:12px;align-items:center;border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:10px">
 <img src=${ci.img} alt="" style="width:64px;height:64px;object-fit:contain;border-radius:10px;background:#11141B" />
 <div style="flex:1;min-width:0">
 <div style="font:600 14px 'Space Grotesk',sans-serif">${ci.name}</div>
